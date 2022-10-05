@@ -97,10 +97,10 @@ public class Stats : MonoBehaviour
 
     void Update()
     {
-        StatUpdate();
+        StatCheckAndUpdate();
     }
 
-    void StatUpdate()
+    void StatCheckAndUpdate()
     {
         bool isUpdated = false;
 
