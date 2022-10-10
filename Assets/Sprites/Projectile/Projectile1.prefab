@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10ee31c0f3550745a1b435377a6171a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetration: -1
+  penetration: 3
 --- !u!50 &1457113836144356388
 Rigidbody2D:
   serializedVersion: 4

@@ -39,8 +39,9 @@ public class MagicAttack : MonoBehaviour
 
     void Manaball()
     {
-        if (Input.GetMouseButtonDown(0) && !isAttack)
+        if (Input.GetMouseButtonDown(0) && !isAttack & manaCheck(5))
         {
+            manaMinus(5);
             isAttack = true; canMove = false;
             float deg = Mathf.Atan2(mouse.y - transform.parent.position.y, mouse.x - transform.parent.position.x) * Mathf.Rad2Deg;
             Vector3 myPos = new Vector3(transform.position.x, transform.position.y, 0);
@@ -59,10 +60,16 @@ public class MagicAttack : MonoBehaviour
         }
     }
 
+    bool manaCheck(int mana)
+    { return transform.parent.parent.GetComponent<Resource>().curMP > mana && transform.parent.parent.GetComponent<Resource>().curMP - mana >= 0;  }
+
+    void manaMinus(int mana)
+    { transform.parent.parent.GetComponent<Resource>().curMP -= mana; }
+
     void AttackMoveControll()
     {
-        if (canMove) { transform.parent.parent.GetComponent<Move>().canMove = true; Debug.Log("canMove"); }
-        else if (!canMove) { transform.parent.parent.GetComponent<Move>().canMove = false; Debug.Log("canNotMove"); }
+        if (canMove) { transform.parent.parent.GetComponent<Move>().canMove = true; }
+        else if (!canMove) { transform.parent.parent.GetComponent<Move>().canMove = false; }
     }
 
     void Move()
