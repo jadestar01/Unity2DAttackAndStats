@@ -10,12 +10,11 @@ public class Move : MonoBehaviour
     public GameObject mouse;
 
     [HideInInspector]
-    public bool canMove;
+    public float speedCoefficint = 1.0f;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        canMove = true;
     }
 
     void Update()
@@ -23,10 +22,7 @@ public class Move : MonoBehaviour
         if (mouse.GetComponent<Mouse>().cursorLoc.x > transform.position.x) spriteRenderer.flipX = false;
         else spriteRenderer.flipX = true;
 
-        if (canMove)
-        {
-            move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
-        }
+        move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        transform.Translate(move.normalized * moveSpeed * Time.deltaTime * speedCoefficint);
     }
 }

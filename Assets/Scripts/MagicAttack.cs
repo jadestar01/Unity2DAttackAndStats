@@ -68,8 +68,8 @@ public class MagicAttack : MonoBehaviour
 
     void AttackMoveControll()
     {
-        if (canMove) { transform.parent.parent.GetComponent<Move>().canMove = true; }
-        else if (!canMove) { transform.parent.parent.GetComponent<Move>().canMove = false; }
+        if (canMove) { transform.parent.parent.GetComponent<Move>().speedCoefficint = 0.0f; }
+        else if (!canMove) { transform.parent.parent.GetComponent<Move>().speedCoefficint = 1.0f; }
     }
 
     void Move()
