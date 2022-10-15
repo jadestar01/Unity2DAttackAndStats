@@ -5,10 +5,19 @@ using UnityEngine;
 
 public class SuperSkill : MonoBehaviour
 {
+    public static GameObject player;
+    public static WeaponController weaponController;
+
+    private void Start()
+    {
+        player= GameObject.FindWithTag("Player");
+        weaponController = GameObject.FindWithTag("WeaponController").GetComponent<WeaponController>();
+    }
+
     public class Skill
     {
-        public bool isAttack = false;
-        public bool canMove = true;
+        public bool isCooltime = false;
+        public float speedCoefficient = 1.0f;
 
         public string skillName;
         public string skillDescription;
@@ -18,9 +27,45 @@ public class SuperSkill : MonoBehaviour
         public float coolTime;
         public float readyTime;
         public float attackTime;
+        public int physicalDmg;
+        public int physicalDmgCoefficient;
+        public int magicalDmg;
+        public int magicalDmgCoefficient;
 
         public virtual void UseSkill()
         {
+        }
+
+        public void SpeedSetter(float speed)
+        {
+            player.GetComponent<Move>().speedCoefficint = speed;
+        }
+        
+        /*
+        IEnumerator CoolDownCor()
+        {
+            
+        }
+        */
+
+        public bool CheckMP()
+        { return player.GetComponent<Resource>().curMP > costMP && player.GetComponent<Resource>().curMP - costMP >= 0; }
+        public void CostMP()
+        { player.GetComponent<Resource>().curMP -= costMP; }
+
+        public bool CheckFP()
+        { return player.GetComponent<Resource>().curFP > costFP && player.GetComponent<Resource>().curFP - costFP >= 0; }
+        public void CostFP()
+        { player.GetComponent<Resource>().curFP -= costFP; }
+
+        public void SetisAttack(bool attack)
+        {
+            weaponController.isAttack = attack;
+        }
+
+        public bool GetisAttack()
+        {
+            return weaponController.isAttack;
         }
     }
 }

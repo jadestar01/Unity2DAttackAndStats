@@ -7,16 +7,16 @@ using UnityEngine.UIElements;
 public class WeaponController : MonoBehaviour
 {
     [HideInInspector] public float distance = 0.8f;
-    [HideInInspector] public bool isAttack;
+    public bool isAttack;
     [HideInInspector] public float speedCoefficient = 1.0f;
     [HideInInspector] public List<GameObject> child = new List<GameObject>();
-    public GameObject melee;
-    public GameObject magic;
-    public GameObject range;
+    [HideInInspector] public GameObject melee;
+    [HideInInspector] public GameObject magic;
+    [HideInInspector] public GameObject range;
 
-    int weaponActive = 0;
-    float angle;
-    Vector2 mouse, position;
+    [HideInInspector] int weaponActive = 0;
+    [HideInInspector] public float angle;
+    [HideInInspector] public Vector2 mouse, position;
 
     void Start()
     {
@@ -27,7 +27,6 @@ public class WeaponController : MonoBehaviour
     void Update()
     {
         WeaponActive();
-        SpeedSetter();
         WeaponTransform();
     }
 
@@ -39,11 +38,6 @@ public class WeaponController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha3)) weaponActive = 2;
     }
 
-    void SpeedSetter()
-    {
-        transform.parent.GetComponent<Move>().speedCoefficint = speedCoefficient;
-    }
-
     void WeaponTransform()
     {
         if (!isAttack)
@@ -51,15 +45,19 @@ public class WeaponController : MonoBehaviour
             mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             //앵커 이동
-            child[weaponActive].transform.position = transform.position;
+            child[weaponActive].transform.GetChild(0).transform.position = transform.parent.position;
 
             //유예거리
-            position = new Vector2(mouse.x - child[weaponActive].transform.position.x, mouse.y - child[weaponActive].transform.position.y).normalized * distance;
-            child[weaponActive].transform.position = position + (Vector2)transform.position;
+            position = new Vector2(mouse.x - child[weaponActive].transform.GetChild(0).transform.position.x, mouse.y - child[weaponActive].transform.GetChild(0).transform.position.y).normalized * distance;
+            child[weaponActive].transform.GetChild(0).transform.position = position + (Vector2)transform.position;
 
             //회전
-            angle = Mathf.Atan2(mouse.y - child[weaponActive].transform.position.y, mouse.x - child[weaponActive].transform.position.x) * Mathf.Rad2Deg;
-            child[weaponActive].transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            angle = Mathf.Atan2(mouse.y - transform.position.y, mouse.x - transform.position.x) * Mathf.Rad2Deg;
+            child[weaponActive].transform.GetChild(0).transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+            //플립
+            if (mouse.x - child[weaponActive].transform.GetChild(0).transform.position.x >= 0) child[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
+            else if (mouse.x - child[weaponActive].transform.GetChild(0).transform.position.x < 0) child[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 }
