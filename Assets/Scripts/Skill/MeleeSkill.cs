@@ -17,6 +17,8 @@ public class MeleeSkill : MonoBehaviour
     static float angle;
 
     public Slash slash;
+    public UpperSlash upperSlash;
+    public Piercing piercing;
 
     void Start()
     {
@@ -34,19 +36,19 @@ public class MeleeSkill : MonoBehaviour
         if (mouse.x - melee.transform.GetChild(0).transform.position.x >= 0) dir = 1; else dir = -1;
 
         slash.UseSkill();
+        upperSlash.UseSkill();
+        piercing.UseSkill();
     }
 
     [System.Serializable]
     public class Slash : SuperSkill.Skill
     {
-        float direction = dir;
         public float attackDeg;
         Slash() { }
         public override void UseSkill()
         {
             if (Input.GetKeyDown(skillKey) && !GetisAttack() && CheckMP() && CheckFP())
             {
-                Debug.Log("Slash Start");
                 CostMP(); CostFP();
                 //Ready
                 Sequence SlashSeq = DOTween.Sequence();
@@ -70,8 +72,27 @@ public class MeleeSkill : MonoBehaviour
     public class UpperSlash : SuperSkill.Skill
     {
         public float attackDeg;
+        UpperSlash() { }
         public override void UseSkill()
         {
+            if (Input.GetKeyDown(skillKey) && !GetisAttack() && CheckMP() && CheckFP())
+            {
+                CostMP(); CostFP();
+                //Ready
+                Sequence SlashSeq = DOTween.Sequence();
+                SlashSeq.AppendCallback(() => SetisAttack(true));
+                SlashSeq.Append(melee.transform.DORotate(new Vector3(0, 0, -1 * dir * attackDeg), readyTime, RotateMode.LocalAxisAdd));
+                //Attack
+                SlashSeq.AppendCallback(() => boxCollider.enabled = true);
+                SlashSeq.AppendCallback(() => trailRenderer.enabled = true);
+                SlashSeq.Append(melee.transform.DORotate(new Vector3(0, 0, dir * attackDeg * 2), attackTime, RotateMode.WorldAxisAdd));
+                //Attack Done
+                SlashSeq.Append(melee.transform.DORotate(Vector3.zero, 0));
+                SlashSeq.AppendCallback(() => boxCollider.enabled = false);
+                SlashSeq.AppendCallback(() => trailRenderer.enabled = false);
+                SlashSeq.AppendCallback(() => SetisAttack(false));
+                SlashSeq.Play();
+            }
         }
     }
 
@@ -81,6 +102,28 @@ public class MeleeSkill : MonoBehaviour
         public float piercingDistance;
         public override void UseSkill()
         {
+            if (Input.GetKeyDown(skillKey) && !GetisAttack() && CheckMP() && CheckFP())
+            {
+                CostMP(); CostFP();
+                //Ready
+                Sequence PiercingSeq = DOTween.Sequence();
+                PiercingSeq.AppendCallback(() => SetisAttack(true));
+                PiercingSeq.AppendCallback(() => SpeedSetter(speedCoefficient));
+                PiercingSeq.AppendCallback(() => melee.transform.position = melee.transform.parent.transform.position);
+                PiercingSeq.Append(melee.transform.DOMove(melee.transform.GetChild(0).position + new Vector3(Mathf.Cos(deg * Mathf.Deg2Rad) * -1, Mathf.Sin(deg * Mathf.Deg2Rad) * -1, 0), readyTime));
+                //Attack
+                PiercingSeq.AppendCallback(() => boxCollider.enabled = true);
+                PiercingSeq.AppendCallback(() => trailRenderer.enabled = true);
+                PiercingSeq.AppendCallback(() => trailRenderer.startWidth = 0.3f);
+                PiercingSeq.Append(melee.transform.DOMove(melee.transform.GetChild(0).position + new Vector3(Mathf.Cos(deg * Mathf.Deg2Rad) * 1, Mathf.Sin(deg * Mathf.Deg2Rad) * 1, 0), attackTime));
+                //AttackDone
+                PiercingSeq.AppendCallback(() => SetisAttack(false));
+                PiercingSeq.AppendCallback(() => SpeedSetter(1));
+                PiercingSeq.AppendCallback(() => boxCollider.enabled = false);
+                PiercingSeq.AppendCallback(() => trailRenderer.enabled = false);
+                PiercingSeq.AppendCallback(() => trailRenderer.startWidth = 1.0f);
+                PiercingSeq.Play();
+            }
         }
     }
 }

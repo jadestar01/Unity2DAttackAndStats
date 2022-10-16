@@ -49,12 +49,12 @@ public class SuperSkill : MonoBehaviour
         */
 
         public bool CheckMP()
-        { return player.GetComponent<Resource>().curMP > costMP && player.GetComponent<Resource>().curMP - costMP >= 0; }
+        { return player.GetComponent<Resource>().curMP >= costMP && player.GetComponent<Resource>().curMP - costMP >= 0; }
         public void CostMP()
         { player.GetComponent<Resource>().curMP -= costMP; }
 
         public bool CheckFP()
-        { return player.GetComponent<Resource>().curFP > costFP && player.GetComponent<Resource>().curFP - costFP >= 0; }
+        { return player.GetComponent<Resource>().curFP >= costFP && player.GetComponent<Resource>().curFP - costFP >= 0; }
         public void CostFP()
         { player.GetComponent<Resource>().curFP -= costFP; }
 
