@@ -4,9 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon Data", menuName = "Weapon/Weapon Data", order = 1)]
 public class Weapon : ScriptableObject
-{
-    public List<WeaponClass> WeaponList;
-   
+{  
     [System.Serializable]
     public class WeaponClass
     {

@@ -2,22 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class WeaponManagement : MonoBehaviour
+public class InventoryItem : MonoBehaviour
 {
-    [SerializeField] private MeleeWeapon melee;
-    [SerializeField] private MagicWeapon magic;
-    [SerializeField] private RangeWeapon range;
-    public Dictionary<int, Weapon.WeaponClass> weapon = new Dictionary<int, Weapon.WeaponClass>();
-
     [SerializeField] private Image itemImage;
     [SerializeField] private TMP_Text quantityTxt;
     [SerializeField] private Image borderImage;
-    public event Action<WeaponManagement> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
+    public event Action<InventoryItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag, OnRightMousBtnClick;
     private bool empty = true;
 
     public void Awake()
@@ -73,29 +67,8 @@ public class WeaponManagement : MonoBehaviour
             return;
         PointerEventData pointerData = (PointerEventData)data;
         if (pointerData.button == PointerEventData.InputButton.Right)
-            OnRightMouseBtnClick?.Invoke(this);
+            OnRightMousBtnClick?.Invoke(this);
         else
             OnItemClicked.Invoke(this);
-    }
-    private void Start()
-    {
-        //Melee
-        for (int i = 0; i < melee.meleeWeaponList.Count; i++)        
-            weapon.Add(melee.meleeWeaponList[i].ID, melee.meleeWeaponList[i]);
-        //Magic
-        for (int i = 0; i < magic.magicWeaponList.Count; i++)
-            weapon.Add(magic.magicWeaponList[i].ID, magic.magicWeaponList[i]);
-        //Range
-        for (int i = 0; i < range.rangeWeaponList.Count; i++)
-            weapon.Add(range.rangeWeaponList[i].ID, range.rangeWeaponList[i]);
-    }
-
-    void Show()
-    {
-        foreach (KeyValuePair<int, Weapon.WeaponClass> pair in weapon)
-        {
-            Weapon.WeaponClass wea = pair.Value;
-            wea.PrintInfo();
-        }
     }
 }
