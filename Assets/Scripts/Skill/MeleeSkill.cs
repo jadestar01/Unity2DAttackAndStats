@@ -6,10 +6,16 @@ using JetBrains.Annotations;
 
 public class MeleeSkill : MonoBehaviour
 {
+    public GameObject Player;
     public GameObject Melee ;
+    public GameObject WeaponController;
     static public GameObject melee;
+    static public GameObject player;
+    static public GameObject weaponController;
+
     static BoxCollider2D boxCollider;
     static TrailRenderer trailRenderer;
+
     Vector2 mouse;
     Vector2 position;
     static int dir;
@@ -22,7 +28,7 @@ public class MeleeSkill : MonoBehaviour
 
     void Start()
     {
-        melee = Melee;
+        player = Player; melee = Melee; weaponController = WeaponController;
         boxCollider = melee.transform.GetChild(0).GetComponent<BoxCollider2D>(); boxCollider.enabled = false;
         trailRenderer = melee.transform.GetChild(0).GetComponent<TrailRenderer>(); trailRenderer.enabled = false;
     }
@@ -109,7 +115,7 @@ public class MeleeSkill : MonoBehaviour
                 Sequence PiercingSeq = DOTween.Sequence();
                 PiercingSeq.AppendCallback(() => SetisAttack(true));
                 PiercingSeq.AppendCallback(() => SpeedSetter(speedCoefficient));
-                PiercingSeq.AppendCallback(() => melee.transform.position = melee.transform.parent.transform.position);
+                PiercingSeq.AppendCallback(() => melee.transform.position = player.transform.position);
                 PiercingSeq.Append(melee.transform.DOMove(melee.transform.GetChild(0).position + new Vector3(Mathf.Cos(deg * Mathf.Deg2Rad) * -1, Mathf.Sin(deg * Mathf.Deg2Rad) * -1, 0), readyTime));
                 //Attack
                 PiercingSeq.AppendCallback(() => boxCollider.enabled = true);
@@ -119,6 +125,7 @@ public class MeleeSkill : MonoBehaviour
                 //AttackDone
                 PiercingSeq.AppendCallback(() => SetisAttack(false));
                 PiercingSeq.AppendCallback(() => SpeedSetter(1));
+                PiercingSeq.AppendCallback(() => melee.transform.position = player.transform.position);
                 PiercingSeq.AppendCallback(() => boxCollider.enabled = false);
                 PiercingSeq.AppendCallback(() => trailRenderer.enabled = false);
                 PiercingSeq.AppendCallback(() => trailRenderer.startWidth = 1.0f);

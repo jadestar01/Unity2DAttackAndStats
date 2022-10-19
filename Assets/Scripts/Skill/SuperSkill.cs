@@ -14,6 +14,7 @@ public class SuperSkill : MonoBehaviour
         weaponController = GameObject.FindWithTag("WeaponController").GetComponent<WeaponController>();
     }
 
+    [System.Serializable]
     public class Skill
     {
         public bool isCooltime = false;

@@ -1,64 +1,150 @@
+using Inv.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+namespace Inv.UI
 {
-    [SerializeField] private WeaponManagement weaponPrefab;
-    [SerializeField] private RectTransform contentPanel;
-
-    List<WeaponManagement> listOfWeapons = new List<WeaponManagement> ();
-
-    //인벤토리 공간 확보
-    public void InitalizeInventoryUI(int inventorySize)
+    public class Inventory : MonoBehaviour
     {
-        for (int i = 0; i < inventorySize; i++)
+        [SerializeField] private WeaponManagement weaponPrefab;
+        [SerializeField] private RectTransform contentPanel;
+        [SerializeField] private Tooltip itemTooltip;
+        [SerializeField] private MouseFollower mouseFollower;
+
+        List<WeaponManagement> listOfWeapons = new List<WeaponManagement>();
+
+        public Action<int> OnDescriptionRequested, OnItemActionRequested, OnStartDragging;
+        public Action<int, int> OnSwapItems;
+
+        private int currentlyDraggedItemIndex = -1;
+
+        private void Awake()
         {
-            WeaponManagement uiWeapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.identity);
-            uiWeapon.transform.SetParent(contentPanel);
-            listOfWeapons.Add(uiWeapon);
-            uiWeapon.OnItemClicked += HandleItemSelection;
-            uiWeapon.OnItemBeginDrag += HandleBeginDrag;
-            uiWeapon.OnItemDroppedOn += HandleSwap;
-            uiWeapon.OnItemEndDrag += HandleEndDrag;
-            uiWeapon.OnRightMouseBtnClick += HandleShowItemAction;
+            Hide();
+            mouseFollower.Toggle(false);
+            itemTooltip.ResetDescription();
         }
-    }
 
-    private void HandleShowItemAction(WeaponManagement obj)
-    {
+        //인벤토리 공간 확보
+        public void InitalizeInventoryUI(int inventorySize)
+        {
+            for (int i = 0; i < inventorySize; i++)
+            {
+                WeaponManagement uiWeapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.identity);
+                uiWeapon.transform.SetParent(contentPanel);
+                listOfWeapons.Add(uiWeapon);
+                uiWeapon.OnItemClicked += HandleItemSelection;
+                uiWeapon.OnItemBeginDrag += HandleBeginDrag;
+                uiWeapon.OnItemDroppedOn += HandleSwap;
+                uiWeapon.OnItemEndDrag += HandleEndDrag;
+                uiWeapon.OnRightMouseBtnClick += HandleShowItemAction;
+            }
+        }
 
-    }
+        public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity)
+        {
+            if (listOfWeapons.Count > itemIndex)
+            {
+                listOfWeapons[itemIndex].SetData(itemImage, itemQuantity);
+            }
+        }
 
-    private void HandleEndDrag(WeaponManagement obj)
-    {
+        private void HandleShowItemAction(WeaponManagement inventoryItemUI)
+        {
 
-    }
+        }
 
-    private void HandleSwap(WeaponManagement obj)
-    {
+        private void HandleEndDrag(WeaponManagement inventoryItemUI)
+        {
+            ResetDraggedItem();
+        }
 
-    }
+        private void HandleSwap(WeaponManagement inventoryItemUI)
+        {
+            int index = listOfWeapons.IndexOf(inventoryItemUI);
+            if (index == -1)
+            {
+                return;
+            }
+            OnSwapItems?.Invoke(currentlyDraggedItemIndex, index);
+            HandleItemSelection(inventoryItemUI);
+        }
 
-    private void HandleBeginDrag(WeaponManagement obj)
-    {
+        private void ResetDraggedItem()
+        {
+            mouseFollower.Toggle(false);
+            currentlyDraggedItemIndex = -1;
+        }
 
-    }
+        private void HandleBeginDrag(WeaponManagement inventoryItemUI)
+        {
+            int index = listOfWeapons.IndexOf(inventoryItemUI);
+            if (index == -1)
+                return;
+            currentlyDraggedItemIndex = index;
+            HandleItemSelection(inventoryItemUI);
+            OnStartDragging?.Invoke(index);
+        }
 
-    private void HandleItemSelection(WeaponManagement obj)
-    {
-        Debug.Log(obj.name);
-    }
+        public void CreateDraggedItem(Sprite sprite, int quantity)
+        {
+            mouseFollower.Toggle(true);
+            mouseFollower.SetData(sprite, quantity);
+        }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+        private void HandleItemSelection(WeaponManagement inventoryItemUI)
+        {
+            int index = listOfWeapons.IndexOf(inventoryItemUI);
+            if (index == -1)
+                return;
+            OnDescriptionRequested?.Invoke(index);
+        }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            ResetSelection();
+        }
+
+        public void ResetSelection()
+        {
+            itemTooltip.ResetDescription();
+            DeselectAllItems();
+        }
+
+        private void DeselectAllItems()
+        {
+            foreach (WeaponManagement item in listOfWeapons)
+            {
+                item.Deselect();
+            }
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+            ResetDraggedItem();
+        }
+
+        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, string description)
+        {
+            itemTooltip.SetDescription(itemImage, name, description);
+            DeselectAllItems();
+            listOfWeapons[itemIndex].Select();
+        }
+
+        internal void ResetAllItems()
+        {
+            foreach (var item in listOfWeapons)
+            {
+                item.ResetData();
+                item.Deselect();
+            }
+        }
     }
 }
