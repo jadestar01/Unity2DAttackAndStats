@@ -21,6 +21,8 @@ namespace Inv.UI
         public Action<int> OnDescriptionRequested, OnItemActionRequested, OnStartDragging;
         public Action<int, int> OnSwapItems;
 
+        [SerializeField] private ItemActionPanel actionPanel;
+
         private int currentlyDraggedItemIndex = -1;
 
         private void Awake()
@@ -56,7 +58,12 @@ namespace Inv.UI
 
         private void HandleShowItemAction(WeaponManagement inventoryItemUI)
         {
-
+            int index = listOfWeapons.IndexOf(inventoryItemUI);
+            if (index == -1)
+            {
+                return;
+            }
+            OnItemActionRequested?.Invoke(index);
         }
 
         private void HandleEndDrag(WeaponManagement inventoryItemUI)
@@ -117,16 +124,29 @@ namespace Inv.UI
             DeselectAllItems();
         }
 
+        public void AddAction(string actionName, Action performAction)
+        {
+            actionPanel.AddButton(actionName, performAction);
+        }
+
+        public void ShowItemAction(int itemIndex)
+        {
+            actionPanel.Toggle(true);
+            actionPanel.transform.position = listOfWeapons[itemIndex].transform.position;
+        }
+
         private void DeselectAllItems()
         {
             foreach (WeaponManagement item in listOfWeapons)
             {
                 item.Deselect();
             }
+            actionPanel.Toggle(false);
         }
 
         public void Hide()
         {
+            actionPanel.Toggle(false);
             gameObject.SetActive(false);
             ResetDraggedItem();
         }

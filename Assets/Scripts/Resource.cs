@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Resource : MonoBehaviour
 {
@@ -50,6 +51,20 @@ public class Resource : MonoBehaviour
         ResourceUIUpdate();
         StatChangeCheck();
         StatUpdate();
+    }
+
+    public bool AddHP(int val)
+    {
+        if (curHP == maxHP)
+            return false;
+        else
+        {
+            if (curHP + val < maxHP)
+                curHP += val;
+            else
+                curHP = maxHP;
+            return true;
+        }
     }
 
     void ResourceUIUpdate()
