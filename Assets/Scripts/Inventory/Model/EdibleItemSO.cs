@@ -12,8 +12,7 @@ namespace Inventory.Model
         [SerializeField] List<ModifierData> modifierData = new List<ModifierData>();
         //하단, interface에 대한 구조
         public string ActionName => "Consume";
-
-        public AudioClip actionSFX {get; private set;}
+        [field: SerializeField] public AudioClip actionSFX {get; private set;}
 
         public bool PerformAction(GameObject character, List<ItemParameter> ltemState = null)
         {

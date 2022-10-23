@@ -21,3 +21,4 @@ MonoBehaviour:
   modifierData:
   - statModifier: {fileID: 11400000, guid: 779e4211b6bede345a741a6f30ad0583, type: 2}
     value: 10
+  <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}

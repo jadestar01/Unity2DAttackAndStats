@@ -7,16 +7,18 @@ namespace Inventory.UI
 {
     public class UIInventoryPage : MonoBehaviour
     {
+        [SerializeField] public Canvas mainCanvas;                         //끄고 킬 캔버스
         [SerializeField] private UIInventoryItem itemPrefab;                //아이템 슬롯 프리펩
         [SerializeField] RectTransform contentPanel;                        //슬롯을 보여줄 UI
         [SerializeField] UIInventoryDescription itemDescription;            //아이템의 설명을 출력
         [SerializeField] MouseFollower mouseFollower;                       //마우스 추적자   
         List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();  //슬롯을 관리하는 리스트
         private int currentlyDraggedItemIndex = -1;                         //드래그한 최근 아이템의 List인덱스 -1은 없음
-        public event Action<int> OnDescriptionRequested,                 //아이템 설명 로드
+        public event Action<int> OnDescriptionRequested,                    //아이템 설명 로드
                                     OnItemActionRequested,                  //아이템 액션(우클릭) 로드
                                     OnStartDragging;                        //아이템 드래깅
         public event Action<int, int> OnSwapItems;                          //아이템 스왑
+        [SerializeField] private ItemActionPanel actionPanel;               //액션패널
 
         private void Awake()
         {
@@ -73,6 +75,7 @@ namespace Inventory.UI
         private void HandleShowItemActions(UIInventoryItem inventoryItemUI)
         {
             //마우스 우클릭 입력시, 액션바 호출
+            actionPanel.Toggle(true);
             int index = listOfUIItems.IndexOf(inventoryItemUI);
             if (index == -1)                        //빈칸이라면
             {
@@ -136,7 +139,8 @@ namespace Inventory.UI
         public void Show()
         {
             //인벤토리를 활성화하며, 설명을 초기화한다.
-            gameObject.SetActive(true);
+            //gameObject.SetActive(true);
+            mainCanvas.gameObject.SetActive(true);
             ResetSelection();
         }
 
@@ -146,18 +150,32 @@ namespace Inventory.UI
             DeselectAllItems();
         }
 
+        public void AddAction(string actionName, Action performAction)
+        {
+            actionPanel.AddButton(actionName, performAction);
+        }
+
+        public void ShowItemAction(int itemIndex)
+        {
+            mainCanvas.enabled = true;
+            actionPanel.transform.position = listOfUIItems[itemIndex].transform.position;
+        }
+
         private void DeselectAllItems()
         {
             foreach (UIInventoryItem item in listOfUIItems)
             {
                 item.Deselect();
             }
+            actionPanel.Toggle(false);
         }
 
         public void Hide()
         {
             //인벤토리를 비활성화한다.
-            gameObject.SetActive(false);
+            actionPanel.Toggle(false);
+            //gameObject.SetActive(false);
+            mainCanvas.gameObject.SetActive(false);
             ResetDraggedItem();
         }
     }

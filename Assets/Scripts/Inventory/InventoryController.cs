@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using UnityEngine.UIElements;
 
 namespace Inventory
 {
@@ -13,6 +14,9 @@ namespace Inventory
         [SerializeField] private UIInventoryPage inventoryUI;       //인벤토리 UI에 접근한다.
         [SerializeField] private InventorySO inventoryData;         //플레이어의 인벤토리 데이터이다.
         public List<InventoryItem> initialItems = new List<InventoryItem>();    //인벤토리 시작템
+        [SerializeField] private AudioClip dropClip;                //아이템 드랍시 소리
+        [SerializeField] private AudioSource audioSource;
+
 
         private void Start()
         {
@@ -55,22 +59,53 @@ namespace Inventory
 
         private void HandleItemActionRequest(int itemIndex)
         {
-            //우클릭 소모, 우클릭 착용, 드랍 등 이벤트 관리
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
                 return;
-            //아이템 소모
+
+            IItemAction itemAction = inventoryItem.item as IItemAction;
+            if (itemAction != null)
+            {
+
+                inventoryUI.ShowItemAction(itemIndex);
+                inventoryUI.AddAction(itemAction.ActionName, () => PerformAction(itemIndex));
+            }
+
+            IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
+            if (destroyableItem != null)
+            {
+                inventoryUI.AddAction("Drop", () => DropItem(itemIndex, inventoryItem.quantity));
+            }
+
+        }
+
+        public void PerformAction(int itemIndex)
+        {
+            InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
+            if (inventoryItem.IsEmpty)
+                return;
+
             IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
             if (destroyableItem != null)
             {
                 inventoryData.RemoveItem(itemIndex, 1);
             }
-            //아이템 사용
+
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
                 itemAction.PerformAction(gameObject, inventoryItem.itemState);
+                audioSource.PlayOneShot(itemAction.actionSFX);
+                if (inventoryData.GetItemAt(itemIndex).IsEmpty)
+                    inventoryUI.ResetSelection();
             }
+        }
+
+        private void DropItem(int itemIndex, int quantity)
+        {
+            inventoryData.RemoveItem(itemIndex, quantity);
+            inventoryUI.ResetSelection();
+            audioSource.PlayOneShot(dropClip);
         }
 
         private void HandleDragging(int itemIndex)
@@ -136,6 +171,9 @@ namespace Inventory
                     inventoryUI.Hide();
                 }
             }
+            if (inventoryUI.isActiveAndEnabled == true && Input.GetKeyDown(KeyCode.Escape))
+                inventoryUI.Hide();
+
         }
     }
 }
