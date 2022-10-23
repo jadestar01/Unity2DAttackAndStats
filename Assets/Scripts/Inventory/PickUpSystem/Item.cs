@@ -1,33 +1,31 @@
-using Inv.Model;
+using Inventory.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public int MyProperty { get; set; }
-
-    [field: SerializeField] public ItemSO InventoryItem { get; private set; }
-
-    [field: SerializeField] public int Quantity { get; set; }
-
-    [SerializeField] private AudioSource audioSource;
-
-    [SerializeField] private float duration = 0.3f;
+    [field: SerializeField] public ItemSO InventoryItem { get; private set; }       //드랍된 아이템
+    [field: SerializeField] public int Quantity { get; set; } = 1;                  //아이템의 개수
+    [SerializeField] private AudioSource audioSource;                               //획득 소리
+    [SerializeField] private float duration = 0.3f;                                 //획득 이벤트 시간
 
     private void Start()
     {
+        //아이템 생성
         GetComponent<SpriteRenderer>().sprite = InventoryItem.ItemImage;
     }
 
-    public void DestroyItem()
+    internal void DestroyItem()
     {
         GetComponent<Collider2D>().enabled = false;
-        StartCoroutine(AnimateItemPickup());
+        StartCoroutine(AnimateItemPickUp());
     }
 
-    private IEnumerator AnimateItemPickup()
+    private IEnumerator AnimateItemPickUp()
     {
+        //아이템을 먹음으로써, 소리가나고, 아이템이 서서히 사라지는 이벤트
         audioSource.Play();
         Vector3 startScale = transform.localScale;
         Vector3 endScale = Vector3.zero;
