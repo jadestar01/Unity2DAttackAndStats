@@ -17,7 +17,7 @@ namespace Inventory.UI
         //Event Trigger Component로 관리되는 이벤트 목록들이다.
         public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn,
             OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
-        private bool empty = true;
+        public bool empty = true;
 
         public void Awake()
         {

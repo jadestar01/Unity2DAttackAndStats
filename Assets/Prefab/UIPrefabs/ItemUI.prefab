@@ -514,6 +514,7 @@ MonoBehaviour:
   itemImage: {fileID: 1497264334012666734}
   quantityTxt: {fileID: 7092867035572404285}
   borderImage: {fileID: 904056248031934463}
+  empty: 1
 --- !u!114 &8800039113197776637
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,8 +15,10 @@ MonoBehaviour:
   <InStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
   <Name>k__BackingField: Staff
-  <Description>k__BackingField: magic magic magic!
   <ItemImage>k__BackingField: {fileID: 21300000, guid: f8d679945b04a5841a86c4bca8a8d6f4, type: 3}
+  Type: 4
+  Quality: 2
+  <Description>k__BackingField: magic magic magic!
   <DefaultParametersList>k__BackingField:
   - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
     value: 200

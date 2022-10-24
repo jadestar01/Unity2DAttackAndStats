@@ -66,7 +66,6 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
-
                 inventoryUI.ShowItemAction(itemIndex);
                 inventoryUI.AddAction(itemAction.ActionName, () => PerformAction(itemIndex));
             }
@@ -96,8 +95,12 @@ namespace Inventory
             {
                 itemAction.PerformAction(gameObject, inventoryItem.itemState);
                 audioSource.PlayOneShot(itemAction.actionSFX);
+                if (inventoryItem.item.Type == ItemSO.ItemType.Melee || inventoryItem.item.Type == ItemSO.ItemType.Magic || inventoryItem.item.Type == ItemSO.ItemType.Range)
+                    inventoryUI.actionPanel.Toggle(false);
                 if (inventoryData.GetItemAt(itemIndex).IsEmpty)
+                {
                     inventoryUI.ResetSelection();
+                }
             }
         }
 
@@ -125,16 +128,18 @@ namespace Inventory
         private void HandleDescriptionRequest(int itemIndex)
         {
             //아이템이 있는 위치를 알아낸 후, 아이템의 설명을 업데이트하며, 아이템을 선택한다.
+            Debug.Log("Click!");
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
             {
                 //빈 곳을 클릭하면, 설명을 초기화한다.
+                Debug.Log("Click Empty!");
                 inventoryUI.ResetSelection();
                 return;
             }
             ItemSO item = inventoryItem.item;
             string description = PrepareDescription(inventoryItem);
-            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, description);
+            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, (int)item.Type, (int)item.Quality, description);
         }
 
         private string PrepareDescription(InventoryItem inventoryItem)
@@ -154,26 +159,25 @@ namespace Inventory
 
         public void Update()
         {
-            //인벤토리 여닫기
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (inventoryUI.isActiveAndEnabled == false)
                 {
                     inventoryUI.Show();
-                    foreach (var item in inventoryData.GetCurrentInventoryState())  //인벤토리 정보가 저장된 딕셔너리를 순회하며, 값을 얻는다.
+                    foreach (var item in inventoryData.GetCurrentInventoryState())
                     {
-                        inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
-                        //int index, Sprite sprite, int quantity //int Key, InventoryItem Value
+                        inventoryUI.UpdateData(item.Key,
+                            item.Value.item.ItemImage,
+                            item.Value.quantity);
                     }
+                    inventoryUI.ResetSelection();
                 }
                 else
                 {
                     inventoryUI.Hide();
+                    inventoryUI.ResetSelection();
                 }
             }
-            if (inventoryUI.isActiveAndEnabled == true && Input.GetKeyDown(KeyCode.Escape))
-                inventoryUI.Hide();
-
         }
     }
 }

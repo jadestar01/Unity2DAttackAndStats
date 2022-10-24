@@ -15,8 +15,10 @@ MonoBehaviour:
   <InStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
   <Name>k__BackingField: Sword
-  <Description>k__BackingField: cuts things
   <ItemImage>k__BackingField: {fileID: 21300000, guid: cdf88835a414d4f448ef7186965d4c0c, type: 3}
+  Type: 3
+  Quality: 1
+  <Description>k__BackingField: cuts things
   <DefaultParametersList>k__BackingField:
   - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
     value: 100

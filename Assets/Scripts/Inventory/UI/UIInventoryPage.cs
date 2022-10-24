@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Inventory.UI
 {
     public class UIInventoryPage : MonoBehaviour
     {
-        [SerializeField] public Canvas mainCanvas;                         //끄고 킬 캔버스
         [SerializeField] private UIInventoryItem itemPrefab;                //아이템 슬롯 프리펩
         [SerializeField] RectTransform contentPanel;                        //슬롯을 보여줄 UI
         [SerializeField] UIInventoryDescription itemDescription;            //아이템의 설명을 출력
@@ -18,7 +18,7 @@ namespace Inventory.UI
                                     OnItemActionRequested,                  //아이템 액션(우클릭) 로드
                                     OnStartDragging;                        //아이템 드래깅
         public event Action<int, int> OnSwapItems;                          //아이템 스왑
-        [SerializeField] private ItemActionPanel actionPanel;               //액션패널
+        [SerializeField] public ItemActionPanel actionPanel;                //액션패널
 
         private void Awake()
         {
@@ -56,9 +56,21 @@ namespace Inventory.UI
             }
         }
 
-        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, string description)
+        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, int type, int quality, string description)
         {
-            itemDescription.SetDescription(itemImage, name, description);
+            //아이템의 설명을 설정함.
+            RectTransform dr = listOfUIItems[itemIndex].GetComponent<RectTransform>();
+            if (itemIndex <= 18)
+            {
+                itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y - 60, 0);
+            }
+            else
+            {
+                itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y + 60 + itemDescription.nameHeight + itemDescription.descriptionHeight, 0);
+            }
+            itemDescription.gameObject.SetActive(true); //111
+            //위치 이동
+            itemDescription.SetDescription(itemImage, name, type, quality, description);
             DeselectAllItems();
             listOfUIItems[itemIndex].Select();
         }
@@ -76,6 +88,8 @@ namespace Inventory.UI
         {
             //마우스 우클릭 입력시, 액션바 호출
             actionPanel.Toggle(true);
+            if(inventoryItemUI.empty)
+                actionPanel.Toggle(false);
             int index = listOfUIItems.IndexOf(inventoryItemUI);
             if (index == -1)                        //빈칸이라면
             {
@@ -139,8 +153,7 @@ namespace Inventory.UI
         public void Show()
         {
             //인벤토리를 활성화하며, 설명을 초기화한다.
-            //gameObject.SetActive(true);
-            mainCanvas.gameObject.SetActive(true);
+            gameObject.SetActive(true);
             ResetSelection();
         }
 
@@ -155,9 +168,9 @@ namespace Inventory.UI
             actionPanel.AddButton(actionName, performAction);
         }
 
+
         public void ShowItemAction(int itemIndex)
         {
-            mainCanvas.enabled = true;
             actionPanel.transform.position = listOfUIItems[itemIndex].transform.position;
         }
 
@@ -174,8 +187,7 @@ namespace Inventory.UI
         {
             //인벤토리를 비활성화한다.
             actionPanel.Toggle(false);
-            //gameObject.SetActive(false);
-            mainCanvas.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             ResetDraggedItem();
         }
     }
