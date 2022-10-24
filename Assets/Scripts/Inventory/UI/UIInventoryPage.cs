@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ColorPallete;
+using Inventory.Model;
 
 namespace Inventory.UI
 {
@@ -56,11 +58,11 @@ namespace Inventory.UI
             }
         }
 
-        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, int type, int quality, string description)
+        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, int type, ItemQuality quality, string description)
         {
             //아이템의 설명을 설정함.
             RectTransform dr = listOfUIItems[itemIndex].GetComponent<RectTransform>();
-            if (itemIndex <= 18)
+            if (itemIndex < 18)
             {
                 itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y - 60, 0);
             }
@@ -75,12 +77,12 @@ namespace Inventory.UI
             listOfUIItems[itemIndex].Select();
         }
 
-        public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity)
+        public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity, ItemQuality quality)
         {
             //아이템이 가득차지 않았다면, 아이템을 Index에 추가한다.
             if (listOfUIItems.Count > itemIndex)
             {
-                listOfUIItems[itemIndex].SetData(itemImage, itemQuantity);
+                listOfUIItems[itemIndex].SetData(itemImage, itemQuantity, quality);
             }
         }
 
@@ -102,6 +104,7 @@ namespace Inventory.UI
         {
             //드래그 종료시 토글을 끄고 최근 인덱스를 초기화한다.
             ResetDraggedItem();
+            ResetSelection();
         }
 
         private void HandleSwap(UIInventoryItem inventoryItemUI)
@@ -134,11 +137,11 @@ namespace Inventory.UI
             OnStartDragging?.Invoke(index);         //아이템스타트드래깅 이벤트 시작
         }
 
-        public void CreateDraggedItem(Sprite sprite, int quantity)
+        public void CreateDraggedItem(Sprite sprite, int quantity, ItemQuality quality)
         {
             //아이템을 드래깅아이템에 생성함.
             mouseFollower.Toggle(true);
-            mouseFollower.SetData(sprite, quantity);
+            mouseFollower.SetData(sprite, quantity, quality);
         }
 
         private void HandleItemSelection(UIInventoryItem inventoryItemUI)

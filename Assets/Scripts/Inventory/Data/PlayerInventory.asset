@@ -13,112 +13,218 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   inventoryItems:
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 90
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 90
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 80
   - quantity: 0
+    quality: 0
     item: {fileID: 0}
     itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
-  - quantity: 0
-    item: {fileID: 0}
-    itemState: []
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
+  - quantity: 1
+    quality: 0
+    item: {fileID: 11400000, guid: a3919b6a45698b240869fc99d67a20c5, type: 2}
+    itemState:
+    - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
+      value: 100
   <Size>k__BackingField: 36

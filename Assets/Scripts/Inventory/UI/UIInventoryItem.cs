@@ -5,24 +5,37 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.EventSystems;
+using ColorPallete;
+using Inventory.UI;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 namespace Inventory.UI
 {
     public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
     {
         //아이템 슬롯을 관리하는 스크립트
+        [SerializeField] private Image slotImage;
         [SerializeField] private Image itemImage;
         [SerializeField] private TMP_Text quantityTxt;
         [SerializeField] private Image borderImage;
+        [SerializeField] private QualityColorPallete pallete;
         //Event Trigger Component로 관리되는 이벤트 목록들이다.
         public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn,
             OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
         public bool empty = true;
+        public ItemQuality itemQuality = 0;
 
         public void Awake()
         {
             ResetData();
             Deselect();
+        }
+
+        public void Update()
+        {
+            if (empty)
+                slotImage.color = pallete.ColorPallete(0);
         }
 
         public void ResetData()
@@ -38,12 +51,19 @@ namespace Inventory.UI
             borderImage.enabled = false;
         }
 
-        public void SetData(Sprite sprite, int quantity)
+        public void SetSlotColor(ItemQuality quality)
+        {
+            slotImage.color = pallete.ColorPallete(quality);
+        }
+
+        public void SetData(Sprite sprite, int quantity, ItemQuality quality)
         {
             //아이템 슬롯의 이미지와 개수를 설정한다. empty상태를 해제한다.
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
             quantityTxt.text = quantity + "";
+            slotImage.color = pallete.ColorPallete(quality);
+            SetSlotColor(quality);
             empty = false;
         }
 

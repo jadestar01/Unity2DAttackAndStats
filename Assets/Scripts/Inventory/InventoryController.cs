@@ -6,17 +6,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using UnityEngine.UIElements;
+using ColorPallete;
 
 namespace Inventory
 {
     public class InventoryController : MonoBehaviour
     {
-        [SerializeField] private UIInventoryPage inventoryUI;       //인벤토리 UI에 접근한다.
-        [SerializeField] private InventorySO inventoryData;         //플레이어의 인벤토리 데이터이다.
+        [SerializeField] private Canvas inventoryCanvas;
+        [SerializeField] private UIInventoryPage inventoryUI;                   //인벤토리 UI에 접근한다.
+        [SerializeField] private InventorySO inventoryData;                     //플레이어의 인벤토리 데이터이다.
         public List<InventoryItem> initialItems = new List<InventoryItem>();    //인벤토리 시작템
-        [SerializeField] private AudioClip dropClip;                //아이템 드랍시 소리
+        [SerializeField] private AudioClip dropClip;                            //아이템 드랍시 소리
         [SerializeField] private AudioSource audioSource;
 
+        private void Awake()
+        {
+            inventoryCanvas.gameObject.SetActive(false);
+        }
 
         private void Start()
         {
@@ -43,7 +49,7 @@ namespace Inventory
             inventoryUI.ResetAllItems();
             foreach (var item in inventoryState)
             {
-                inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity, item.Value.quality);
             }
         }
 
@@ -117,7 +123,7 @@ namespace Inventory
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
                 return;
-            inventoryUI.CreateDraggedItem(inventoryItem.item.ItemImage, inventoryItem.quantity);
+            inventoryUI.CreateDraggedItem(inventoryItem.item.ItemImage, inventoryItem.quantity, inventoryItem.quality);
         }
 
         private void HandleSwapItems(int itemIndex_1, int itemIndex_2)
@@ -128,18 +134,16 @@ namespace Inventory
         private void HandleDescriptionRequest(int itemIndex)
         {
             //아이템이 있는 위치를 알아낸 후, 아이템의 설명을 업데이트하며, 아이템을 선택한다.
-            Debug.Log("Click!");
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
             {
                 //빈 곳을 클릭하면, 설명을 초기화한다.
-                Debug.Log("Click Empty!");
                 inventoryUI.ResetSelection();
                 return;
             }
             ItemSO item = inventoryItem.item;
             string description = PrepareDescription(inventoryItem);
-            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, (int)item.Type, (int)item.Quality, description);
+            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, (int)item.Type, item.Quality, description);
         }
 
         private string PrepareDescription(InventoryItem inventoryItem)
@@ -159,24 +163,34 @@ namespace Inventory
 
         public void Update()
         {
+            foreach (var item in inventoryData.GetCurrentInventoryState())
+            {
+                inventoryUI.UpdateData(
+                    item.Key,
+                    item.Value.item.ItemImage,
+                    item.Value.quantity,
+                    item.Value.item.Quality);
+            }
+
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (inventoryUI.isActiveAndEnabled == false)
                 {
+                    inventoryCanvas.gameObject.SetActive(true);
                     inventoryUI.Show();
-                    foreach (var item in inventoryData.GetCurrentInventoryState())
-                    {
-                        inventoryUI.UpdateData(item.Key,
-                            item.Value.item.ItemImage,
-                            item.Value.quantity);
-                    }
                     inventoryUI.ResetSelection();
                 }
                 else
                 {
+                    inventoryCanvas.gameObject.SetActive(false);
                     inventoryUI.Hide();
                     inventoryUI.ResetSelection();
                 }
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && inventoryUI.isActiveAndEnabled == true)
+            {
+                inventoryUI.Hide();
+                inventoryUI.ResetSelection();
             }
         }
     }

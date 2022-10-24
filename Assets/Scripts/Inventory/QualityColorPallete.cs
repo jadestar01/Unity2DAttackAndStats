@@ -1,18 +1,95 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ColorPallete;
 
-public class QualityColorPallete : MonoBehaviour
+namespace ColorPallete
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum ItemQuality
     {
-        
-    }
+        None,
+        Normal,
+        Rare,
+        Epic,
+        Unique,
+        Legendary
+    };
+}
 
-    // Update is called once per frame
-    void Update()
+namespace Inventory.UI
+{
+    public class QualityColorPallete : MonoBehaviour
     {
-        
+        [SerializeField] public Color None;
+        [SerializeField] public Color Normal;
+        [SerializeField] public Color Rare;
+        [SerializeField] public Color Epic;
+        [SerializeField] public Color Unique;
+        [SerializeField] public Color Legendary;
+        public Color ColorPallete(ItemQuality quality)
+        {
+            switch (quality)
+            {
+                case ItemQuality.None:
+                    {
+                        return None;
+                    }
+                case ItemQuality.Normal:
+                    {
+                        return Normal;
+                    }
+                case ItemQuality.Rare:
+                    {
+                        return Rare;
+                    }
+                case ItemQuality.Epic:
+                    {
+                        return Epic;
+                    }
+                case ItemQuality.Unique:
+                    {
+                        return Unique;
+                    }
+                case ItemQuality.Legendary:
+                    {
+                        return Legendary;
+                    }
+            }
+            return Color.white;
+        }
+
+        public string QualityString(ItemQuality quality)
+        {
+            switch (quality)
+            {
+                case ItemQuality.None:
+                    {
+                        return "None";
+                    }
+                case ItemQuality.Normal:
+                    {
+                        return "Normal";
+                    }
+                case ItemQuality.Rare:
+                    {
+                        return "Rare";
+                    }
+                case ItemQuality.Epic:
+                    {
+                        return "Epic";
+                    }
+                case ItemQuality.Unique:
+                    {
+                        return "Unique";
+                    }
+                case ItemQuality.Legendary:
+                    {
+                        return "Legendary";
+                    }
+            }
+            return "";
+        }
+
+
     }
 }

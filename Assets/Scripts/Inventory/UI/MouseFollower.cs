@@ -2,6 +2,7 @@ using Inventory.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ColorPallete;
 
 public class MouseFollower : MonoBehaviour
 {
@@ -16,10 +17,10 @@ public class MouseFollower : MonoBehaviour
         item = GetComponentInChildren<UIInventoryItem>();
     }
 
-    public void SetData(Sprite sprite, int quantity)
+    public void SetData(Sprite sprite, int quantity, ItemQuality quality)
     {
         //아이템을 설정함.
-        item.SetData(sprite, quantity);
+        item.SetData(sprite, quantity, quality);
     }
 
     void Update()

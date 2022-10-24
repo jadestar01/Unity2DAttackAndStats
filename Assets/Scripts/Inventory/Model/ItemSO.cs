@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ColorPallete;
 
 namespace Inventory.Model
 {
@@ -16,16 +17,6 @@ namespace Inventory.Model
             Magic,              //마법무기
             Range,              //원거리무기
             Trinket             //장신구
-        };
-
-        public enum ItemQuality
-        {
-            None,
-            Normal,
-            Rare,
-            Epic,
-            Unique,
-            Legendary
         };
         //아이템 데이터 모델
         [field: SerializeField] public bool InStackable { get; set; }

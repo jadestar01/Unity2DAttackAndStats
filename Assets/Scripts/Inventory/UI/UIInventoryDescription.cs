@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ColorPallete;
 
 namespace Inventory.UI
 {
@@ -21,16 +22,6 @@ namespace Inventory.UI
             Trinket             //¿ÂΩ≈±∏
         };
 
-        public enum ItemQuality
-        {
-            None,
-            Normal,
-            Rare,
-            Epic,
-            Unique,
-            Legendary
-        };
-
         [SerializeField] private Image itemImage;
         [SerializeField] private TMP_Text title;
         [SerializeField] private TMP_Text description;
@@ -40,6 +31,7 @@ namespace Inventory.UI
         public float nameHeight;
         [SerializeField] private RectTransform descriptionSpace;
         public float descriptionHeight;
+        [SerializeField] private QualityColorPallete pallete;
 
         public void Awake()
         {
@@ -64,7 +56,7 @@ namespace Inventory.UI
             gameObject.SetActive(false);
         }
 
-        public void SetDescription(Sprite sprite, string itemName, int type, int quality, string itemDescription)
+        public void SetDescription(Sprite sprite, string itemName, int type, ItemQuality quality, string itemDescription)
         {
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
@@ -107,45 +99,8 @@ namespace Inventory.UI
                         break;
                     }
             }
-            switch (quality)
-            {
-                case (int)ItemQuality.None:
-                    {
-                        this.quality.text = "None";
-                        this.quality.color = None;
-                        break;
-                    }
-                case (int)ItemQuality.Normal:
-                    {
-                        this.quality.text = "Normal";
-                        this.quality.color = Normal;
-                        break;
-                    }
-                case (int)ItemQuality.Rare:
-                    {
-                        this.quality.text = "Rare";
-                        this.quality.color = Rare;
-                        break;
-                    }
-                case (int)ItemQuality.Epic:
-                    {
-                        this.quality.text = "Epic";
-                        this.quality.color = Epic;
-                        break;
-                    }
-                case (int)ItemQuality.Unique:
-                    {
-                        this.quality.text = "Unique";
-                        this.quality.color = Unique;
-                        break;
-                    }
-                case (int)ItemQuality.Legendary:
-                    {
-                        this.quality.text = "Legendary";
-                        this.quality.color = Legendary;
-                        break;
-                    }
-            }
+            this.quality.color = pallete.ColorPallete(quality);
+            this.quality.text = pallete.QualityString(quality);
             description.text = itemDescription;
         }
     }
