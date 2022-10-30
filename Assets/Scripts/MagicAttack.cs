@@ -7,6 +7,7 @@ using UnityEngine.Assertions.Must;
 
 public class MagicAttack : MonoBehaviour
 {
+    /*
     public float distance = 0.8f;
     public float projectileDistance = 4;
     public float castingTime = 0.3f;
@@ -99,4 +100,5 @@ public class MagicAttack : MonoBehaviour
             else if (mouse.x - transform.position.x < 0) gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
     }
+    */
 }

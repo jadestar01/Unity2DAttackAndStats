@@ -12,6 +12,8 @@ namespace Inventory.UI
         [SerializeField] private GameObject buttonPrefab;
         public void AddButton(string name, Action onClickAction)
         {
+            if (name == "Equip")
+                return;
             GameObject button = Instantiate(buttonPrefab, transform);
             button.GetComponent<Button>().onClick.AddListener(() => onClickAction());
             button.GetComponentInChildren<TMPro.TMP_Text>().text = name;

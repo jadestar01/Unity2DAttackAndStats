@@ -6,6 +6,7 @@ using UnityEngine.Assertions.Must;
 
 public class MeleeAttack : MonoBehaviour
 {
+    /*
     public float distance;                      //칼과 본체의 거리
     public float attackDeg = 90;                //공격하는 호의 범위 0 ~ 180
     public float attackSpeed = 0.5f;            //공격하는 속도
@@ -141,4 +142,5 @@ public class MeleeAttack : MonoBehaviour
             else if (mouse.x - transform.position.x < 0) gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
     }
+    */
 }

@@ -23,6 +23,7 @@ namespace Inventory.UI
         };
 
         [SerializeField] private Image itemImage;
+        [SerializeField] private Image tooltipContour;
         [SerializeField] private TMP_Text title;
         [SerializeField] private TMP_Text description;
         [SerializeField] private TMP_Text type;
@@ -58,6 +59,8 @@ namespace Inventory.UI
 
         public void SetDescription(Sprite sprite, string itemName, int type, ItemQuality quality, string itemDescription)
         {
+            ResetDescription();
+            gameObject.SetActive(true);
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
             title.text = itemName;
@@ -99,6 +102,7 @@ namespace Inventory.UI
                         break;
                     }
             }
+            this.tooltipContour.color = pallete.ColorPallete(quality);
             this.quality.color = pallete.ColorPallete(quality);
             this.quality.text = pallete.QualityString(quality);
             description.text = itemDescription;

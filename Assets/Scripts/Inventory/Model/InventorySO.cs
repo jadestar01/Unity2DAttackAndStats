@@ -67,26 +67,38 @@ namespace Inventory.Model
         }
 
         private bool IsInventoryFull()
+        {
+            //하나라도 isEmpty라면 false, 아니면 true
+            for (int i = 0; i < inventoryItems.Count - 10; i++)
+            {
+                if (inventoryItems[i].IsEmpty)
+                    return false;
+            }
+            return true;
+        }
+        /*
+        private bool IsInventoryFull()
             => inventoryItems.Where(item => item.IsEmpty).Any() == false;
+         */
 
-        private int AddStackableItem(ItemSO item, int quantity)
+        private int AddStackableItem(ItemSO item, int quantity) //item은 습득한 아이템, quantity는 떨어진 개수
         {
             for (int i = 0; i < inventoryItems.Count; i++)
             {
-                if (inventoryItems[i].IsEmpty)
+                if (inventoryItems[i].IsEmpty)              //인벤토리에 빈칸을 찾는다. 
                     continue;
-                if (inventoryItems[i].item.ID == item.ID)
+                if (inventoryItems[i].item.ID == item.ID)   //빈칸의 아이템과 습득하려는 아이템이 같다면, 
                 {
                     int amountPossibleToTake = inventoryItems[i].item.MaxStackSize - inventoryItems[i].quantity;
 
                     if (quantity > amountPossibleToTake)
                     {
-                        inventoryItems[i] = inventoryItems[i].ChangeQuatity(inventoryItems[i].item.MaxStackSize);
+                        inventoryItems[i] = inventoryItems[i].ChangeQuantity(inventoryItems[i].item.MaxStackSize);
                         quantity -= amountPossibleToTake;
                     }
                     else
                     {
-                        inventoryItems[i] = inventoryItems[i].ChangeQuatity(inventoryItems[i].quantity + quantity);
+                        inventoryItems[i] = inventoryItems[i].ChangeQuantity(inventoryItems[i].quantity + quantity);
                         InformAboutChange();
                         return 0;
                     }
@@ -111,7 +123,7 @@ namespace Inventory.Model
                 if (reminder <= 0)
                     inventoryItems[itemIndex] = InventoryItem.GetEmptyItem();
                 else
-                    inventoryItems[itemIndex] = inventoryItems[itemIndex].ChangeQuatity(reminder);
+                    inventoryItems[itemIndex] = inventoryItems[itemIndex].ChangeQuantity(reminder);
 
                 InformAboutChange();
             }
@@ -154,7 +166,7 @@ namespace Inventory.Model
                 {
                     //둘의 합이 최대 수량보다 적다면
                     //1을 지우고, 2를 그 수만큼 채운다.
-                    inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuatity(inventoryItems[itemIndex_1].quantity + inventoryItems[itemIndex_2].quantity);
+                    inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_1].quantity + inventoryItems[itemIndex_2].quantity);
                     inventoryItems[itemIndex_1] = InventoryItem.GetEmptyItem();
                     InformAboutChange();
                 }
@@ -162,8 +174,8 @@ namespace Inventory.Model
                 {
                     //도착점이 맥스가 아니라면, 도착점을 맥스로 정하고 1에 나머지를 넣는다.
                     int amount = (inventoryItems[itemIndex_2].quantity + inventoryItems[itemIndex_1].quantity) - inventoryItems[itemIndex_2].item.MaxStackSize;
-                    inventoryItems[itemIndex_1] = inventoryItems[itemIndex_1].ChangeQuatity(amount);
-                    inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuatity(inventoryItems[itemIndex_1].item.MaxStackSize);
+                    inventoryItems[itemIndex_1] = inventoryItems[itemIndex_1].ChangeQuantity(amount);
+                    inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_1].item.MaxStackSize);
                     InformAboutChange();
                 }
             }
@@ -185,7 +197,7 @@ namespace Inventory.Model
         public ItemSO item;
         public List<ItemParameter> itemState;
         public bool IsEmpty => item == null;
-        public InventoryItem ChangeQuatity(int newQuantity)
+        public InventoryItem ChangeQuantity(int newQuantity)
         {
             return new InventoryItem
             {

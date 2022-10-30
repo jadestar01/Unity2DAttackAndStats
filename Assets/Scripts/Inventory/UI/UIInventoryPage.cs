@@ -5,22 +5,28 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ColorPallete;
 using Inventory.Model;
+using Unity.VisualScripting;
 
 namespace Inventory.UI
 {
     public class UIInventoryPage : MonoBehaviour
     {
-        [SerializeField] private UIInventoryItem itemPrefab;                //아이템 슬롯 프리펩
-        [SerializeField] RectTransform contentPanel;                        //슬롯을 보여줄 UI
-        [SerializeField] UIInventoryDescription itemDescription;            //아이템의 설명을 출력
-        [SerializeField] MouseFollower mouseFollower;                       //마우스 추적자   
-        List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();  //슬롯을 관리하는 리스트
-        private int currentlyDraggedItemIndex = -1;                         //드래그한 최근 아이템의 List인덱스 -1은 없음
-        public event Action<int> OnDescriptionRequested,                    //아이템 설명 로드
-                                    OnItemActionRequested,                  //아이템 액션(우클릭) 로드
-                                    OnStartDragging;                        //아이템 드래깅
-        public event Action<int, int> OnSwapItems;                          //아이템 스왑
-        [SerializeField] public ItemActionPanel actionPanel;                //액션패널
+        [SerializeField] private UIInventoryItem itemPrefab;                    //아이템 슬롯 프리펩
+        [SerializeField] UIInventoryDescription itemDescription;                //아이템의 설명을 출력
+        [SerializeField] MouseFollower mouseFollower;                           //마우스 추적자
+        [SerializeField] RectTransform contentPanel;                            //슬롯을 보여줄 UI
+        List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();      //슬롯을 관리하는 리스트 0~35는 인벤, 36~45는 슬롯
+        [SerializeField] RectTransform slotPanel;                               //슬롯페널
+        private int currentlyDraggedItemIndex = -1;                             //드래그한 최근 아이템의 List인덱스 -1은 없음
+        public event Action<int> OnDescriptionRequested,                        //아이템 설명 로드
+                                    OnItemActionRequested,                      //아이템 액션(우클릭) 로드
+                                    OnStartDragging;                            //아이템 드래깅
+        public event Action<int, int> OnSwapItems;                              //아이템 스왑
+        [SerializeField] public ItemActionPanel actionPanel;                    //액션패널
+        [SerializeField] private InventorySO inventoryData;                     //플레이어의 인벤토리 데이터이다.
+
+        RectTransform dr;
+        bool isUpside;
 
         private void Awake()
         {
@@ -29,6 +35,18 @@ namespace Inventory.UI
             //드래그 기능을 보여주는 mouseFollower의 Toggle기능을 일단 끈다.
             mouseFollower.Toggle(false);
             itemDescription.ResetDescription();
+        }
+
+        private void Update()
+        {
+            if (itemDescription.isActiveAndEnabled)
+            {
+                if (isUpside)
+                    itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y - 60, 0);
+                else
+                    itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y + 60 + itemDescription.nameHeight + itemDescription.descriptionHeight, 0);
+
+            }
         }
 
         internal void ResetAllItems()
@@ -40,6 +58,37 @@ namespace Inventory.UI
             }
         }
 
+        public void InitializeInventoryUI(int inventorySize)
+        {
+            for (int i = 0; i < inventorySize; i++)
+            {
+                UIInventoryItem uiItem;
+                //inventorySize 만큼의 slot을 생성하여, UI에 자식으로 넣어주고, UI는 이를 토대로 정렬하며, 리스트에 이 슬롯들에 접근할 수 있는 값을 저장한다.
+                if (i <= 35)
+                {
+                    uiItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
+                    uiItem.transform.SetParent(contentPanel);
+                    listOfUIItems.Add(uiItem);
+                    uiItem.OnItemClicked += HandleItemSelection;
+                    uiItem.OnItemBeginDrag += HandleBeginDrag;
+                    uiItem.OnItemDroppedOn += HandleSwap;
+                    uiItem.OnItemEndDrag += HandleEndDrag;
+                    uiItem.OnRightMouseBtnClick += HandleShowItemActions;
+                }
+                else if(i <= 45)
+                {
+                    uiItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
+                    uiItem.transform.SetParent(slotPanel);
+                    listOfUIItems.Add(uiItem);
+                    uiItem.OnItemClicked += HandleItemSelection;
+                    uiItem.OnItemBeginDrag += HandleBeginDrag;
+                    uiItem.OnItemDroppedOn += HandleSwap;
+                    uiItem.OnItemEndDrag += HandleEndDrag;
+                    uiItem.OnRightMouseBtnClick += HandleShowItemActions;
+                }
+            }
+        }
+        /*
         public void InitializeInventoryUI(int inventorySize)
         {
             for (int i = 0; i < inventorySize; i++)
@@ -57,22 +106,20 @@ namespace Inventory.UI
                 uiItem.OnRightMouseBtnClick += HandleShowItemActions;
             }
         }
+         */
 
         internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, int type, ItemQuality quality, string description)
         {
             //아이템의 설명을 설정함.
-            RectTransform dr = listOfUIItems[itemIndex].GetComponent<RectTransform>();
-            if (itemIndex < 18)
-            {
-                itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y - 60, 0);
-            }
-            else
-            {
-                itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y + 60 + itemDescription.nameHeight + itemDescription.descriptionHeight, 0);
-            }
-            itemDescription.gameObject.SetActive(true); //111
-            //위치 이동
+            //위치 설정
+            dr = listOfUIItems[itemIndex].GetComponent<RectTransform>();
+            itemDescription.gameObject.SetActive(true);
             itemDescription.SetDescription(itemImage, name, type, quality, description);
+            if (itemIndex < 18 || itemIndex > 35)
+                isUpside = true;
+            else
+                isUpside = false;
+            //아이템 선택
             DeselectAllItems();
             listOfUIItems[itemIndex].Select();
         }
@@ -85,6 +132,16 @@ namespace Inventory.UI
                 listOfUIItems[itemIndex].SetData(itemImage, itemQuantity, quality);
             }
         }
+        /*
+        public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity, ItemQuality quality)
+        {
+            //아이템이 가득차지 않았다면, 아이템을 Index에 추가한다.
+            if (listOfUIItems.Count > itemIndex)
+            {
+                listOfUIItems[itemIndex].SetData(itemImage, itemQuantity, quality);
+            }
+        }
+         */
 
         private void HandleShowItemActions(UIInventoryItem inventoryItemUI)
         {
@@ -94,9 +151,9 @@ namespace Inventory.UI
                 actionPanel.Toggle(false);
             int index = listOfUIItems.IndexOf(inventoryItemUI);
             if (index == -1)                        //빈칸이라면
-            {
                 return;
-            }
+            if (index >= 36)                        //슬롯바라면 실행종료
+                return;
             OnItemActionRequested?.Invoke(index);
         }
 
@@ -107,14 +164,42 @@ namespace Inventory.UI
             ResetSelection();
         }
 
-        private void HandleSwap(UIInventoryItem inventoryItemUI)
+        private void HandleSwap(UIInventoryItem inventoryItemUI)        //inventoryItemUI = 도착하는 아이템
         {
             //아이템을 드랍할 시
-            int index = listOfUIItems.IndexOf(inventoryItemUI);
-            if (index == -1)                        //빈칸이라면
-            {
+            int index = listOfUIItems.IndexOf(inventoryItemUI);     //index = 도착 index, currentlyDraggedItemIndex = 출발 index
+            InventoryItem inventoryItem = inventoryData.GetItemAt(currentlyDraggedItemIndex);   //출발 아이템
+            InventoryItem destinationItem = inventoryData.GetItemAt(index);                     //도착 아이템
+
+            if (index == currentlyDraggedItemIndex)     //같은 장소에 스왑이라면 취소한다.
                 return;
+            if (index == -1)
+                return;
+            if (!destinationItem.IsEmpty)
+            {
+                if (currentlyDraggedItemIndex == 36 && destinationItem.item.Type != ItemSO.ItemType.Melee)
+                    return;
+                if (currentlyDraggedItemIndex == 37 && destinationItem.item.Type != ItemSO.ItemType.Magic)
+                    return;
+                if (currentlyDraggedItemIndex == 38 && destinationItem.item.Type != ItemSO.ItemType.Range)
+                    return;
+                if ((currentlyDraggedItemIndex == 39 || currentlyDraggedItemIndex == 40) && destinationItem.item.Type != ItemSO.ItemType.Potion && destinationItem.item.Type != ItemSO.ItemType.Scroll)
+                    return;
+                if ((currentlyDraggedItemIndex == 41 || currentlyDraggedItemIndex == 42 || currentlyDraggedItemIndex == 43 || currentlyDraggedItemIndex == 44 || currentlyDraggedItemIndex == 45) && destinationItem.item.Type != ItemSO.ItemType.Trinket)
+                    return;
             }
+            //36 Melee, 37 Magic, 38 Range, 39~40 Consume, 41~45 Trinket
+            if (index == 36 && inventoryItem.item.Type != ItemSO.ItemType.Melee)
+                return;
+            if (index == 37 && inventoryItem.item.Type != ItemSO.ItemType.Magic)
+                return;
+            if (index == 38 && inventoryItem.item.Type != ItemSO.ItemType.Range)
+                return;
+            if ((index == 39 || index == 40) && inventoryItem.item.Type != ItemSO.ItemType.Potion && inventoryItem.item.Type != ItemSO.ItemType.Scroll)
+                return;
+            if ((index == 41 || index == 42 || index == 43 || index == 44 || index == 45) && inventoryItem.item.Type != ItemSO.ItemType.Trinket)
+                return;
+
             OnSwapItems?.Invoke(currentlyDraggedItemIndex, index);
             HandleItemSelection(inventoryItemUI);
         }
@@ -150,7 +235,7 @@ namespace Inventory.UI
             int index = listOfUIItems.IndexOf(inventoryItemUI);
             if (index == -1)
                 return;
-            OnDescriptionRequested?.Invoke(index);
+            OnDescriptionRequested?.Invoke(index);      //설명을 띄움.
         }
 
         public void Show()
@@ -192,6 +277,11 @@ namespace Inventory.UI
             actionPanel.Toggle(false);
             gameObject.SetActive(false);
             ResetDraggedItem();
+        }
+
+        internal void ResetDescription()
+        {
+            itemDescription.ResetDescription();
         }
     }
 }

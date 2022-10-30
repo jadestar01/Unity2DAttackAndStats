@@ -11,6 +11,7 @@ namespace Inventory.Model
         public string ActionName => "Equip";
 
         [field: SerializeField] public AudioClip actionSFX { get; private set; }
+        [field: SerializeField] public GameObject weapon;
 
         public bool PerformAction(GameObject character, List<ItemParameter> itemState = null)
         {

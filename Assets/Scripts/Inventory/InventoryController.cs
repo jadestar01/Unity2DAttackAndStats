@@ -72,6 +72,7 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
+                //아이템 장착
                 inventoryUI.ShowItemAction(itemIndex);
                 inventoryUI.AddAction(itemAction.ActionName, () => PerformAction(itemIndex));
             }
@@ -119,10 +120,11 @@ namespace Inventory
 
         private void HandleDragging(int itemIndex)
         {
-            //드래그한 곳이 빈 칸이 아니라면, 드래그 이미지 생성
+            //드래그를 시작 곳이 빈 칸이 아니라면, 드래그 이미지 생성
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
                 return;
+            inventoryUI.ResetSelection();   //11
             inventoryUI.CreateDraggedItem(inventoryItem.item.ItemImage, inventoryItem.quantity, inventoryItem.quality);
         }
 
@@ -134,6 +136,7 @@ namespace Inventory
         private void HandleDescriptionRequest(int itemIndex)
         {
             //아이템이 있는 위치를 알아낸 후, 아이템의 설명을 업데이트하며, 아이템을 선택한다.
+            inventoryUI.ResetDescription();
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
             {
@@ -143,21 +146,21 @@ namespace Inventory
             }
             ItemSO item = inventoryItem.item;
             string description = PrepareDescription(inventoryItem);
-            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, (int)item.Type, item.Quality, description);
+            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.Name, (int)item.Type, item.Quality, description);
         }
 
         private string PrepareDescription(InventoryItem inventoryItem)
         {
             //설명추가
             StringBuilder sb = new StringBuilder();
-            sb.Append(inventoryItem.item.Description);
-            sb.AppendLine();
             for (int i = 0; i < inventoryItem.itemState.Count; i++)
             {
                 sb.Append($"{inventoryItem.itemState[i].itemParameter.ParameterName}" +
                     $": {inventoryItem.itemState[i].value} / " +
                     $"{inventoryItem.item.DefaultParametersList[i].value}");
+                sb.AppendLine();
             }
+            sb.Append(inventoryItem.item.Description);
             return sb.ToString();
         }
 
@@ -189,6 +192,7 @@ namespace Inventory
             }
             else if (Input.GetKeyDown(KeyCode.Escape) && inventoryUI.isActiveAndEnabled == true)
             {
+                inventoryCanvas.gameObject.SetActive(false);
                 inventoryUI.Hide();
                 inventoryUI.ResetSelection();
             }

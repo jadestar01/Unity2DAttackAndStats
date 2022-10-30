@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8738618911668936402}
   - component: {fileID: 2833377313377542974}
   - component: {fileID: 4881766695534954490}
+  - component: {fileID: 2297624929674446398}
   m_Layer: 5
   m_Name: TxtBackground
   m_TagString: Untagged
@@ -38,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 21.8747, y: 15.6175}
+  m_SizeDelta: {x: 0, y: 15}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8738618911668936402
 CanvasRenderer:
@@ -99,11 +100,25 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2297624929674446398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653422122395155025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &2742237156578428539
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +336,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 22.5805, y: 22.1915}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &5819461062983350531
 CanvasRenderer:
@@ -486,7 +501,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2ed3e1e0614b84b499293e833079a1d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd66e5d724e088649ac358ebe04122c8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -594,6 +609,7 @@ MonoBehaviour:
   borderImage: {fileID: 904056248031934463}
   pallete: {fileID: 6213205705531018460, guid: b6579b3a3393e3740aa39b35aa50f62b, type: 3}
   empty: 1
+  itemQuality: 0
 --- !u!114 &8800039113197776637
 MonoBehaviour:
   m_ObjectHideFlags: 0

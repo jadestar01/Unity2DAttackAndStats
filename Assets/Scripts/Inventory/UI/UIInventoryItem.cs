@@ -61,7 +61,10 @@ namespace Inventory.UI
             //아이템 슬롯의 이미지와 개수를 설정한다. empty상태를 해제한다.
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
-            quantityTxt.text = quantity + "";
+            if (quantity != 1)
+                quantityTxt.text = quantity + "";
+            else
+                quantityTxt.text = "";
             slotImage.color = pallete.ColorPallete(quality);
             SetSlotColor(quality);
             empty = false;
