@@ -10,7 +10,7 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public float distance = 0.8f;
     public bool isAttack;
     [HideInInspector] public List<GameObject> anchor;
-    [HideInInspector] public List<GameObject> weapon;
+    [HideInInspector] public GameObject[] weapon = new GameObject[3];
     [SerializeField] private GameObject player;
 
     public GameObject Melee;
@@ -30,7 +30,7 @@ public class WeaponController : MonoBehaviour
     {
         isAttack = false;
         anchor = new List<GameObject>();
-        weapon = new List<GameObject>();
+        weapon = new GameObject[3];
 
         anchor.Add(Melee); anchor.Add(Magic); anchor.Add(Range);
     }
@@ -44,9 +44,9 @@ public class WeaponController : MonoBehaviour
 
     void GetWeapon()
     {
-        if (Melee.transform.childCount != 0) melee = Melee.transform.GetChild(0).gameObject; else melee = null;
-        if (Magic.transform.childCount != 0) magic = Magic.transform.GetChild(0).gameObject; else magic = null;
-        if (Range.transform.childCount != 0) range = Range.transform.GetChild(0).gameObject; else range = null;
+        if (Melee.transform.childCount != 0) melee = Melee.transform.GetChild(0).gameObject; else melee = null; weapon[0] = melee;
+        if (Magic.transform.childCount != 0) magic = Magic.transform.GetChild(0).gameObject; else magic = null; weapon[1] = magic;
+        if (Range.transform.childCount != 0) range = Range.transform.GetChild(0).gameObject; else range = null; weapon[2] = range;
     }
 
 
@@ -67,7 +67,13 @@ public class WeaponController : MonoBehaviour
         {
             mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             angle = Mathf.Atan2(mouse.y - transform.position.y, mouse.x - transform.position.x) * Mathf.Rad2Deg;
-            anchor[weaponActive].transform.position = player.transform.position;
+
+            //무기 회전
+            weapon[weaponActive].transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+            //무기 이동
+            position = new Vector2(mouse.x - weapon[weaponActive].transform.position.x, mouse.y - weapon[weaponActive].transform.position.y).normalized * distance;
+            weapon[weaponActive].transform.position = position + (Vector2)transform.position;
 
             /*
             //앵커 이동

@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
-  <Name>k__BackingField: Wood Sword
+  <Name>k__BackingField: "\uB098\uBB34 \uAC80"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: c6f40a93c4e860c4d8647d89d216a304, type: 3}
   Type: 3
   Quality: 1
-  <Description>k__BackingField: Made by wood
+  <Description>k__BackingField: "\uB098\uBB34\uB85C \uB9CC\uB4E4\uC5B4\uC9C4 \uAC80\uC785\uB2C8\uB2E4.
+    \uB0A0\uCE74\uB86D\uC9C0 \uC54A\uC544 \uC801\uC744 \uBCA0\uC5B4\uB0BC \uC218
+    \uC788\uC744 \uC9C0 \uC758\uBB38\uC774 \uB4ED\uB2C8\uB2E4."
   <DefaultParametersList>k__BackingField: []
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 3407823059085328157, guid: 9a8beb477f82339489275d926db85a19, type: 3}

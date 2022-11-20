@@ -151,6 +151,43 @@ namespace Inventory
 
         private string PrepareDescription(InventoryItem inventoryItem)
         {
+            StringBuilder sb = new StringBuilder();
+
+            //물리대미지
+            if (FindParamterCode(inventoryItem.itemState, 0) != -1 && FindParamterCode(inventoryItem.itemState, 1) != -1)
+            {
+                sb.Append($"대미지 : " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value} ~ " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 1)].value}");
+                sb.AppendLine();
+            }
+            if (FindParamterCode(inventoryItem.itemState, 2) != -1)
+            {
+                sb.Append($"치명타율 : " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 2)].value}%");
+                sb.AppendLine();
+            }
+            if (FindParamterCode(inventoryItem.itemState, 2) != -1)
+            {
+                sb.Append($"치명타 대미지 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 3)].value}%");
+                sb.AppendLine();
+            }
+
+            sb.Append(inventoryItem.item.Description);
+            return sb.ToString();
+        }
+
+        private int FindParamterCode(List<ItemParameter> list, int code)    //code의 index값을 얻어온다.
+        {
+            for (int i = 0; i < list.Count; i++)
+                if (list[i].itemParameter.ParameterCode == code)
+                    return i;
+            return -1;
+        }
+        /*
+        private string PrepareDescription(InventoryItem inventoryItem)
+        {
             //설명추가
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < inventoryItem.itemState.Count; i++)
@@ -163,6 +200,7 @@ namespace Inventory
             sb.Append(inventoryItem.item.Description);
             return sb.ToString();
         }
+         */
 
         public void Update()
         {
