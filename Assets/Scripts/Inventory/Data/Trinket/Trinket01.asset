@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
-  <Name>k__BackingField: Ruby Brooch
+  <Name>k__BackingField: "\uB8E8\uBE44 \uBE0C\uB85C\uCE58"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 500046fe348eb9f4d87b341d26563f62, type: 3}
   Type: 6
   Quality: 4
-  <Description>k__BackingField: 'that stone looks like blood, sometime that stone
-    looks like flowing
-
-'
+  <Description>k__BackingField: "\uD53C\uCC98\uB7FC \uBD89\uC740 \uC801\uD608\uC0C9\uC758
+    \uB8E8\uBE44\uAC00 \uBC15\uD78C \uBE0C\uB85C\uCE58\uC785\uB2C8\uB2E4.\n"
   <DefaultParametersList>k__BackingField: []
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
+  weapon: {fileID: 0}

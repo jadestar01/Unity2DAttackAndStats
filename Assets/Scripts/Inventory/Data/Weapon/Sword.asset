@@ -23,15 +23,13 @@ MonoBehaviour:
     \uCDA9\uBD84\uD788 \uC0AC\uC6A9\uD560 \uC218 \uC788\uB294 \uC815\uB3C4\uC758
     \uBB34\uAE30\uC785\uB2C8\uB2E4."
   <DefaultParametersList>k__BackingField:
-  - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
-    value: 100
   - itemParameter: {fileID: 11400000, guid: 16a0f362e87596f4a8d0f5091fee1722, type: 2}
-    value: 20
-  - itemParameter: {fileID: 11400000, guid: 4e88d4cd3dfbd444b83ad57c0c4127fa, type: 2}
     value: 20
   - itemParameter: {fileID: 11400000, guid: d2a62d67cfbd128419c24ba8a331fb54, type: 2}
     value: 210
   - itemParameter: {fileID: 11400000, guid: a3d939def2de0fd4687f040cd770f5b4, type: 2}
     value: 120
+  - itemParameter: {fileID: 11400000, guid: 4e88d4cd3dfbd444b83ad57c0c4127fa, type: 2}
+    value: 5
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 3454909072359264525, guid: 7a9e057e032336a4d9d5b97021c27ec6, type: 3}

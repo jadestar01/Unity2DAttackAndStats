@@ -21,6 +21,10 @@ MonoBehaviour:
   <Description>k__BackingField: "\uB098\uBB34\uB85C \uB9CC\uB4E4\uC5B4\uC9C4 \uAC80\uC785\uB2C8\uB2E4.
     \uB0A0\uCE74\uB86D\uC9C0 \uC54A\uC544 \uC801\uC744 \uBCA0\uC5B4\uB0BC \uC218
     \uC788\uC744 \uC9C0 \uC758\uBB38\uC774 \uB4ED\uB2C8\uB2E4."
-  <DefaultParametersList>k__BackingField: []
+  <DefaultParametersList>k__BackingField:
+  - itemParameter: {fileID: 11400000, guid: a3d939def2de0fd4687f040cd770f5b4, type: 2}
+    value: 10
+  - itemParameter: {fileID: 11400000, guid: d2a62d67cfbd128419c24ba8a331fb54, type: 2}
+    value: 20
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 3407823059085328157, guid: 9a8beb477f82339489275d926db85a19, type: 3}

@@ -64,27 +64,27 @@ namespace Inventory.UI
             {
                 case ItemQuality.None:
                     {
-                        return "None";
+                        return " ";
                     }
                 case ItemQuality.Normal:
                     {
-                        return "Normal";
+                        return "ÀÏ¹Ý";
                     }
                 case ItemQuality.Rare:
                     {
-                        return "Rare";
+                        return "Èñ±Í";
                     }
                 case ItemQuality.Epic:
                     {
-                        return "Epic";
+                        return "¼­»ç";
                     }
                 case ItemQuality.Unique:
                     {
-                        return "Unique";
+                        return "Æ¯º°";
                     }
                 case ItemQuality.Legendary:
                     {
-                        return "Legendary";
+                        return "Àü¼³";
                     }
             }
             return "";

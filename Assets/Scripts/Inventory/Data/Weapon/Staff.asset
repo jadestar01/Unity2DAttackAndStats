@@ -22,9 +22,11 @@ MonoBehaviour:
     \uC2A4\uD0DC\uD504\uC785\uB2C8\uB2E4. \uD3C9\uBC94\uD558\uAC8C \uBCFC \uC218
     \uC788\uB294 \uB9C8\uBC95\uB9E4\uAC1C\uCCB4\uC785\uB2C8\uB2E4."
   <DefaultParametersList>k__BackingField:
-  - itemParameter: {fileID: 11400000, guid: bb37956bb02313f44a62429c2a3605d1, type: 2}
-    value: 200
-  - itemParameter: {fileID: 11400000, guid: a3d939def2de0fd4687f040cd770f5b4, type: 2}
-    value: 100
+  - itemParameter: {fileID: 11400000, guid: 75bc48ed572c74847aaa9c8998e4bf30, type: 2}
+    value: 25
+  - itemParameter: {fileID: 11400000, guid: 37fcb9ab5f6ef4143bdee4ee5fd4d78d, type: 2}
+    value: 40
+  - itemParameter: {fileID: 11400000, guid: e8a4df56c679c3d4abe48d2e69649021, type: 2}
+    value: 3
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 7033108517766533365, guid: e3a7402c84624e644873f512bf565b53, type: 3}

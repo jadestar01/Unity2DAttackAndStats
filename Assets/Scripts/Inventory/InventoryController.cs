@@ -153,27 +153,210 @@ namespace Inventory
         {
             StringBuilder sb = new StringBuilder();
 
-            //물리대미지
-            if (FindParamterCode(inventoryItem.itemState, 0) != -1 && FindParamterCode(inventoryItem.itemState, 1) != -1)
+            //물리파라미터
+            if (FindParamterCode(inventoryItem.itemState, 10) != -1 ||
+               FindParamterCode(inventoryItem.itemState, 11) != -1 ||
+               FindParamterCode(inventoryItem.itemState, 12) != -1 ||
+               FindParamterCode(inventoryItem.itemState, 13) != -1 ||
+               FindParamterCode(inventoryItem.itemState, 14) != -1 ||
+               FindParamterCode(inventoryItem.itemState, 15) != -1)
             {
-                sb.Append($"대미지 : " +
-                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value} ~ " +
-                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 1)].value}");
+                sb.Append($"<size=1>");
+                sb.AppendLine();
+                sb.Append($"</size>");
+            }
+            //물리대미지
+            if (FindParamterCode(inventoryItem.itemState, 10) != -1 && FindParamterCode(inventoryItem.itemState, 11) != -1)
+            {
+                sb.Append($"물리대미지 : " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 10)].value} ~ " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 11)].value}");
                 sb.AppendLine();
             }
-            if (FindParamterCode(inventoryItem.itemState, 2) != -1)
+            //치명타율
+            if (FindParamterCode(inventoryItem.itemState, 12) != -1)
             {
                 sb.Append($"치명타율 : " +
-                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 2)].value}%");
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 12)].value}%");
                 sb.AppendLine();
             }
-            if (FindParamterCode(inventoryItem.itemState, 2) != -1)
+            //치명타대미지
+            if (FindParamterCode(inventoryItem.itemState, 13) != -1)
             {
                 sb.Append($"치명타 대미지 : " +
-                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 3)].value}%");
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 13)].value}%");
+                sb.AppendLine();
+            }
+            //공격속도
+            if (FindParamterCode(inventoryItem.itemState, 14) != -1)
+            {
+                sb.Append($"공격속도 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 14)].value}%");
+                sb.AppendLine();
+            }
+            //방어관통력
+            if (FindParamterCode(inventoryItem.itemState, 15) != -1)
+            {
+                sb.Append($"방어관통력 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 14)].value}");
                 sb.AppendLine();
             }
 
+            //마법파라미터
+            if (FindParamterCode(inventoryItem.itemState, 20) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 21) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 22) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 23) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 24) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 25) != -1)
+            {
+                sb.Append($"<size=10>");
+                sb.AppendLine();
+                sb.Append($"</size>");
+            }
+            //마법대미지
+            if (FindParamterCode(inventoryItem.itemState, 20) != -1 && FindParamterCode(inventoryItem.itemState, 21) != -1)
+            {
+                sb.Append($"마법대미지 : " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 20)].value} ~ " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 21)].value}");
+                sb.AppendLine();
+            }
+            //극대화율
+            if (FindParamterCode(inventoryItem.itemState, 22) != -1)
+            {
+                sb.Append($"극대화율 : " +
+                $"{inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 22)].value}%");
+                sb.AppendLine();
+            }
+            //극대화대미지
+            if (FindParamterCode(inventoryItem.itemState, 23) != -1)
+            {
+                sb.Append($"극대화 대미지 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 23)].value}%");
+                sb.AppendLine();
+            }
+            //주문속도
+            if (FindParamterCode(inventoryItem.itemState, 24) != -1)
+            {
+                sb.Append($"주문속도 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 23)].value}%");
+                sb.AppendLine();
+            }
+            //저항관통력
+            if (FindParamterCode(inventoryItem.itemState, 25) != -1)
+            {
+                sb.Append($"저항관통력 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 23)].value}");
+                sb.AppendLine();
+            }
+
+            //유틸파라미터
+            if (FindParamterCode(inventoryItem.itemState, 0) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 1) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 2) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 3) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 4) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 5) != -1)
+            {
+                sb.Append($"<size=10>");
+                sb.AppendLine();
+                sb.Append($"</size>");
+            }
+            //체력
+            if (FindParamterCode(inventoryItem.itemState, 0) != -1)
+            {
+                sb.Append($"체력 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value}");
+                sb.AppendLine();
+            }
+            //마나
+            if (FindParamterCode(inventoryItem.itemState, 1) != -1)
+            {
+                sb.Append($"마나 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 1)].value}");
+                sb.AppendLine();
+            }
+            //기력
+            if (FindParamterCode(inventoryItem.itemState, 2) != -1)
+            {
+                sb.Append($"기력 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 2)].value}");
+                sb.AppendLine();
+            }
+            //신속
+            if (FindParamterCode(inventoryItem.itemState, 3) != -1)
+            {
+                sb.Append($"신속 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 3)].value}%");
+                sb.AppendLine();
+            }
+            //가속
+            if (FindParamterCode(inventoryItem.itemState, 4) != -1)
+            {
+                sb.Append($"가속 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 4)].value}%");
+                sb.AppendLine();
+            }
+            //충격
+            if (FindParamterCode(inventoryItem.itemState, 5) != -1)
+            {
+                sb.Append($"충격 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 5)].value}");
+                sb.AppendLine();
+            }
+
+            //방어파라미터
+            if (FindParamterCode(inventoryItem.itemState, 30) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 31) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 32) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 33) != -1 ||
+                FindParamterCode(inventoryItem.itemState, 34) != -1)
+            {
+                sb.Append($"<size=10>");
+                sb.AppendLine();
+                sb.Append($"</size>");
+            }
+            //방어력
+            if (FindParamterCode(inventoryItem.itemState, 30) != -1)
+            {
+                sb.Append($"방어력 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value}");
+                sb.AppendLine();
+            }
+            //저항력
+            if (FindParamterCode(inventoryItem.itemState, 31) != -1)
+            {
+                sb.Append($"저항력 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value}");
+                sb.AppendLine();
+            }
+            //회피
+            if (FindParamterCode(inventoryItem.itemState, 32) != -1)
+            {
+                sb.Append($"회피 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value}%");
+                sb.AppendLine();
+            }
+            //근성
+            if (FindParamterCode(inventoryItem.itemState, 33) != -1)
+            {
+                sb.Append($"근성 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 33)].value}");
+                sb.AppendLine();
+            }
+            //감쇄
+            if (FindParamterCode(inventoryItem.itemState, 34) != -1)
+            {
+                sb.Append($"감쇄 : " +
+                $"+ {inventoryItem.itemState[FindParamterCode(inventoryItem.itemState, 0)].value}%");
+                sb.AppendLine();
+            }
+
+
+            sb.Append($"<size=10>");
+            sb.AppendLine();
+            sb.Append($"</size>");
             sb.Append(inventoryItem.item.Description);
             return sb.ToString();
         }

@@ -63,42 +63,43 @@ namespace Inventory.UI
             gameObject.SetActive(true);
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
-            title.text = itemName;
+            this.title.text = itemName;
+            this.title.color = pallete.ColorPallete(quality);
             switch (type)
             {
                 case (int)ItemType.None:
                     {
-                        this.type.text = "None";
+                        this.type.text = " ";
                         break;
                     }
                 case (int)ItemType.Potion:
                     {
-                        this.type.text = "Potion";
+                        this.type.text = "器记";
                         break;
                     }
                 case (int)ItemType.Scroll:
                     {
-                        this.type.text = "Scroll";
+                        this.type.text = "胶农费";
                         break;
                     }
                 case (int)ItemType.Melee:
                     {
-                        this.type.text = "Melee";
+                        this.type.text = "辟立公扁";
                         break;
                     }
                 case (int)ItemType.Magic:
                     {
-                        this.type.text = "Magic";
+                        this.type.text = "付过公扁";
                         break;
                     }
                 case (int)ItemType.Range:
                     {
-                        this.type.text = "Range";
+                        this.type.text = "盔芭府公扁";
                         break;
                     }
                 case (int)ItemType.Trinket:
                     {
-                        this.type.text = "Trinket";
+                        this.type.text = "厘脚备";
                         break;
                     }
             }

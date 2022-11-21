@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 1
   <MaxStackSize>k__BackingField: 10
-  <Name>k__BackingField: Magic Scroll
+  <Name>k__BackingField: "\uB9C8\uBC95 \uC2A4\uD06C\uB864"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 83b662449dd49864c8ac4a87b1e533d8, type: 3}
   Type: 2
   Quality: 1
-  <Description>k__BackingField: This scroll is make you stronger
+  <Description>k__BackingField: "\uB79C\uB364 \uB9C8\uBC95\uC774 \uB2F4\uAE34 \uC2A4\uD06C\uB864\uC785\uB2C8\uB2E4."
   <DefaultParametersList>k__BackingField: []
   modifierData: []
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
