@@ -11,6 +11,7 @@ namespace Inventory.UI
 {
     public class UIInventoryPage : MonoBehaviour
     {
+        [SerializeField] private PlayerLevel playerLevel;
         [SerializeField] private UIInventoryItem itemPrefab;                    //아이템 슬롯 프리펩
         [SerializeField] UIInventoryDescription itemDescription;                //아이템의 설명을 출력
         [SerializeField] MouseFollower mouseFollower;                           //마우스 추적자
@@ -45,7 +46,6 @@ namespace Inventory.UI
                     itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y - 60, 0);
                 else
                     itemDescription.transform.position = new Vector3(dr.transform.position.x, dr.transform.position.y + 60 + itemDescription.nameHeight + itemDescription.descriptionHeight, 0);
-
             }
         }
 
@@ -168,8 +168,37 @@ namespace Inventory.UI
         {
             //아이템을 드랍할 시
             int index = listOfUIItems.IndexOf(inventoryItemUI);     //index = 도착 index, currentlyDraggedItemIndex = 출발 index
-            InventoryItem inventoryItem = inventoryData.GetItemAt(currentlyDraggedItemIndex);   //출발 아이템
-            InventoryItem destinationItem = inventoryData.GetItemAt(index);                     //도착 아이템
+            InventoryItem inventoryItem = inventoryData.GetItemAt(currentlyDraggedItemIndex);   //출발위치 아이템
+            InventoryItem destinationItem = inventoryData.GetItemAt(index);                     //도착위치 아이템
+
+            //요구 레벨 제한
+            bool inventoryItemRequiresLevel = false;
+            int inventoryItemRequiersLevelExist = -1;
+            for (int i = 0; i < inventoryItem.itemState.Count; i++)
+                if (inventoryItem.itemState[i].itemParameter.ParameterCode == 6)
+                    inventoryItemRequiersLevelExist = i;
+            if (inventoryItemRequiersLevelExist != -1)
+                inventoryItemRequiresLevel = playerLevel.lv >= inventoryItem.itemState[inventoryItemRequiersLevelExist].value;
+            else                                              
+                inventoryItemRequiresLevel = true;
+            bool destinationItemRequiresLevel = false;  
+            int destinationItemRequiersLevelExist = -1;
+            if (!destinationItem.IsEmpty)
+            {
+                for (int i = 0; i < destinationItem.itemState.Count; i++)
+                    if (destinationItem.itemState[i].itemParameter.ParameterCode == 6)
+                        destinationItemRequiersLevelExist = i;
+                if (destinationItemRequiersLevelExist != -1)          
+                    destinationItemRequiresLevel = playerLevel.lv >= destinationItem.itemState[destinationItemRequiersLevelExist].value;
+                else                                                
+                    destinationItemRequiresLevel = true;
+            }
+            else
+                destinationItemRequiresLevel = true;
+            if (index >= 36 && index <= 45 && !inventoryItemRequiresLevel)
+                return;
+            if (currentlyDraggedItemIndex >= 36 && currentlyDraggedItemIndex <= 45 && !destinationItemRequiresLevel)
+                return;
 
             if (index == currentlyDraggedItemIndex)     //같은 장소에 스왑이라면 취소한다.
                 return;

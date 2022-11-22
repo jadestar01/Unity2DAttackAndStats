@@ -17,7 +17,6 @@ public class WeaponController : MonoBehaviour
     public GameObject Magic;
     public GameObject Range;
 
-    //수정필요, weaponaget에서 받아오자.
     private GameObject melee;
     private GameObject magic;
     private GameObject range;
@@ -63,7 +62,7 @@ public class WeaponController : MonoBehaviour
 
     void WeaponTransform()
     {
-        if (!isAttack)
+        if (!isAttack && WeaponInHand())
         {
             mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             angle = Mathf.Atan2(mouse.y - transform.position.y, mouse.x - transform.position.x) * Mathf.Rad2Deg;
@@ -72,25 +71,15 @@ public class WeaponController : MonoBehaviour
             weapon[weaponActive].transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
             //무기 이동
-            position = new Vector2(mouse.x - weapon[weaponActive].transform.position.x, mouse.y - weapon[weaponActive].transform.position.y).normalized * distance;
-            weapon[weaponActive].transform.position = position + (Vector2)transform.position;
+            weapon[weaponActive].transform.position = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * distance + (Vector2)transform.position;
 
-            /*
-            //앵커 이동
-            child[weaponActive].transform.GetChild(0).transform.position = transform.parent.position;
-
-            //유예거리
-            position = new Vector2(mouse.x - child[weaponActive].transform.GetChild(0).transform.position.x, mouse.y - child[weaponActive].transform.GetChild(0).transform.position.y).normalized * distance;
-            child[weaponActive].transform.GetChild(0).transform.position = position + (Vector2)transform.position;
-
-            //회전
-            angle = Mathf.Atan2(mouse.y - transform.position.y, mouse.x - transform.position.x) * Mathf.Rad2Deg;
-            child[weaponActive].transform.GetChild(0).transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-
-            //플립
-            if (mouse.x - child[weaponActive].transform.GetChild(0).transform.position.x >= 0) child[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
-            else if (mouse.x - child[weaponActive].transform.GetChild(0).transform.position.x < 0) child[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
-            */
+            if (mouse.x >= player.transform.position.x) weapon[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
+            else if (mouse.x < player.transform.position.x) weapon[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
         }
+    }
+
+    bool WeaponInHand()
+    {
+        return anchor[weaponActive].transform.childCount != 0;
     }
 }

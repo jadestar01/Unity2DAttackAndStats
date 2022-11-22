@@ -154,29 +154,31 @@ namespace Inventory.Model
 
         public void SwapItems(int itemIndex_1, int itemIndex_2)
         {
-            //1이 드래그한 것, 2가 드랍한 것
             InventoryItem item1;
             item1 = inventoryItems[itemIndex_1];
             inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
             inventoryItems[itemIndex_2] = item1;
             InformAboutChange();
-            if (inventoryItems[itemIndex_1].item.ID == inventoryItems[itemIndex_2].item.ID)
+            if (!inventoryItems[itemIndex_1].IsEmpty)
             {
-                if (inventoryItems[itemIndex_1].quantity + inventoryItems[itemIndex_2].quantity <= inventoryItems[itemIndex_1].item.MaxStackSize)
+                if (inventoryItems[itemIndex_1].item.ID == inventoryItems[itemIndex_2].item.ID)
                 {
-                    //둘의 합이 최대 수량보다 적다면
-                    //1을 지우고, 2를 그 수만큼 채운다.
-                    inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_1].quantity + inventoryItems[itemIndex_2].quantity);
-                    inventoryItems[itemIndex_1] = InventoryItem.GetEmptyItem();
-                    InformAboutChange();
-                }
-                else
-                {
-                    //도착점이 맥스가 아니라면, 도착점을 맥스로 정하고 1에 나머지를 넣는다.
-                    int amount = (inventoryItems[itemIndex_2].quantity + inventoryItems[itemIndex_1].quantity) - inventoryItems[itemIndex_2].item.MaxStackSize;
-                    inventoryItems[itemIndex_1] = inventoryItems[itemIndex_1].ChangeQuantity(amount);
-                    inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_1].item.MaxStackSize);
-                    InformAboutChange();
+                    if (inventoryItems[itemIndex_1].quantity + inventoryItems[itemIndex_2].quantity <= inventoryItems[itemIndex_1].item.MaxStackSize)
+                    {
+                        //둘의 합이 최대 수량보다 적다면
+                        //1을 지우고, 2를 그 수만큼 채운다.
+                        inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_1].quantity + inventoryItems[itemIndex_2].quantity);
+                        inventoryItems[itemIndex_1] = InventoryItem.GetEmptyItem();
+                        InformAboutChange();
+                    }
+                    else
+                    {
+                        //도착점이 맥스가 아니라면, 도착점을 맥스로 정하고 1에 나머지를 넣는다.
+                        int amount = (inventoryItems[itemIndex_2].quantity + inventoryItems[itemIndex_1].quantity) - inventoryItems[itemIndex_2].item.MaxStackSize;
+                        inventoryItems[itemIndex_1] = inventoryItems[itemIndex_1].ChangeQuantity(amount);
+                        inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_1].item.MaxStackSize);
+                        InformAboutChange();
+                    }
                 }
             }
         }
