@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StatUI : MonoBehaviour
 {
+    /*
     public GameObject UI;
     bool isUIOpen;
     public GameObject character;
@@ -40,4 +41,5 @@ public class StatUI : MonoBehaviour
     {
         character.GetComponent<Stats>().statArr[(int)stat.DEX].AddStat(1);
     }
+    */
 }

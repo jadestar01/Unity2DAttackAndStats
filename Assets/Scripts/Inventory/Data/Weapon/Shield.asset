@@ -27,5 +27,7 @@ MonoBehaviour:
     value: 20
   - itemParameter: {fileID: 11400000, guid: 0a913cc8eb04b7a41b50f406012a8aa7, type: 2}
     value: 23
+  - itemParameter: {fileID: 11400000, guid: d133c1a9716bf9d4085d174d2b85083e, type: 2}
+    value: 7
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 0}

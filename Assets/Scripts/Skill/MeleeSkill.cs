@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 
 public class MeleeSkill : MonoBehaviour
 {
+    /*
     public GameObject Player;
     public GameObject Melee ;
     public GameObject WeaponController;
@@ -133,4 +134,5 @@ public class MeleeSkill : MonoBehaviour
             }
         }
     }
+    */
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    /*
     enum stat { STR, INT, DEX };
     [Header("Skill Stats")]
     public int initSTR;
@@ -120,4 +121,5 @@ public class Stats : MonoBehaviour
             }
         }
     }
+    */
 }

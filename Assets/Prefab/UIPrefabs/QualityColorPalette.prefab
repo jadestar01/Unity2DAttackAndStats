@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94b3f4b2d6b849488bfbad3a29af767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  None: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+  None: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
   Normal: {r: 0.36301374, g: 1, b: 0, a: 1}
   Rare: {r: 0, g: 0.64783025, b: 1, a: 1}
-  Epic: {r: 0.7125349, g: 0, b: 1, a: 1}
+  Epic: {r: 0.8204033, g: 0.3726415, b: 1, a: 1}
   Unique: {r: 1, g: 0.989954, b: 0, a: 1}
   Legendary: {r: 1, g: 0.55868834, b: 0, a: 1}

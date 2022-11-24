@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SuperSkill : MonoBehaviour
 {
+    /*
     public static GameObject player;
     public static WeaponController weaponController;
 
@@ -42,12 +43,10 @@ public class SuperSkill : MonoBehaviour
             player.GetComponent<Move>().speedCoefficint = speed;
         }
         
-        /*
         IEnumerator CoolDownCor()
         {
             
         }
-        */
 
         public bool CheckMP()
         { return player.GetComponent<Resource>().curMP >= costMP && player.GetComponent<Resource>().curMP - costMP >= 0; }
@@ -69,4 +68,5 @@ public class SuperSkill : MonoBehaviour
             return weaponController.isAttack;
         }
     }
+    */
 }

@@ -192,7 +192,7 @@ namespace Inventory.Model
 
     [Serializable]
     //객체배열보다 구조체배열이 좋음
-    public struct InventoryItem
+    public struct InventoryItem                                                 //Inventory Item의 실체
     {
         public int quantity;
         public ItemQuality quality;
