@@ -12,21 +12,27 @@ public class BuffUI : MonoBehaviour
     [SerializeField] private Image buffImage;
     [SerializeField] private Image backImage;
     [SerializeField] private TMP_Text durationTxt;
-    private string name;
-    private string description;
+    public string Name;
+    private string Description;
     public float duration;
     float filler;
     float timer;
+    public bool isBuffEnd = false;
 
     private void Start()
     {
+        filler = 0.0f;
+        timer = duration;
+        isBuffEnd = false;
     }
 
     private void Update()
     {
         backImage.fillAmount = filler;
         durationTxt.text = timer.ToString("F1") + "s";
-        if (timer == duration)
+        if (timer == 0)
+            isBuffEnd = true;
+        if (isBuffEnd)
             Destroy(gameObject);
     }
 
@@ -34,8 +40,8 @@ public class BuffUI : MonoBehaviour
     {
         buffImage.sprite = image;
         backImage.sprite = image;
-        this.name = name;
-        this.description = description;
+        this.Name = name;
+        this.Description = description;
         this.duration = duration;
 
         StartBuff(duration);
@@ -48,10 +54,5 @@ public class BuffUI : MonoBehaviour
         timer = duration;
         DOTween.To(() => filler, x => filler = x, 1, duration).SetEase(Ease.Linear); ;
         DOTween.To(() => timer, x => timer = x, 0, duration).SetEase(Ease.Linear); ;
-    }
-
-    public void DestroyBuff()
-    {
-        Destroy(gameObject);
     }
 }

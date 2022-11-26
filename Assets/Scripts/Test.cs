@@ -5,18 +5,34 @@ using DG.Tweening;
 
 public class Test : MonoBehaviour
 {
-    public int time = 5;
-    public float degree;
+    public Dictionary<int, string> dic;
     // Start is called before the first frame update
     void Start()
     {
+        dic = new Dictionary<int, string>();
+        dic.Add(10, "A");
+        dic.Add(20, "B");
+        dic.Add(30, "C");
+        StartCoroutine(a());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R)) transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        if (Input.GetKeyDown(KeyCode.Q)) transform.DORotate(new Vector3(0, 0, degree), time, RotateMode.LocalAxisAdd);
-        if (Input.GetKeyDown(KeyCode.E)) transform.DORotate(new Vector3(0, 0, -1 * degree), time, RotateMode.LocalAxisAdd);
+        PrintDic();
+    }
+
+    void PrintDic()
+    {
+        foreach (KeyValuePair<int, string> data in dic)
+        {
+            Debug.Log(data.Key + " " + data.Value);
+        }
+    }
+
+    IEnumerator a()
+    {
+        yield return new WaitForSeconds(5.0f);
+        dic.Remove(10);
     }
 }

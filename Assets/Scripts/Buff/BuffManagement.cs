@@ -1,86 +1,91 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class BuffManagement : MonoBehaviour
 {
     //buff에서 함수(시간/틱)을 받아와서 코루틴을 등록해서 작동시킨다.
     public GameObject buffSlotPrefab;
+    [SerializeField] private List<ContentSizeFitter> csf;
     public RectTransform Buff;
     public RectTransform Debuff;
-    private Dictionary<int, BuffSO> buffList;
-    private Dictionary<int, GameObject> buffSlotList;
+    private Dictionary<int, BuffData> buffList;
     public BuffSO buff1;
     public BuffSO buff2;
 
     private void Start()
     {
-        buffList = new Dictionary<int, BuffSO>();
+        buffList = new Dictionary<int, BuffData>();
     }
 
     private void Update()
     {
-        foreach (KeyValuePair<int, BuffSO> buff in buffList)
-        {
-            Debug.Log(buff.Value.Name);
-        }
+        //EndBuff();
     }
 
     public void Pain()
     {
-        AddBuff(buff1);
+        AddBuff(buff1, gameObject);
     }
     public void Poison()
     {
-        AddBuff(buff2);
+        AddBuff(buff2, gameObject);
     }
 
-    void AddBuff(BuffSO buff)                                               //버프를 리스트에 추가한다.
+    void AddBuff(BuffSO buff, GameObject target)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
     {
-        //중복 버프 제거
-        if (buffList.ContainsKey(buff.BuffCode))                            //같은 코드의 버프가 이미 있다면,
+        if (buffList.ContainsKey(buff.BuffCode))
         {
-            StopCoroutine(buffList[buff.BuffCode].Cor);                     //해당 코드의 코루틴을 종료시키고,
-            buffList.Remove(buff.BuffCode);                                 //버프 리스트에서 지운다.
+            //중복발생
+            Debug.Log(buff.Name + "은 중복되었습니다!");
+            Destroy(buffList[buff.BuffCode].buffSlot);
+            StopCoroutine(buffList[buff.BuffCode].buff.Cor);
+            buffList.Remove(buff.BuffCode);
         }
-        //버프 적용
-        buffList.Add(buff.BuffCode, buff);                                  //버프 리스트에 추가하고,
-        buffList[buff.BuffCode].Cor = StartCoroutine(BuffActive(buff));     //해당 코드의 코루틴을 시작시킨다.
-    }
-
-    IEnumerator BuffActive(BuffSO buff)
-    {
-        //Duration동안 Tick마다 버프를 적용시킨다.
-        float ticker = 0.0f;
-        while (buff.Duration > ticker)
-        {
-            buff.AffectTarget(gameObject);
-            yield return new WaitForSeconds(buff.Tick);
-            ticker += buff.Tick;
-        }
-        buffList.Remove(buff.BuffCode);
-    }
-
-    GameObject BuffSlotStarter(BuffSO buff)
-    {
-        GameObject buffObject = Instantiate(buffSlotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        buffObject.GetComponent<BuffUI>().SetBuff(buff.Image, buff.Name, buff.Description, buff.Duration);
-
+        BuffData buffData = new BuffData();
+        GameObject buffSlot = Instantiate(buffSlotPrefab, Vector2.zero, Quaternion.identity);
         if (buff.Type == BuffSO.BuffType.Buff)
-            buffObject.transform.SetParent(Buff);
-        else
-            buffObject.transform.SetParent(Debuff);
-        return buffObject;
+            buffSlot.transform.SetParent(Buff);
+        else if (buff.Type == BuffSO.BuffType.Debuff)
+            buffSlot.transform.SetParent(Debuff);
+        buffData.Setter(buff, target, buffSlot);
+        buffList.Add(buff.BuffCode, buffData);
+        buffList[buff.BuffCode].buff.Cor = StartCoroutine(buffList[buff.BuffCode].BuffActive());
     }
 
-    public struct BuffSlot
+    public struct BuffData
     {
-        int code;
-        string name;
-        string description;
-        float duration;
-        Sprite Image;
+        public BuffSO buff;
+        public BuffUI buffUI;
+        public GameObject buffSlot;
+        public GameObject target;
+        float ticker;
+
+        public void Setter(BuffSO buff, GameObject target, GameObject buffSlot)
+        {
+            this.buff = buff;
+            this.target = target;
+            this.buffSlot = buffSlot;
+            buffUI = buffSlot.GetComponent<BuffUI>();
+            ticker = 0;
+
+            buffUI.SetBuff(buff.Image, buff.Name, buff.Description, buff.Duration);
+        }
+
+        public IEnumerator BuffActive()
+        {
+            while (buff.Duration > ticker)
+            {
+                yield return new WaitForSeconds(buff.Tick);
+                buff.AffectTarget(target);
+                ticker += buff.Tick;
+            }
+        }
     }
 }
