@@ -6,12 +6,14 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Threading;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 
-public class BuffUI : MonoBehaviour
+public class BuffUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image buffImage;
     [SerializeField] private Image backImage;
     [SerializeField] private TMP_Text durationTxt;
+
     public string Name;
     private string Description;
     public float duration;
@@ -19,8 +21,13 @@ public class BuffUI : MonoBehaviour
     float timer;
     public bool isBuffEnd = false;
 
+    private BuffManagement buffManagement;
+    bool isMouseOver;
+
     private void Start()
     {
+        isMouseOver = false;
+        buffManagement = FindObjectOfType<BuffManagement>();
         filler = 0.0f;
         timer = duration;
         isBuffEnd = false;
@@ -33,7 +40,11 @@ public class BuffUI : MonoBehaviour
         if (timer == 0)
             isBuffEnd = true;
         if (isBuffEnd)
+        {
             Destroy(gameObject);
+            if(isMouseOver)
+                buffManagement.TooltipInactive();
+        }
     }
 
     public void SetBuff(Sprite image, string name, string description, float duration)
@@ -54,5 +65,19 @@ public class BuffUI : MonoBehaviour
         timer = duration;
         DOTween.To(() => filler, x => filler = x, 1, duration).SetEase(Ease.Linear); ;
         DOTween.To(() => timer, x => timer = x, 0, duration).SetEase(Ease.Linear); ;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isMouseOver = true;
+        buffManagement.TooltipActive();
+        BuffTooltip tooltip = FindObjectOfType<BuffTooltip>();
+        tooltip.TooltipActive(Name, Description, gameObject.GetComponent<RectTransform>().position + new Vector3(200, 0, 0));
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isMouseOver = false;
+        buffManagement.TooltipInactive();
     }
 }

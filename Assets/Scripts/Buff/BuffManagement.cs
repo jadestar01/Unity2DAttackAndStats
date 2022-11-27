@@ -18,15 +18,11 @@ public class BuffManagement : MonoBehaviour
     private Dictionary<int, BuffData> buffList;
     public BuffSO buff1;
     public BuffSO buff2;
+    public GameObject buffTooltip;
 
     private void Start()
     {
         buffList = new Dictionary<int, BuffData>();
-    }
-
-    private void Update()
-    {
-        //EndBuff();
     }
 
     public void Pain()
@@ -50,14 +46,20 @@ public class BuffManagement : MonoBehaviour
         }
         BuffData buffData = new BuffData();
         GameObject buffSlot = Instantiate(buffSlotPrefab, Vector2.zero, Quaternion.identity);
+
         if (buff.Type == BuffSO.BuffType.Buff)
             buffSlot.transform.SetParent(Buff);
         else if (buff.Type == BuffSO.BuffType.Debuff)
             buffSlot.transform.SetParent(Debuff);
+
         buffData.Setter(buff, target, buffSlot);
         buffList.Add(buff.BuffCode, buffData);
         buffList[buff.BuffCode].buff.Cor = StartCoroutine(buffList[buff.BuffCode].BuffActive());
     }
+
+    public void TooltipActive() { buffTooltip.SetActive(true); }
+
+    public void TooltipInactive(){ buffTooltip.SetActive(false); }
 
     public struct BuffData
     {

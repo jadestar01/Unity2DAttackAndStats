@@ -5,12 +5,7 @@ using UnityEngine.UI;
 
 public abstract class BuffSO : ScriptableObject
 {
-    public enum BuffType
-    {
-        None,
-        Buff,
-        Debuff
-    };
+    public enum BuffType { None, Buff, Debuff };
 
     [field: SerializeField] public Sprite Image { get; set; }                           //버프 이미지
     [field: SerializeField] public int BuffCode;                                        //버프 코드
