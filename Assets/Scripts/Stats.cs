@@ -10,9 +10,16 @@ using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static BuffManagement;
 
 public class Stats : MonoBehaviour
 {
+    public float initHealth;
+    public float initMana;
+    public float initStamina;
+    public float curHealth;
+    public float curMana;
+    public float curStamina;
     public float health;
     public float mana;
     public float stamina;
@@ -38,11 +45,19 @@ public class Stats : MonoBehaviour
     public float diminution;
 
     bool isItemChanged;
-
     int size = 8;
+
     [SerializeField] private InventorySO inventoryData;
+
+    [SerializeField] private BuffManagement buffManagement;
+
+    [SerializeField] private Dictionary<int, BuffData> temporaryData = new Dictionary<int, BuffData>();  //주기적으로 버프의 업데이트를 확인
+    [SerializeField] private Dictionary<int, BuffData> buffData = new Dictionary<int, BuffData>();
+    float[] buffStat = new float[50];
+
     Dictionary<int, float> playerStat = new Dictionary<int, float>();
-    InventoryItem[] temporaryList = new InventoryItem[8];       //주기적으로 아이템의 업데이트를 확인
+
+    InventoryItem[] temporaryList = new InventoryItem[8];               //주기적으로 아이템의 업데이트를 확인
     InventoryItem[] hotbarList = new InventoryItem[8];
     int[] slotNum = new int[8];
     int[] statNum = new int[23];
@@ -50,6 +65,7 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         Init();
+        SetStat();
     }
 
     private void Update()
@@ -57,12 +73,17 @@ public class Stats : MonoBehaviour
         UpdateTemporary();
         ListCompare();
         ListCopy();
+        BuffDataReader();
     }
-    //파라미터를 읽어서 값들을 적용시킨다.
 
     void Init()
     {
+        curHealth = initHealth;
+        curMana = initMana;
+        curStamina = initStamina;
+
         isItemChanged = false;
+
         slotNum[0] = 36;    //Melee
         slotNum[1] = 37;    //Magic
         slotNum[2] = 38;    //Range
@@ -211,145 +232,64 @@ public class Stats : MonoBehaviour
 
     void SetStat()
     {
-        health = playerStat[0];
-        mana = playerStat[1];
-        stamina = playerStat[2];
-        speed = playerStat[3];
-        haste = playerStat[4];
-        strike = playerStat[5];
-        physicalMinDmg = playerStat[10];
-        physicalMaxDmg = playerStat[11];
-        physicalCritRate = playerStat[12];
-        physicalCritDmg = playerStat[13];
-        physicalAttackSpeed = playerStat[14];
-        physicalPenetration = playerStat[15];
-        magicalMinDmg = playerStat[20];
-        magicalMaxDmg = playerStat[21];
-        magicalCritRate = playerStat[22];
-        magicalCritDmg = playerStat[23];
-        magicalAttackSpeed = playerStat[24];
-        magicalPenetration = playerStat[25];
-        armor = playerStat[30];
-        registance = playerStat[31];
-        dodge = playerStat[32];
-        grit = playerStat[33];
-        diminution = playerStat[34];
+        health = playerStat[0] + buffStat[0] + initHealth ;
+        mana = playerStat[1] + buffStat[1] + initMana;
+        stamina = playerStat[2] + buffStat[2] + initStamina;
+        speed = playerStat[3] + buffStat[3];
+        haste = playerStat[4] + buffStat[4];
+        strike = playerStat[5] + buffStat[5];
+        physicalMinDmg = playerStat[10] + buffStat[10];
+        physicalMaxDmg = playerStat[11] + buffStat[11];
+        physicalCritRate = playerStat[12] + buffStat[12];
+        physicalCritDmg = playerStat[13] + buffStat[13];
+        physicalAttackSpeed = playerStat[14] + buffStat[14];
+        physicalPenetration = playerStat[15] + buffStat[15];
+        magicalMinDmg = playerStat[20] + buffStat[20];
+        magicalMaxDmg = playerStat[21] + buffStat[21];
+        magicalCritRate = playerStat[22] + buffStat[22];
+        magicalCritDmg = playerStat[23] + buffStat[23];
+        magicalAttackSpeed = playerStat[24] + buffStat[24];
+        magicalPenetration = playerStat[25] + buffStat[25];
+        armor = playerStat[30] + buffStat[30];
+        registance = playerStat[31] + buffStat[31];
+        dodge = playerStat[32] + buffStat[32];
+        grit = playerStat[33] + buffStat[33];
+        diminution = playerStat[34] + buffStat[34];
     }
 
-
-    /*
-    enum stat { STR, INT, DEX };
-    [Header("Skill Stats")]
-    public int initSTR;
-    public int initINT;
-    public int initDEX;
-    [Space]
-
-    public Stat[] statArr = new Stat[3];
-
-    public int health;
-    public int mana;
-    public int focus;
-
-    public int physicalForce;
-    public int magicalForce;
-
-    public class Stat
+    void BuffDataReader()
     {
-        int stat;
-        int preStat;
-
-        int health;
-        int mana;
-        int focus;
-        int physicalForce;
-        int magicalForce;
-
-        public Stat(int stat, int health, int mana, int focus, int physicalForce, int magicalForce)
-        { 
-            this.stat = stat;
-            preStat = stat;
-            this.health = health;
-            this.mana = mana;
-            this.focus = focus;
-            this.physicalForce = physicalForce;
-            this.magicalForce = magicalForce;
-        }
-        public bool StatUpdate() //스텟을 업데이트하고, 스텟 업데이트를 체크한다.
+        temporaryData = buffManagement.buffList;        //버프 데이터를 임시저장소에 저장한다.
+        if (!(buffData.Count == temporaryData.Count && !buffData.Except(temporaryData).Any())) //개수가 같고, 차집합이 없다면 둘은 같다는 의미다. 이에 역이니 다르다면이 된다.
         {
-            if (preStat == stat)
-                return false;
-            else { preStat = stat; return true; }
-        }
-
-        public int GetStat()
-        {
-            return stat;
-        }
-
-        public void SetStat(int set)
-        {
-            stat = set;
-        }
-
-        public void AddStat(int add)
-        {
-            stat += add;
-        }
-
-        public int GetHealth()
-        { return health; }
-        public int GetMana()
-        { return mana; }
-        public int GetFocus()
-        { return focus; }
-        public int GetPhysicalForce()
-        { return physicalForce; }
-        public int GetMagicalForce()
-        { return magicalForce; }
-    }
-
-    void Start()
-    {
-        //stat health mana focus phsical magical
-        statArr[(int)stat.STR] = new Stat(initSTR, 7, 0, 1, 5, 0);
-        statArr[(int)stat.INT] = new Stat(initINT, 2, 3, 0, 0, 8);
-        statArr[(int)stat.DEX] = new Stat(initDEX, 2, 0, 3, 8, 0);
-
-        for (int i = 0; i < statArr.Length; i++)
-        {
-            health += statArr[i].GetHealth() * statArr[i].GetStat();
-            mana += statArr[i].GetMana() * statArr[i].GetStat();
-            focus += statArr[i].GetFocus() * statArr[i].GetStat();
-            physicalForce += statArr[i].GetPhysicalForce() * statArr[i].GetStat();
-            magicalForce += statArr[i].GetMagicalForce() * statArr[i].GetStat();
-        }
-    }
-
-    void Update()
-    {
-        StatCheckAndUpdate();
-    }
-
-    void StatCheckAndUpdate()
-    {
-        bool isUpdated = false;
-
-        for (int i = 0; i < statArr.Length; i++)
-            if (statArr[i].StatUpdate()) isUpdated = true;
-
-        if (isUpdated)
-        {
-            health = 0; mana = 0; focus = 0; physicalForce = 0; magicalForce = 0;
-            for (int i = 0; i < statArr.Length; i++)
+            buffData.Clear();
+            //Debug.Log("버프 데이터 갱신");
+            foreach (KeyValuePair<int, BuffData> bd in temporaryData)
             {
-                health += statArr[i].GetHealth() * statArr[i].GetStat();
-                mana += statArr[i].GetMana() * statArr[i].GetStat();
-                focus += statArr[i].GetFocus() * statArr[i].GetStat();
-                physicalForce += statArr[i].GetPhysicalForce() * statArr[i].GetStat();
-                magicalForce += statArr[i].GetMagicalForce() * statArr[i].GetStat();
+                buffData.Add(bd.Key, bd.Value);
+            }
+
+            BuffParameterUpdate();
+            SetStat();
+        }
+    }
+
+    void BuffParameterUpdate()
+    {
+        for (int i = 0; i < 50; i++)
+            buffStat[i] = 0;
+        foreach (KeyValuePair<int, BuffData> buff in buffData)
+        {
+            if (!buff.Value.buff.isTicking)
+            {
+                //Debug.Log("버프 확인! " + buff.Value.buff.Name);
+                StatBuffSO statBuff = (StatBuffSO)buff.Value.buff;
+                foreach (ItemParameter stat in statBuff.stat)
+                {
+                    //Debug.Log(stat.itemParameter.ParameterCode + "에 " + stat.value + "추가");
+                    buffStat[stat.itemParameter.ParameterCode] += stat.value;
+                }
             }
         }
     }
-    */
 }
