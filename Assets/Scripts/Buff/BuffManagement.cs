@@ -19,6 +19,7 @@ public class BuffManagement : MonoBehaviour
     public BuffSO buff2;
     public BuffSO buff3;
     public BuffSO buff4;
+    public BuffSO buff5;
     public GameObject buffTooltip;
 
     private void Start()
@@ -47,6 +48,11 @@ public class BuffManagement : MonoBehaviour
     public void DMGup()
     {
         AddBuff(buff4, gameObject);
+    }
+
+    public void HPRegen()
+    {
+        AddBuff(buff5, gameObject);
     }
 
 
@@ -81,6 +87,8 @@ public class BuffManagement : MonoBehaviour
             {
                 //Debug.Log(buffData.Key + "만료!");
                 buffList.Remove(buffData.Key);
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)Buff.transform);
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)Debuff.transform);
                 break;
             }
         }
@@ -90,6 +98,8 @@ public class BuffManagement : MonoBehaviour
 
     public void TooltipInactive(){ buffTooltip.SetActive(false); }
 
+    //struct : 구조체 (변수 뭉탱이)             -> 값만 전달
+    //class : 구조체 상위호환 (변수 뭉탱이)      -> 존재 자체를 전달
     public class BuffData
     {
         public BuffSO buff;

@@ -1,15 +1,10 @@
 using Inventory.Model;
-using Inventory.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using static BuffManagement;
 
 public class Stats : MonoBehaviour
@@ -62,6 +57,10 @@ public class Stats : MonoBehaviour
     int[] slotNum = new int[8];
     int[] statNum = new int[23];
 
+    [SerializeField] public List<RectTransform> HPbarArr = new List<RectTransform>();
+    [SerializeField] public List<RectTransform> MPbarArr = new List<RectTransform>();
+    [SerializeField] public List<RectTransform> SPbarArr = new List<RectTransform>();
+
     private void Start()
     {
         Init();
@@ -74,6 +73,37 @@ public class Stats : MonoBehaviour
         ListCompare();
         ListCopy();
         BuffDataReader();
+
+        BarController();
+        ResourceException();
+    }
+
+    void BarController()
+    {
+        HPbarArr[0].sizeDelta = new Vector2(health * 2.35f, HPbarArr[0].rect.height);                           //Back
+        HPbarArr[1].sizeDelta = new Vector2(health * 2.35f * curHealth / health, HPbarArr[1].rect.height);      //CurHP
+        HPbarArr[2].sizeDelta = new Vector2(health * 2.35f + 1.6f * 2.35f, HPbarArr[2].rect.height);            //Contour
+
+        MPbarArr[0].sizeDelta = new Vector2(mana * 2.35f, MPbarArr[0].rect.height);                             //Back
+        MPbarArr[1].sizeDelta = new Vector2(mana * 2.35f * curMana / mana, MPbarArr[1].rect.height);            //CurHP
+        MPbarArr[2].sizeDelta = new Vector2(mana * 2.35f + 1.6f * 2.35f, MPbarArr[2].rect.height);              //Contour
+
+        SPbarArr[0].sizeDelta = new Vector2(stamina * 2.35f, SPbarArr[0].rect.height);                          //Back
+        SPbarArr[1].sizeDelta = new Vector2(stamina * 2.35f * curStamina / stamina, SPbarArr[1].rect.height);   //CurHP
+        SPbarArr[2].sizeDelta = new Vector2(stamina * 2.35f + 1.6f * 2.35f, SPbarArr[2].rect.height);           //Contour
+    }
+
+    void ResourceException()
+    {
+        if(curHealth > health)
+            curHealth = health;
+        if(curMana > mana)
+            curMana = mana;
+        if(curStamina > stamina)
+            curStamina = stamina;
+
+        if (curHealth <= 0)
+            Debug.Log("당신은 죽었습니다!");
     }
 
     void Init()
@@ -232,7 +262,7 @@ public class Stats : MonoBehaviour
 
     void SetStat()
     {
-        health = playerStat[0] + buffStat[0] + initHealth ;
+        health = playerStat[0] + buffStat[0] + initHealth;
         mana = playerStat[1] + buffStat[1] + initMana;
         stamina = playerStat[2] + buffStat[2] + initStamina;
         speed = playerStat[3] + buffStat[3];
