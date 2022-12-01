@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ColorPallete;
+using Mono.Cecil.Cil;
 
 namespace Inventory.Model
 {
@@ -199,6 +200,36 @@ namespace Inventory.Model
         public ItemSO item;
         public List<ItemParameter> itemState;
         public bool IsEmpty => item == null;
+
+        public void AddParameter(ItemParameter parameter)
+        {
+            if (FindIndex(parameter.itemParameter.ParameterCode) != -1)
+                AddValue(parameter.itemParameter.ParameterCode, parameter.value);
+            else
+                itemState.Add(parameter);
+        }
+
+        public bool AddValue(int code, float value)
+        {
+            if (FindIndex(code) != -1)
+            {
+                itemState[FindIndex(code)] = itemState[FindIndex(code)].AddParameterValue(value);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public int FindIndex(int code)
+        {
+            for (int i = 0; i < itemState.Count; i++)
+            {
+                if (itemState[i].itemParameter.ParameterCode == code)
+                    return i;
+            }
+            return -1;
+        }
+
         public InventoryItem ChangeQuantity(int newQuantity)
         {
             return new InventoryItem

@@ -31,5 +31,7 @@ MonoBehaviour:
     value: 120
   - itemParameter: {fileID: 11400000, guid: 4e88d4cd3dfbd444b83ad57c0c4127fa, type: 2}
     value: 5
+  - itemParameter: {fileID: 11400000, guid: 6875fa383d9475348ad1ac1294f90a9b, type: 2}
+    value: 5
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 3454909072359264525, guid: 7a9e057e032336a4d9d5b97021c27ec6, type: 3}

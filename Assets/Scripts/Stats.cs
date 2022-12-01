@@ -39,7 +39,7 @@ public class Stats : MonoBehaviour
     public float grit;
     public float diminution;
 
-    bool isItemChanged;
+    public bool isItemChanged;
     int size = 8;
 
     [SerializeField] private InventorySO inventoryData;

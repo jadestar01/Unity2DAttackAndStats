@@ -19,7 +19,9 @@ namespace Inventory.UI
             Melee,              //근접무기
             Magic,              //마법무기
             Range,              //원거리무기
-            Trinket             //장신구
+            Trinket,            //장신구
+            NormalUpgrade,      //일반 강화 재료
+            SpecialUpgrade      //특별 강화 재료
         };
 
         [SerializeField] private Image itemImage;
@@ -100,6 +102,16 @@ namespace Inventory.UI
                 case (int)ItemType.Trinket:
                     {
                         this.type.text = "장신구";
+                        break;
+                    }
+                case (int)ItemType.NormalUpgrade:
+                    {
+                        this.type.text = "일반 강화";
+                        break;
+                    }
+                case (int)ItemType.SpecialUpgrade:
+                    {
+                        this.type.text = "초월 강화";
                         break;
                     }
             }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374ebc4f134d30c408cb380d33675423, type: 3}
+  m_Name: Upgrade01
+  m_EditorClassIdentifier: 
+  <InStackable>k__BackingField: 0
+  <MaxStackSize>k__BackingField: 1
+  <Name>k__BackingField: "\uC2AC\uB77C\uC784 \uD575"
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 9784e0c9f2ece264085226f68fa647ab, type: 3}
+  Type: 7
+  Quality: 3
+  <Description>k__BackingField: "\uC810\uC561\uC9C8\uC744 \uBAA8\uC544 \uC6C0\uC9C1\uC774\uAC8C
+    \uD558\uB294 \uAE30\uAD34\uD55C \uB3CC\uC785\uB2C8\uB2E4."
+  <DefaultParametersList>k__BackingField:
+  - itemParameter: {fileID: 11400000, guid: 4e7b8e98e580ae54e9b3d9a9c1c2a546, type: 2}
+    value: 15
+  upgradeType: 1
+  upgradeRate: 100
+  <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}

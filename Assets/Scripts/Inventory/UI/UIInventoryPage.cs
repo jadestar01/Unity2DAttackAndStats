@@ -25,6 +25,9 @@ namespace Inventory.UI
         public event Action<int, int> OnSwapItems;                              //아이템 스왑
         [SerializeField] public ItemActionPanel actionPanel;                    //액션패널
         [SerializeField] private InventorySO inventoryData;                     //플레이어의 인벤토리 데이터이다.
+        [SerializeField] public GameObject mainCamera;
+        [SerializeField] public InventoryController inventoryController;
+        [SerializeField] public ItemUpgrade itemUpgrade; 
 
         RectTransform dr;
         bool isUpside;
@@ -263,13 +266,23 @@ namespace Inventory.UI
             //아이템을 클릭할 시
             int index = listOfUIItems.IndexOf(inventoryItemUI);
             if (index == -1)
+            {
                 return;
+            }
+            if (inventoryController.isUpgrade)
+            {
+                itemUpgrade.Upgrade(inventoryController.upgradeMaterialIndex, index);
+
+                inventoryController.isUpgrade = false;
+                mainCamera.GetComponent<Mouse>().cursorType = Mouse.CursorType.UI;
+            }
             OnDescriptionRequested?.Invoke(index);      //설명을 띄움.
         }
 
         public void Show()
         {
             //인벤토리를 활성화하며, 설명을 초기화한다.
+            mainCamera.GetComponent<Mouse>().cursorType = Mouse.CursorType.UI;
             gameObject.SetActive(true);
             ResetSelection();
         }
@@ -303,6 +316,8 @@ namespace Inventory.UI
         public void Hide()
         {
             //인벤토리를 비활성화한다.
+            mainCamera.GetComponent<Mouse>().cursorType = Mouse.CursorType.Combat;
+            inventoryController.isUpgrade = false;
             actionPanel.Toggle(false);
             gameObject.SetActive(false);
             ResetDraggedItem();

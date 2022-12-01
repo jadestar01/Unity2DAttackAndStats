@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ColorPallete;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Inventory.Model
 {
@@ -16,7 +17,9 @@ namespace Inventory.Model
             Melee,              //근접무기
             Magic,              //마법무기
             Range,              //원거리무기
-            Trinket             //장신구
+            Trinket,            //장신구
+            NormalUpgrade,      //일반 강화 재료
+            SpecialUpgrade      //특별 강화 재료
         };
         //아이템 데이터 모델
         [field: SerializeField] public bool InStackable { get; set; }
@@ -37,6 +40,18 @@ namespace Inventory.Model
     {
         public ItemParameterSO itemParameter;
         public float value;
+
+        //파라미터를 더하고, 뺄 수 있는 기능
+        //파라미터의 값을 수정할 수 있는 기능;
+
+        public ItemParameter AddParameterValue(float a)
+        {
+            return new ItemParameter
+            {
+                itemParameter = this.itemParameter,
+                value = this.value + a
+            };
+        }
 
         public bool Equals(ItemParameter other)
         {

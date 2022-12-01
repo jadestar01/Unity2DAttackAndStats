@@ -20,6 +20,9 @@ namespace Inventory
         public List<InventoryItem> initialItems = new List<InventoryItem>();    //인벤토리 시작템
         [SerializeField] private AudioClip dropClip;                            //아이템 드랍시 소리
         [SerializeField] private AudioSource audioSource;
+        [SerializeField] private GameObject mainCamera;
+        public bool isUpgrade = false;
+        public int upgradeMaterialIndex;
 
         private void Awake()
         {
@@ -96,7 +99,17 @@ namespace Inventory
             IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
             if (destroyableItem != null)
             {
-                inventoryData.RemoveItem(itemIndex, 1);
+                if (inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.NormalUpgrade ||
+                   inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.SpecialUpgrade)
+                {
+                    //강화
+                    upgradeMaterialIndex = itemIndex;
+                    isUpgrade = true;
+                    inventoryUI.actionPanel.Toggle(false);
+                    mainCamera.GetComponent<Mouse>().cursorType = Mouse.CursorType.Upgrade;
+                }
+                else
+                    inventoryData.RemoveItem(itemIndex, 1);
             }
 
             IItemAction itemAction = inventoryItem.item as IItemAction;
@@ -170,9 +183,25 @@ namespace Inventory
                     sb.AppendLine();
                 }
             }
+            //강화
+            if (FindParameterCode(inventoryItem.itemState, 7) != -1)
+            {
+                sb.Append($"강화 : ");
+                for (int i = 0; i < inventoryItem.item.DefaultParametersList[FindParameterCode(inventoryItem.itemState, 7)].value - inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 7)].value; i++)
+                {
+                    //강화
+                    sb.Append($"◈");
+                }
+                for (int i = 0; i < inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 7)].value; i++)
+                {
+                    sb.Append($"◇");
+                }
+                sb.AppendLine();
 
-            //물리파라미터
-            if (FindParameterCode(inventoryItem.itemState, 10) != -1 ||
+            }
+
+                //물리파라미터
+                if (FindParameterCode(inventoryItem.itemState, 10) != -1 ||
                FindParameterCode(inventoryItem.itemState, 11) != -1 ||
                FindParameterCode(inventoryItem.itemState, 12) != -1 ||
                FindParameterCode(inventoryItem.itemState, 13) != -1 ||
@@ -216,7 +245,7 @@ namespace Inventory
             if (FindParameterCode(inventoryItem.itemState, 15) != -1)
             {
                 sb.Append($"방어관통력 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 14)].value}");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 15)].value}");
                 sb.AppendLine();
             }
 
@@ -258,14 +287,14 @@ namespace Inventory
             if (FindParameterCode(inventoryItem.itemState, 24) != -1)
             {
                 sb.Append($"주문속도 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 23)].value}%");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 24)].value}%");
                 sb.AppendLine();
             }
             //저항관통력
             if (FindParameterCode(inventoryItem.itemState, 25) != -1)
             {
                 sb.Append($"저항관통력 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 23)].value}");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 25)].value}");
                 sb.AppendLine();
             }
 
