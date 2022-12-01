@@ -8,10 +8,18 @@ namespace Inventory.Model
     [CreateAssetMenu]
     public class EquippableItemSO : ItemSO, IDestroyableItem, IItemAction
     {
+        public enum UpgradeResult
+        {
+            None,
+            Normal,
+            Special,
+            Fail
+        };
         public string ActionName => "Equip";
 
         [field: SerializeField] public AudioClip actionSFX { get; private set; }
         [field: SerializeField] public GameObject weapon;
+        public List<UpgradeResult> upgradeResults = new List<UpgradeResult>();
 
         public bool PerformAction(GameObject character, List<ItemParameter> itemState = null)
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ColorPallete;
 using System.Runtime.InteropServices.WindowsRuntime;
+using static Inventory.Model.EquippableItemSO;
 
 namespace Inventory.Model
 {
@@ -33,6 +34,7 @@ namespace Inventory.Model
         [field: SerializeField][field: TextArea] public string Description { get; set; }
         //아이템 속성
         [field: SerializeField] public List<ItemParameter> DefaultParametersList { get; set; }
+        [field: SerializeField] public List<UpgradeResult> DefaultUpgradeResults { get; set; }
     }
 
     [Serializable]
@@ -41,8 +43,6 @@ namespace Inventory.Model
         public ItemParameterSO itemParameter;
         public float value;
 
-        //파라미터를 더하고, 뺄 수 있는 기능
-        //파라미터의 값을 수정할 수 있는 기능;
 
         public ItemParameter AddParameterValue(float a)
         {

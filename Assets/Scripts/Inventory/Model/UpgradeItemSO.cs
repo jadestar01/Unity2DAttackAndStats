@@ -20,7 +20,6 @@ namespace Inventory.Model
 
         public bool PerformAction(GameObject character, List<ItemParameter> ltemState = null)
         {
-            Debug.Log("°­È­");
             return true;
         }
     }

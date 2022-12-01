@@ -53,6 +53,7 @@ public class ItemUpgrade : MonoBehaviour
                 }
                 if (change == 0)
                     return;
+                item.upgradeResults.Add(EquippableItemSO.UpgradeResult.Normal);
             }
             else if (upgradeMaterial.upgradeType == UpgradeItemSO.UpgradeType.Special)
             {
@@ -62,11 +63,13 @@ public class ItemUpgrade : MonoBehaviour
                 {
                     item.AddParameter(material.itemState[i]);
                 }
+                item.upgradeResults.Add(EquippableItemSO.UpgradeResult.Special);
             }
         }
         else
         {
             //강화실패
+            item.upgradeResults.Add(EquippableItemSO.UpgradeResult.Fail);
         }
         //갱신
         playerStat.isItemChanged = true;

@@ -8,6 +8,8 @@ using System.Text;
 using UnityEngine.UIElements;
 using ColorPallete;
 using System.Drawing;
+using static UnityEditor.Progress;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 namespace Inventory
 {
@@ -187,10 +189,14 @@ namespace Inventory
             if (FindParameterCode(inventoryItem.itemState, 7) != -1)
             {
                 sb.Append($"강화 : ");
-                for (int i = 0; i < inventoryItem.item.DefaultParametersList[FindParameterCode(inventoryItem.itemState, 7)].value - inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 7)].value; i++)
+                for (int i = 0; i < inventoryItem.upgradeResults.Count; i++)
                 {
-                    //강화
-                    sb.Append($"◈");
+                    if (inventoryItem.upgradeResults[i] == EquippableItemSO.UpgradeResult.Normal)
+                        sb.Append($"◈");
+                    else if (inventoryItem.upgradeResults[i] == EquippableItemSO.UpgradeResult.Special)
+                        sb.Append($"◆");
+                    else if (inventoryItem.upgradeResults[i] == EquippableItemSO.UpgradeResult.Fail)
+                        sb.Append($"□");
                 }
                 for (int i = 0; i < inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 7)].value; i++)
                 {

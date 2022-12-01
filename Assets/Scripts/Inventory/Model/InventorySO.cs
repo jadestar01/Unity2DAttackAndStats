@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using ColorPallete;
 using Mono.Cecil.Cil;
+using static Inventory.Model.EquippableItemSO;
 
 namespace Inventory.Model
 {
@@ -27,7 +28,7 @@ namespace Inventory.Model
             }
         }
 
-        public int AddItem(ItemSO item, int quantity, List<ItemParameter> itemState = null)
+        public int AddItem(ItemSO item, int quantity, List<ItemParameter> itemState = null, List<UpgradeResult> upgradeResults = null)
         {
             if (item.InStackable == false)
             {
@@ -46,14 +47,15 @@ namespace Inventory.Model
             return quantity;
         }
 
-        private int AddItemToFirstFreeSlot(ItemSO item, int quantity, List<ItemParameter> itemState = null)
+        private int AddItemToFirstFreeSlot(ItemSO item, int quantity, List<ItemParameter> itemState = null, List<UpgradeResult> upgradeResults = null)
         {
             InventoryItem newItem = new InventoryItem
             {
                 item = item,
                 quantity = quantity,
                 //아이템이 변화가 없다면, 일반적인 값을 가져오지만, 그렇지 않다면, 변화된 값을 유지한다.
-                itemState = new List<ItemParameter>(itemState == null ? item.DefaultParametersList : itemState)
+                itemState = new List<ItemParameter>(itemState == null ? item.DefaultParametersList : itemState),
+                upgradeResults = new List<UpgradeResult>(upgradeResults == null ? item.DefaultUpgradeResults : upgradeResults)
             };
 
             for (int i = 0; i < inventoryItems.Count; i++)
@@ -199,7 +201,15 @@ namespace Inventory.Model
         public ItemQuality quality;
         public ItemSO item;
         public List<ItemParameter> itemState;
+        public List<UpgradeResult> upgradeResults;
         public bool IsEmpty => item == null;
+
+        public List<UpgradeResult> GetUpgradeResults()
+        {
+            List<UpgradeResult> a = new List<UpgradeResult>();
+            a = upgradeResults;
+            return a;
+        }
 
         public void AddParameter(ItemParameter parameter)
         {
@@ -236,7 +246,8 @@ namespace Inventory.Model
             {
                 item = this.item,
                 quantity = newQuantity,
-                itemState = new List<ItemParameter>(this.itemState)
+                itemState = new List<ItemParameter>(this.itemState),
+                upgradeResults = new List<UpgradeResult>(this.upgradeResults)
             };
         }
 
@@ -245,7 +256,8 @@ namespace Inventory.Model
             {
                 item = null,
                 quantity = 0,
-                itemState = new List<ItemParameter>()
+                itemState = new List<ItemParameter>(),
+                upgradeResults = new List<UpgradeResult>()
             };
     }
 }
