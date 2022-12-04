@@ -17,7 +17,7 @@ public class AgentWeapon : MonoBehaviour
     [SerializeField] private GameObject Melee;
     [SerializeField] private GameObject Magic;
     [SerializeField] private GameObject Range;
-    [SerializeField] private List<UIInventoryItem> listOfHotbar = new List<UIInventoryItem>();
+    [SerializeField] public List<UIInventoryItem> listOfHotbar = new List<UIInventoryItem>();
 
     private EquippableItemSO currentMelee;
     private EquippableItemSO equippedMelee;

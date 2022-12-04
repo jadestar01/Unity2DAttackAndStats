@@ -6,6 +6,7 @@ using UnityEngine;
 using ColorPallete;
 using Mono.Cecil.Cil;
 using static Inventory.Model.EquippableItemSO;
+using UnityEditor.UIElements;
 
 namespace Inventory.Model
 {
@@ -194,8 +195,8 @@ namespace Inventory.Model
     }
 
     [Serializable]
-    //객체배열보다 구조체배열이 좋음
-    public struct InventoryItem                                                 //Inventory Item의 실체
+    //객체배열보다 구조체배열이 좋음 좆까 객체가 더 좋음 썅 ㅋ
+    public class InventoryItem                                                 //Inventory Item의 실체
     {
         public int quantity;
         public ItemQuality quality;

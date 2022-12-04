@@ -35,6 +35,11 @@ namespace Inventory.Model
         //아이템 속성
         [field: SerializeField] public List<ItemParameter> DefaultParametersList { get; set; }
         [field: SerializeField] public List<UpgradeResult> DefaultUpgradeResults { get; set; }
+
+        public int GetID()
+        {
+            return ID;
+        }
     }
 
     [Serializable]

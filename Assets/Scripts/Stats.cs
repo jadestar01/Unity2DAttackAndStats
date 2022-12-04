@@ -40,6 +40,7 @@ public class Stats : MonoBehaviour
     public float diminution;
 
     public bool isItemChanged;
+    public bool isReadyToUpgrade;
     int size = 8;
 
     [SerializeField] private InventorySO inventoryData;

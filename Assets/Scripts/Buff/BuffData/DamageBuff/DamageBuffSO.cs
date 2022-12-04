@@ -10,6 +10,9 @@ public class DamageBuffSO : BuffSO
     [field: SerializeField] public int Damage;
     public override void AffectTarget(GameObject Target)
     {
-        Debug.Log(Target + "이 " + Name + "으로 인해 " + Damage + "의 피해를 입었습니다!");
+        if (Target.gameObject.tag == "Player")
+        {
+            Target.GetComponent<Stats>().curHealth -= Damage;
+        }
     }
 }

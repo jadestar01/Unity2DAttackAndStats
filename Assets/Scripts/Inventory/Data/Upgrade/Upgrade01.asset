@@ -23,6 +23,9 @@ MonoBehaviour:
   <DefaultParametersList>k__BackingField:
   - itemParameter: {fileID: 11400000, guid: 4e7b8e98e580ae54e9b3d9a9c1c2a546, type: 2}
     value: 15
+  - itemParameter: {fileID: 11400000, guid: 997ff416f40948b43a418ce8aaf30c66, type: 2}
+    value: 15
+  <DefaultUpgradeResults>k__BackingField: 
   upgradeType: 1
   upgradeRate: 100
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}

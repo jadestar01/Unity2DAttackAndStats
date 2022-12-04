@@ -29,5 +29,9 @@ MonoBehaviour:
     value: 23
   - itemParameter: {fileID: 11400000, guid: d133c1a9716bf9d4085d174d2b85083e, type: 2}
     value: 7
+  - itemParameter: {fileID: 11400000, guid: 6875fa383d9475348ad1ac1294f90a9b, type: 2}
+    value: 3
+  <DefaultUpgradeResults>k__BackingField: 
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 0}
+  upgradeResults: 

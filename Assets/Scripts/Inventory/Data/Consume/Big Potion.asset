@@ -20,6 +20,9 @@ MonoBehaviour:
   Quality: 3
   <Description>k__BackingField: "\uCCB4\uB825\uC744 40\uB9CC\uD07C \uD68C\uBCF5\uD569\uB2C8\uB2E4."
   <DefaultParametersList>k__BackingField: []
+  <DefaultUpgradeResults>k__BackingField: 
+  coolTime: 5
+  canUse: 1
   modifierData:
   - statModifier: {fileID: 11400000, guid: 779e4211b6bede345a741a6f30ad0583, type: 2}
     value: 40

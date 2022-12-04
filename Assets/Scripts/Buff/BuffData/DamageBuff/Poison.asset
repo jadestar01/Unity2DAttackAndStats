@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Poison
   m_EditorClassIdentifier: 
   isTicking: 1
-  <Image>k__BackingField: {fileID: 21300000, guid: c859cd354f5479342a32e464795d6483, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 041bf691d99017d43ac2a7d1a69369f9, type: 3}
   BuffCode: 101
   <Type>k__BackingField: 2
   <Name>k__BackingField: "\uB3C5"
@@ -21,4 +21,4 @@ MonoBehaviour:
     \uD750\uB985\uB2C8\uB2E4! \uC73C\uC545!"
   <Duration>k__BackingField: 10
   <Tick>k__BackingField: 0.5
-  Damage: 10
+  Damage: 1

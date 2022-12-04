@@ -10,6 +10,13 @@ using ColorPallete;
 using System.Drawing;
 using static UnityEditor.Progress;
 using Unity.VisualScripting.Antlr3.Runtime;
+using Unity.VisualScripting;
+using UnityEngine.UI;
+using Newtonsoft.Json.Bson;
+using System.Reflection;
+using UnityEditor;
+using DG.Tweening.Core;
+using DG.Tweening;
 
 namespace Inventory
 {
@@ -25,6 +32,10 @@ namespace Inventory
         [SerializeField] private GameObject mainCamera;
         public bool isUpgrade = false;
         public int upgradeMaterialIndex;
+        public Dictionary<int, bool> consumeCooltime = new Dictionary<int, bool>();
+        public Dictionary<int, Cooltime> cooltime = new Dictionary<int, Cooltime>();
+        public MessageManager messageManager;
+        public AgentWeapon agentWeapon;
 
         private void Awake()
         {
@@ -36,6 +47,78 @@ namespace Inventory
             //인벤토리 생성
             PrepareUI();
             PrepareInventoryData();
+        }
+
+        private void InventorySorting()
+        {
+            //정렬 기능
+            //핫바를 정렬하면 안 됨.
+            //정렬할 때, 빈 칸을 살필 것
+        }
+
+        public class Cooltime
+        {
+            public bool canUse;
+            public float time = 0.0f;
+
+            public float CooltimeStart(float duration)
+            {
+                if (time == 0)
+                {
+                    canUse = false;
+                    DOTween.To(() => time, x => time = x, 1, duration).SetEase(Ease.Linear);
+                }
+                if (time == 1) { time = 0; canUse = true; }
+                return time;
+            }
+
+            public IEnumerator CoolReact(float duration)
+            {
+                yield return new WaitForSeconds(duration);
+                time = 0.0f;
+            }
+        }
+
+        void CooltimeIndicator()
+        {
+            foreach (KeyValuePair<int, bool> consume in consumeCooltime)
+            {
+                if (true)
+                {
+                    for (int i = 0; i < 46; i++)
+                    {
+                        if (!inventoryData.GetItemAt(i).IsEmpty)
+                        {
+                            int ID = inventoryData.GetItemAt(i).item.GetID();
+                            if (consume.Key == ID)
+                            {
+                                if (consume.Value)
+                                {
+                                    if (inventoryUI.gameObject.activeSelf == true)
+                                        inventoryUI.listOfUIItems[i].fill = cooltime[ID].time;
+                                    if (i == 39)
+                                        agentWeapon.listOfHotbar[3].fill = cooltime[ID].time;
+                                    else if (i == 40)
+                                        agentWeapon.listOfHotbar[4].fill = cooltime[ID].time;
+                                }
+                                else
+                                {
+                                    if (inventoryUI.gameObject.activeSelf == true)
+                                        inventoryUI.listOfUIItems[i].fill = cooltime[ID].time;
+                                    if (i == 39)
+                                        agentWeapon.listOfHotbar[3].fill = cooltime[ID].time;
+                                    else if (i == 40)
+                                        agentWeapon.listOfHotbar[4].fill = cooltime[ID].time;
+                                }
+                            }
+                            else
+                            {
+                                inventoryUI.listOfUIItems[i].fill = 0.0f;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void PrepareInventoryData()
@@ -79,7 +162,6 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
-                //아이템 장착
                 inventoryUI.ShowItemAction(itemIndex);
                 inventoryUI.AddAction(itemAction.ActionName, () => PerformAction(itemIndex));
             }
@@ -104,11 +186,10 @@ namespace Inventory
                 if (inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.NormalUpgrade ||
                    inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.SpecialUpgrade)
                 {
-                    //강화
-                    upgradeMaterialIndex = itemIndex;
-                    isUpgrade = true;
-                    inventoryUI.actionPanel.Toggle(false);
-                    mainCamera.GetComponent<Mouse>().cursorType = Mouse.CursorType.Upgrade;
+                }
+                else if (inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.Potion ||
+                         inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.Scroll)
+                {
                 }
                 else
                     inventoryData.RemoveItem(itemIndex, 1);
@@ -117,7 +198,53 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
-                itemAction.PerformAction(gameObject, inventoryItem.itemState);
+                if (inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.NormalUpgrade ||
+                   inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.SpecialUpgrade)
+                {
+                    //강화
+                    upgradeMaterialIndex = itemIndex;
+                    isUpgrade = true;
+                    inventoryUI.actionPanel.Toggle(false);
+                    mainCamera.GetComponent<Mouse>().cursorType = Mouse.CursorType.Upgrade;
+                }
+                else if (inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.Potion ||
+                         inventoryData.GetItemAt(itemIndex).item.Type == ItemSO.ItemType.Scroll)
+                {
+                    //소모
+                    EdibleItemSO consume = (EdibleItemSO)inventoryItem.item;
+                    if (consumeCooltime.ContainsKey(consume.ID))
+                    {
+                        //ID를 가지고 있다면,
+                        if (consumeCooltime[consume.ID])
+                        {
+                            //cooltime이 true라면,
+                            //사용
+                            cooltime[consume.ID].CooltimeStart(consume.coolTime);
+                            StartCoroutine(cooltime[consume.ID].CoolReact(consume.coolTime));
+                            StartCoroutine(ConsumeCooltime(consume));
+                            itemAction.PerformAction(gameObject, inventoryItem.itemState);
+                            inventoryData.RemoveItem(itemIndex, 1);
+                        }
+                        else
+                        {
+                            //cooltime이 false라면,
+                            messageManager.Message("아직 사용할 수 없습니다.");
+                        }
+                    }
+                    else
+                    {
+                        consumeCooltime.Add(consume.ID, true);
+                        cooltime.Add(consume.ID, new Cooltime { canUse = false, time = 0 });
+                        cooltime[consume.ID].CooltimeStart(consume.coolTime);
+                        StartCoroutine(cooltime[consume.ID].CoolReact(consume.coolTime));
+                        //사용
+                        StartCoroutine(ConsumeCooltime(consume));
+                        itemAction.PerformAction(gameObject, inventoryItem.itemState);
+                        inventoryData.RemoveItem(itemIndex, 1);
+                    }
+                }
+                else
+                    itemAction.PerformAction(gameObject, inventoryItem.itemState);
                 audioSource.PlayOneShot(itemAction.actionSFX);
                 if (inventoryItem.item.Type == ItemSO.ItemType.Melee || inventoryItem.item.Type == ItemSO.ItemType.Magic || inventoryItem.item.Type == ItemSO.ItemType.Range)
                     inventoryUI.actionPanel.Toggle(false);
@@ -126,6 +253,13 @@ namespace Inventory
                     inventoryUI.ResetSelection();
                 }
             }
+        }
+
+        IEnumerator ConsumeCooltime(EdibleItemSO consume)
+        {
+            consumeCooltime[consume.ID] = false;
+            yield return new WaitForSeconds(consume.coolTime);
+            consumeCooltime[consume.ID] = true;
         }
 
         private void DropItem(int itemIndex, int quantity)
@@ -184,6 +318,17 @@ namespace Inventory
                     $"<color=#e1f63d>{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 6)].value}</color>");
                     sb.AppendLine();
                 }
+            }
+            if (inventoryItem.item.Type == ItemSO.ItemType.NormalUpgrade || inventoryItem.item.Type == ItemSO.ItemType.SpecialUpgrade)
+            {
+                UpgradeItemSO upgrade = new UpgradeItemSO();
+                upgrade = (UpgradeItemSO) inventoryItem.item;
+                sb.Append($"성공률 : " +
+                $"{upgrade.upgradeRate}" +
+                $"%");
+                sb.AppendLine();
+                sb.Append($"―――――강화항목――――");
+                sb.AppendLine();
             }
             //강화
             if (FindParameterCode(inventoryItem.itemState, 7) != -1)
@@ -374,21 +519,21 @@ namespace Inventory
             if (FindParameterCode(inventoryItem.itemState, 30) != -1)
             {
                 sb.Append($"방어력 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 0)].value}");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 30)].value}");
                 sb.AppendLine();
             }
             //저항력
             if (FindParameterCode(inventoryItem.itemState, 31) != -1)
             {
                 sb.Append($"저항력 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 0)].value}");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 31)].value}");
                 sb.AppendLine();
             }
             //회피
             if (FindParameterCode(inventoryItem.itemState, 32) != -1)
             {
                 sb.Append($"회피 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 0)].value}%");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 32)].value}%");
                 sb.AppendLine();
             }
             //근성
@@ -402,7 +547,7 @@ namespace Inventory
             if (FindParameterCode(inventoryItem.itemState, 34) != -1)
             {
                 sb.Append($"감쇄 : " +
-                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 0)].value}%");
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 34)].value}%");
                 sb.AppendLine();
             }
 
@@ -440,6 +585,11 @@ namespace Inventory
 
         public void Update()
         {
+            foreach (KeyValuePair<int, Cooltime> aa in cooltime)
+            {
+                Debug.Log(aa.Key + ", " + aa.Value.time);
+            }
+            CooltimeIndicator();
             foreach (var item in inventoryData.GetCurrentInventoryState())
             {
                 inventoryUI.UpdateData(

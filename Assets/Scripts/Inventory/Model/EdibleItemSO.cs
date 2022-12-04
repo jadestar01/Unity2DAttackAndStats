@@ -8,6 +8,8 @@ namespace Inventory.Model
     [CreateAssetMenu]
     public class EdibleItemSO : ItemSO, IDestroyableItem, IItemAction
     {
+        [field: SerializeField] public float coolTime;
+        public bool canUse = true;
         //얻을 효과를 담는 리스트
         [SerializeField] List<ModifierData> modifierData = new List<ModifierData>();
         //하단, interface에 대한 구조

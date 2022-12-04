@@ -7,8 +7,6 @@ using System;
 using UnityEngine.EventSystems;
 using ColorPallete;
 using Inventory.UI;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 
 namespace Inventory.UI
 {
@@ -19,12 +17,14 @@ namespace Inventory.UI
         [SerializeField] private Image itemImage;
         [SerializeField] private TMP_Text quantityTxt;
         [SerializeField] private Image borderImage;
+        [SerializeField] private Image fillImage;
         [SerializeField] private QualityColorPallete pallete;
         //Event Trigger Component로 관리되는 이벤트 목록들이다.
         public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn,
             OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
         public bool empty = true;
         public ItemQuality itemQuality = 0;
+        [HideInInspector] public float fill = 0;
 
         public void Awake()
         {
@@ -34,6 +34,7 @@ namespace Inventory.UI
 
         public void Update()
         {
+            fillImage.fillAmount = fill;
             if (empty)
                 slotImage.color = pallete.ColorPallete(0);
         }
@@ -42,6 +43,7 @@ namespace Inventory.UI
         {
             //아이템 슬롯의 이미지를 비우고, empty상태로 변경한다,
             itemImage.gameObject.SetActive(false);
+            fillImage.gameObject.SetActive(false);
             empty = true;
         }
 
@@ -61,6 +63,8 @@ namespace Inventory.UI
             //아이템 슬롯의 이미지와 개수를 설정한다. empty상태를 해제한다.
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
+            fillImage.gameObject.SetActive(true);
+            fillImage.sprite = sprite;
             if (quantity != 1)
                 quantityTxt.text = quantity + "";
             else

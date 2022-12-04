@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using ColorPallete;
 using Inventory.Model;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 namespace Inventory.UI
 {
@@ -16,7 +17,7 @@ namespace Inventory.UI
         [SerializeField] UIInventoryDescription itemDescription;                //아이템의 설명을 출력
         [SerializeField] MouseFollower mouseFollower;                           //마우스 추적자
         [SerializeField] RectTransform contentPanel;                            //슬롯을 보여줄 UI
-        List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();      //슬롯을 관리하는 리스트 0~35는 인벤, 36~45는 슬롯
+        public List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();      //슬롯을 관리하는 리스트 0~35는 인벤, 36~45는 슬롯
         [SerializeField] RectTransform slotPanel;                               //슬롯페널
         private int currentlyDraggedItemIndex = -1;                             //드래그한 최근 아이템의 List인덱스 -1은 없음
         public event Action<int> OnDescriptionRequested,                        //아이템 설명 로드

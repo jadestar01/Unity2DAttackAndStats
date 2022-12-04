@@ -20,6 +20,12 @@ MonoBehaviour:
   Quality: 4
   <Description>k__BackingField: "\uD53C\uCC98\uB7FC \uBD89\uC740 \uC801\uD608\uC0C9\uC758
     \uB8E8\uBE44\uAC00 \uBC15\uD78C \uBE0C\uB85C\uCE58\uC785\uB2C8\uB2E4.\n"
-  <DefaultParametersList>k__BackingField: []
+  <DefaultParametersList>k__BackingField:
+  - itemParameter: {fileID: 11400000, guid: 4e7b8e98e580ae54e9b3d9a9c1c2a546, type: 2}
+    value: 8
+  - itemParameter: {fileID: 11400000, guid: fcd8e2c98df09114db502228176e8381, type: 2}
+    value: 5
+  <DefaultUpgradeResults>k__BackingField: 
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 0}
+  upgradeResults: 00000000

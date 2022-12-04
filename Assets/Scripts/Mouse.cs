@@ -17,10 +17,12 @@ public class Mouse : MonoBehaviour
     [SerializeField] Texture2D Combat;
     [SerializeField] Texture2D UI;
     [SerializeField] Texture2D Upgrade;
+    Vector2 CombatPos;
 
     private void Start()
     {
-        Cursor.SetCursor(Combat, Vector2.zero, CursorMode.ForceSoftware);
+        CombatPos = new Vector2(Combat.width / 2, Combat.height / 2);
+        Cursor.SetCursor(Combat, CombatPos, CursorMode.ForceSoftware);
     }
 
     void Update()
@@ -30,7 +32,7 @@ public class Mouse : MonoBehaviour
             cursor = cursorType;
 
             if (cursor == CursorType.Combat)
-                Cursor.SetCursor(Combat, Vector2.zero, CursorMode.ForceSoftware);
+                Cursor.SetCursor(Combat, CombatPos, CursorMode.ForceSoftware);
             else if (cursor == CursorType.UI)
                 Cursor.SetCursor(UI, Vector2.zero, CursorMode.ForceSoftware);
             else if (cursor == CursorType.Upgrade)

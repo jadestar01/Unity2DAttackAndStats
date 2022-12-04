@@ -8,12 +8,20 @@ public class ItemUpgrade : MonoBehaviour
 {
     [SerializeField] private Stats playerStat;
     [SerializeField] private InventorySO inventoryData;
+    public MessageManager messageManager;
     public void Upgrade(int upgradeMaterialIndex, int upgradeItemIndex)
     {
         InventoryItem material = inventoryData.GetItemAt(upgradeMaterialIndex);
         UpgradeItemSO upgradeMaterial = (UpgradeItemSO)material.item;
         int upgradeRate = upgradeMaterial.upgradeRate;
         InventoryItem item;
+
+        if (!playerStat.isReadyToUpgrade)
+        {
+            messageManager.Message("제단과 너무 멀리있습니다!");
+            return;
+        }
+
 
         //강화 아이템 체크
         if ((inventoryData.GetItemAt(upgradeItemIndex).item.Type == ItemSO.ItemType.Melee) ||
@@ -25,14 +33,21 @@ public class ItemUpgrade : MonoBehaviour
         }
         else
         {
+            messageManager.Message("강화할 수 없는 아이템입니다!");
             return;
         }
         if (item.FindIndex(7) == -1)
+        {
+            messageManager.Message("강화할 수 없는 아이템입니다!");
             return;
+        }
         if (item.itemState[item.FindIndex(7)].value > 0)
         { }
         else
-        { return; }
+        {
+            messageManager.Message("강화 횟수를 초과할 수 없습니다!");
+            return;
+        }
 
         int rate = Random.Range(0, 101); //0~100사이의 난수 생성
         if (rate <= upgradeRate) //업그레이드 내에 들어온다면,
@@ -52,8 +67,12 @@ public class ItemUpgrade : MonoBehaviour
                     }
                 }
                 if (change == 0)
+                {
+                    messageManager.Message("강화 항목이 없습니다!");
                     return;
+                }
                 item.upgradeResults.Add(EquippableItemSO.UpgradeResult.Normal);
+                messageManager.Message("일반 강화에 성공했습니다!");
             }
             else if (upgradeMaterial.upgradeType == UpgradeItemSO.UpgradeType.Special)
             {
@@ -64,12 +83,14 @@ public class ItemUpgrade : MonoBehaviour
                     item.AddParameter(material.itemState[i]);
                 }
                 item.upgradeResults.Add(EquippableItemSO.UpgradeResult.Special);
+                messageManager.Message("초월 강화에 성공했습니다!");
             }
         }
         else
         {
             //강화실패
             item.upgradeResults.Add(EquippableItemSO.UpgradeResult.Fail);
+            messageManager.Message("강화에 실패했습니다!");
         }
         //갱신
         playerStat.isItemChanged = true;

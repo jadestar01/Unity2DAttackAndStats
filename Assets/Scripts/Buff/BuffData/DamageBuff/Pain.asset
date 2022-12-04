@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Pain
   m_EditorClassIdentifier: 
   isTicking: 1
-  <Image>k__BackingField: {fileID: 21300000, guid: ed8e1531b2e54334ea31090262243549, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 2f75c0da101f0fb4fa1447b76d540fda, type: 3}
   BuffCode: 100
   <Type>k__BackingField: 2
   <Name>k__BackingField: "\uACE0\uD1B5"
   <Description>k__BackingField: "\uC544\uD515\uB2C8\uB2E4! "
   <Duration>k__BackingField: 5
   <Tick>k__BackingField: 1
-  Damage: 100
+  Damage: 2

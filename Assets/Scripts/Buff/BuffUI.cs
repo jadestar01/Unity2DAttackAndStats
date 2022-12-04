@@ -63,8 +63,8 @@ public class BuffUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         //시간을 받아와서 버프 이미지 활성화
         filler = 0.0f;
         timer = duration;
-        DOTween.To(() => filler, x => filler = x, 1, duration).SetEase(Ease.Linear); ;
-        DOTween.To(() => timer, x => timer = x, 0, duration).SetEase(Ease.Linear); ;
+        DOTween.To(() => filler, x => filler = x, 1, duration).SetEase(Ease.Linear);
+        DOTween.To(() => timer, x => timer = x, 0, duration).SetEase(Ease.Linear);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

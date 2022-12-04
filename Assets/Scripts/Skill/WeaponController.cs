@@ -1,3 +1,4 @@
+using Inventory;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public List<GameObject> anchor;
     [HideInInspector] public GameObject[] weapon = new GameObject[3];
     [SerializeField] private GameObject player;
+    [SerializeField] private InventoryController inventoryController;
 
     public GameObject Melee;
     public GameObject Magic;
@@ -39,6 +41,15 @@ public class WeaponController : MonoBehaviour
         GetWeapon();
         WeaponActive();
         WeaponTransform();
+        UseConsumeItem();
+    }
+
+    void UseConsumeItem()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha4)) 
+        { inventoryController.PerformAction(39); }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        { inventoryController.PerformAction(40); }
     }
 
     void GetWeapon()
@@ -57,6 +68,7 @@ public class WeaponController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1)) weaponActive = 0;
             else if (Input.GetKeyDown(KeyCode.Alpha2)) weaponActive = 1;
             else if (Input.GetKeyDown(KeyCode.Alpha3)) weaponActive = 2;
+            else { }
         }
     }
 
