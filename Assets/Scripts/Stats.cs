@@ -21,6 +21,7 @@ public class Stats : MonoBehaviour
     public float speed;
     public float haste;
     public float strike;
+    public float vampirism;
     public float physicalMinDmg;
     public float physicalMaxDmg;
     public float physicalCritRate;
@@ -47,6 +48,8 @@ public class Stats : MonoBehaviour
 
     [SerializeField] private BuffManagement buffManagement;
 
+    [SerializeField] private AgentWeapon agentWeapon;
+
     [SerializeField] private Dictionary<int, BuffData> temporaryData = new Dictionary<int, BuffData>();  //주기적으로 버프의 업데이트를 확인
     [SerializeField] private Dictionary<int, BuffData> buffData = new Dictionary<int, BuffData>();
     float[] buffStat = new float[50];
@@ -56,7 +59,7 @@ public class Stats : MonoBehaviour
     InventoryItem[] temporaryList = new InventoryItem[8];               //주기적으로 아이템의 업데이트를 확인
     InventoryItem[] hotbarList = new InventoryItem[8];
     int[] slotNum = new int[8];
-    int[] statNum = new int[23];
+    int[] statNum = new int[24];
 
     [SerializeField] public List<RectTransform> HPbarArr = new List<RectTransform>();
     [SerializeField] public List<RectTransform> MPbarArr = new List<RectTransform>();
@@ -130,23 +133,24 @@ public class Stats : MonoBehaviour
         statNum[3] = 3;         //Speed
         statNum[4] = 4;         //Haste
         statNum[5] = 5;         //Strike
-        statNum[6] = 10;        //PhysicalMinDmg
-        statNum[7] = 11;        //PhysicalMaxDmg
-        statNum[8] = 12;        //PhysicalCritRate
-        statNum[9] = 13;        //PhysicalCritDmg
-        statNum[10] = 14;       //PhysicalAttackSpeed
-        statNum[11] = 15;       //PhysicalPenetration
-        statNum[12] = 20;       //MagicalMinDmg
-        statNum[13] = 21;       //MagicalMaxDmg
-        statNum[14] = 22;       //MagicalCritRate
-        statNum[15] = 23;       //MagicalCritDmg
-        statNum[16] = 24;       //MagicalAttackSpeed
-        statNum[17] = 25;       //MagicalPenetration
-        statNum[18] = 30;       //Armor
-        statNum[19] = 31;       //Registance
-        statNum[20] = 32;       //Dodge
-        statNum[21] = 33;       //Grit
-        statNum[22] = 34;       //Diminution
+        statNum[6] = 8;         //Vampirism
+        statNum[7] = 10;        //PhysicalMinDmg
+        statNum[8] = 11;        //PhysicalMaxDmg
+        statNum[9] = 12;        //PhysicalCritRate
+        statNum[10] = 13;       //PhysicalCritDmg
+        statNum[11] = 14;       //PhysicalAttackSpeed
+        statNum[12] = 15;       //PhysicalPenetration
+        statNum[13] = 20;       //MagicalMinDmg
+        statNum[14] = 21;       //MagicalMaxDmg
+        statNum[15] = 22;       //MagicalCritRate
+        statNum[16] = 23;       //MagicalCritDmg
+        statNum[17] = 24;       //MagicalAttackSpeed
+        statNum[18] = 25;       //MagicalPenetration
+        statNum[19] = 30;       //Armor
+        statNum[20] = 31;       //Registance
+        statNum[21] = 32;       //Dodge
+        statNum[22] = 33;       //Grit
+        statNum[23] = 34;       //Diminution
 
         ResetStatList();
         initList();
@@ -154,7 +158,7 @@ public class Stats : MonoBehaviour
 
     void ResetStatList()
     {
-        for (int i = 0; i < 23; i++)
+        for (int i = 0; i < 24; i++)
         {
             playerStat[statNum[i]] = 0;
         }
@@ -222,7 +226,7 @@ public class Stats : MonoBehaviour
         }
     }
 
-    void ListCopy()
+    public void ListCopy()
     {
         if (isItemChanged)
         {
@@ -249,10 +253,13 @@ public class Stats : MonoBehaviour
     {
         for (int i = 0; i < size; i++)
         {
+            if (i == 0 && agentWeapon.currentWeapon != 0) continue;
+            else if (i == 1 && agentWeapon.currentWeapon != 1) continue;
+            else if (i == 2 && agentWeapon.currentWeapon != 2) continue;
             //핫바리스트 순회
             for (int j = 0; j < hotbarList[i].itemState.Count; j++)
             {
-                //핫바에 들어있는 아이템의 스테어터스를 가져와서 담는다.
+                    //핫바에 들어있는 아이템의 스테어터스를 가져와서 담는다.
                 if (statNum.Contains(hotbarList[i].itemState[j].itemParameter.ParameterCode))
                 {
                     playerStat[hotbarList[i].itemState[j].itemParameter.ParameterCode] += hotbarList[i].itemState[j].value;
@@ -269,6 +276,7 @@ public class Stats : MonoBehaviour
         speed = playerStat[3] + buffStat[3];
         haste = playerStat[4] + buffStat[4];
         strike = playerStat[5] + buffStat[5];
+        vampirism = playerStat[8] + buffStat[8];
         physicalMinDmg = playerStat[10] + buffStat[10];
         physicalMaxDmg = playerStat[11] + buffStat[11];
         physicalCritRate = playerStat[12] + buffStat[12];

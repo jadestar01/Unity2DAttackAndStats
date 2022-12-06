@@ -503,6 +503,13 @@ namespace Inventory
                 $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 5)].value}");
                 sb.AppendLine();
             }
+            //ÈíÇ÷
+            if (FindParameterCode(inventoryItem.itemState, 8) != -1)
+            {
+                sb.Append($"ÈíÇ÷ : " +
+                $"+{inventoryItem.itemState[FindParameterCode(inventoryItem.itemState, 8)].value}");
+                sb.AppendLine();
+            }
 
             //¹æ¾îÆÄ¶ó¹ÌÅÍ
             if (FindParameterCode(inventoryItem.itemState, 30) != -1 ||

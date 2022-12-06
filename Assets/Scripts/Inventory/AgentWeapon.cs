@@ -12,6 +12,7 @@ public class AgentWeapon : MonoBehaviour
     [SerializeField] private EquippableItemSO weapon;                   //장착 무기
     [SerializeField] private InventorySO inventoryData;                 //인벤토리 데이터
     [SerializeField] private WeaponController weaponController;         //선택 웨폰 확인
+    [SerializeField] private Stats stats;
     [SerializeField] private List<ItemParameter> parametersToModify;    //파라미터
     [SerializeField] private List<ItemParameter> itemCurrentState;      //최신상태
     [SerializeField] private GameObject Melee;
@@ -28,7 +29,7 @@ public class AgentWeapon : MonoBehaviour
     private EquippableItemSO currentRange;
     private EquippableItemSO equippedRange;
 
-    private int currentWeapon = -1;
+    public int currentWeapon = -1;
 
     private ItemSO melee;           //근접
     private ItemSO magic;           //마법
@@ -50,6 +51,7 @@ public class AgentWeapon : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(currentWeapon);
         DataSet();
         HotbarSet();
         WeaponSet();
@@ -64,6 +66,8 @@ public class AgentWeapon : MonoBehaviour
                 listOfHotbar[currentWeapon].Deselect();
             currentWeapon = weaponActive;
             listOfHotbar[weaponActive].Select();
+            stats.isItemChanged = true;
+            stats.ListCopy();
         }
         for (int i = 0; i < 5; i++)
         {
