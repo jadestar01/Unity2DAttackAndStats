@@ -51,7 +51,6 @@ public class AgentWeapon : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentWeapon);
         DataSet();
         HotbarSet();
         WeaponSet();
