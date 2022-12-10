@@ -2,10 +2,13 @@ using BansheeGz.BGDatabase;
 using ColorPallete;
 using Inventory.Model;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities.Editor;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static BansheeGz.BGDatabase.BGJsonRepoModel;
 using static Inventory.Model.ItemSO;
 
 public class DBLoader : MonoBehaviour
@@ -43,8 +46,43 @@ public class DBLoader : MonoBehaviour
     private void EqiupItemParsing()
     {
         Debug.Log("Start EquipItemParsing");
-        List<BGEntity> entitys = BGRepo.I["EquipItem"].EntitiesToList();
-        foreach (BGEntity entity in entitys)
+
+        ItemType a = DB_EquipItem.GetEntity(0).f_Type;
+
+        List<BGEntity> entities = BGRepo.I["EquipItem"].EntitiesToList();
+        for (int i = 0; i < entities.Count; i++)
+        {
+            List<ItemParameter> itemParameters = new List<ItemParameter>();
+            List<BGEntity> parameters = entities[i].Get<List<BGEntity>>("Parameters");
+            for (int j = 0; j < parameters.Count; j++)
+            {
+                ItemParameter itemParameter = new ItemParameter
+                {
+                    itemParameter = (ItemParameterSO)parameters[j].Get<ScriptableObject>("Parameter"),
+                    value = parameters[j].Get<float>("Value")
+                };
+                itemParameters.Add(itemParameter);
+            }
+
+            EquippableItemSO item = new EquippableItemSO
+            {
+                ID = entities[i].Get<int>("ID"),
+                ItemImage = entities[i].Get<Sprite>("Image"),
+                Name = entities[i].Get<string>("Name"),
+                Type = DB_EquipItem.GetEntity(i).f_Type,
+                Quality = DB_EquipItem.GetEntity(i).f_Quality,
+                Description = entities[i].Get<string>("Description"),
+                DefaultParametersList = itemParameters,
+                weapon = entities[i].Get<GameObject>("Weapon"),
+                InStackable = false,
+                MaxStackSize = 1,
+                actionSFX = null
+            };
+            EquippableItemDB.Add(entities[i].Get<int>("ID"), item);
+        }
+
+        /*
+        foreach (BGEntity entity in entities)
         {
 
             List<ItemParameter> itemParameters = new List<ItemParameter>();
@@ -75,5 +113,6 @@ public class DBLoader : MonoBehaviour
 
             EquippableItemDB.Add(entity.Get<int>("ID"), item);
         }
+        */
     }
 }
