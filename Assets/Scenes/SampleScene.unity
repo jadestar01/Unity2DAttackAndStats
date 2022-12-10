@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 29854868}
   - component: {fileID: 29854869}
+  - component: {fileID: 29854870}
   m_Layer: 0
   m_Name: DataBase
   m_TagString: Untagged
@@ -198,6 +199,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4a8989f8eed6f4096d4a6c73e05d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &29854870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29854867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be70bf7cd0f1e694fbe6907facaa5a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dbLoader: {fileID: 29854869}
+  inventorySO: {fileID: 11400000, guid: 6491d47f2bbd16243a2474c63e414eae, type: 2}
+  dropItem: {fileID: 9055480046878982010, guid: 66d528d7559caca4d85fcb8020b48506, type: 3}
+  Player: {fileID: 225159042}
+  dataBase: 0
+  code: 0
+  quantity: 0
 --- !u!1 &50891399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,7 +1980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 10, y: 0}
   m_SizeDelta: {x: 280, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &376686471
@@ -2111,7 +2131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &385238279
@@ -6074,6 +6094,10 @@ PrefabInstance:
       value: Item (13)
       objectReference: {fileID: 0}
     - target: {fileID: 9055480046878982012, guid: 66d528d7559caca4d85fcb8020b48506, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1443719140}
+    - target: {fileID: 9055480046878982012, guid: 66d528d7559caca4d85fcb8020b48506, type: 3}
       propertyPath: <Quantity>k__BackingField
       value: 10
       objectReference: {fileID: 0}
@@ -7691,6 +7715,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9055480046878982001, guid: 66d528d7559caca4d85fcb8020b48506, type: 3}
   m_PrefabInstance: {fileID: 1184449755}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1443719140 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9055480046878982013, guid: 66d528d7559caca4d85fcb8020b48506, type: 3}
+  m_PrefabInstance: {fileID: 1184449755}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1452539513 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8688022105544648137, guid: b0e609e8739aec64d8f924a33044c28a, type: 3}
@@ -9130,7 +9159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 10, y: 0}
   m_SizeDelta: {x: 280, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1857605510
@@ -9453,7 +9482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1878850656

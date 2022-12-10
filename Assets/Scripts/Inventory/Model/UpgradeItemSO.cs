@@ -15,8 +15,8 @@ namespace Inventory.Model
         }
         public string ActionName => "Upgrade";
         public UpgradeType upgradeType;
-        [Range(0, 100)]public int upgradeRate;
-        [field: SerializeField] public AudioClip actionSFX { get; private set; }
+        [Range(0, 100)]public float upgradeRate;
+        [field: SerializeField] public AudioClip actionSFX { get; set; }
 
         public bool PerformAction(GameObject character, List<ItemParameter> ltemState = null)
         {

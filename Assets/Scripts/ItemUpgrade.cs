@@ -13,7 +13,7 @@ public class ItemUpgrade : MonoBehaviour
     {
         InventoryItem material = inventoryData.GetItemAt(upgradeMaterialIndex);
         UpgradeItemSO upgradeMaterial = (UpgradeItemSO)material.item;
-        int upgradeRate = upgradeMaterial.upgradeRate;
+        float upgradeRate = upgradeMaterial.upgradeRate;
         InventoryItem item;
 
         if (!playerStat.isReadyToUpgrade)

@@ -74,7 +74,7 @@ public partial class DB_EquipItem : BGEntity
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
-	private static readonly DB_Modifier.Factory _factory3_PFS = new DB_Modifier.Factory();
+	private static readonly DB_Modifiers.Factory _factory3_PFS = new DB_Modifiers.Factory();
 	private static readonly DB_UpgradeItem.Factory _factory4_PFS = new DB_UpgradeItem.Factory();
 	private static readonly DB_UParameters.Factory _factory5_PFS = new DB_UParameters.Factory();
 	private DB_EquipItem() : base(MetaDefault)
@@ -148,7 +148,7 @@ public partial class DB_Parameters : BGEntity
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
-	private static readonly DB_Modifier.Factory _factory3_PFS = new DB_Modifier.Factory();
+	private static readonly DB_Modifiers.Factory _factory3_PFS = new DB_Modifiers.Factory();
 	private static readonly DB_UpgradeItem.Factory _factory4_PFS = new DB_UpgradeItem.Factory();
 	private static readonly DB_UParameters.Factory _factory5_PFS = new DB_UParameters.Factory();
 	private DB_Parameters() : base(MetaDefault)
@@ -232,7 +232,7 @@ public partial class DB_ConsumeItem : BGEntity
 		get => _f_Description[Index];
 		set => _f_Description[Index] = value;
 	}
-	public List<DB_Modifier> f_Modifier => BGCodeGenUtils.GetNested<DB_Modifier>(_f_Modifier, Index);
+	public List<DB_Modifiers> f_Modifier => BGCodeGenUtils.GetNested<DB_Modifiers>(_f_Modifier, Index);
 	public System.Single f_Cooltime
 	{
 		get => _f_Cooltime[Index];
@@ -259,7 +259,7 @@ public partial class DB_ConsumeItem : BGEntity
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
-	private static readonly DB_Modifier.Factory _factory3_PFS = new DB_Modifier.Factory();
+	private static readonly DB_Modifiers.Factory _factory3_PFS = new DB_Modifiers.Factory();
 	private static readonly DB_UpgradeItem.Factory _factory4_PFS = new DB_UpgradeItem.Factory();
 	private static readonly DB_UParameters.Factory _factory5_PFS = new DB_UParameters.Factory();
 	private DB_ConsumeItem() : base(MetaDefault)
@@ -294,13 +294,13 @@ public partial class DB_ConsumeItem : BGEntity
 	}
 }
 
-public partial class DB_Modifier : BGEntity
+public partial class DB_Modifiers : BGEntity
 {
 
 	public class Factory : BGEntity.EntityFactory
 	{
-		public BGEntity NewEntity(BGMetaEntity meta) => new DB_Modifier(meta);
-		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_Modifier(meta, id);
+		public BGEntity NewEntity(BGMetaEntity meta) => new DB_Modifiers(meta);
+		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_Modifiers(meta, id);
 	}
 	private static BansheeGz.BGDatabase.BGMetaNested _metaDefault;
 	public static BansheeGz.BGDatabase.BGMetaNested MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaNested>(new BGId(5759291999287320189UL,8593192556327938458UL), () => _metaDefault = null));
@@ -316,51 +316,61 @@ public partial class DB_Modifier : BGEntity
 		get => (DB_ConsumeItem) _f_ConsumeItem[Index];
 		set => _f_ConsumeItem[Index] = value;
 	}
+	public UnityEngine.ScriptableObject f_Modifier => _f_Modifier[Index];
+	public System.Single f_Value
+	{
+		get => _f_Value[Index];
+		set => _f_Value[Index] = value;
+	}
 	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_f_name;
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4791326883080331285UL, 16020650987563054220UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldRelationSingle _ufle12jhs77_f_ConsumeItem;
 	public static BansheeGz.BGDatabase.BGFieldRelationSingle _f_ConsumeItem => _ufle12jhs77_f_ConsumeItem ?? (_ufle12jhs77_f_ConsumeItem = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationSingle>(MetaDefault, new BGId(4934624028187648800UL, 12510694118486198671UL), () => _ufle12jhs77_f_ConsumeItem = null));
+	private static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _ufle12jhs77_f_Modifier;
+	public static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _f_Modifier => _ufle12jhs77_f_Modifier ?? (_ufle12jhs77_f_Modifier = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnityScriptableObject>(MetaDefault, new BGId(4981987529764665337UL, 3383002801284849593UL), () => _ufle12jhs77_f_Modifier = null));
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_Value;
+	public static BansheeGz.BGDatabase.BGFieldFloat _f_Value => _ufle12jhs77_f_Value ?? (_ufle12jhs77_f_Value = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5258966284076580453UL, 9197017191369534592UL), () => _ufle12jhs77_f_Value = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
-	private static readonly DB_Modifier.Factory _factory3_PFS = new DB_Modifier.Factory();
+	private static readonly DB_Modifiers.Factory _factory3_PFS = new DB_Modifiers.Factory();
 	private static readonly DB_UpgradeItem.Factory _factory4_PFS = new DB_UpgradeItem.Factory();
 	private static readonly DB_UParameters.Factory _factory5_PFS = new DB_UParameters.Factory();
-	private DB_Modifier() : base(MetaDefault)
+	private DB_Modifiers() : base(MetaDefault)
 	{
 	}
-	private DB_Modifier(BGId id) : base(MetaDefault, id)
+	private DB_Modifiers(BGId id) : base(MetaDefault, id)
 	{
 	}
-	private DB_Modifier(BGMetaEntity meta) : base(meta)
+	private DB_Modifiers(BGMetaEntity meta) : base(meta)
 	{
 	}
-	private DB_Modifier(BGMetaEntity meta, BGId id) : base(meta, id)
+	private DB_Modifiers(BGMetaEntity meta, BGId id) : base(meta, id)
 	{
 	}
-	public static DB_Modifier FindEntity(Predicate<DB_Modifier> filter)
+	public static DB_Modifiers FindEntity(Predicate<DB_Modifiers> filter)
 	{
-		return MetaDefault.FindEntity(entity => filter==null || filter((DB_Modifier) entity)) as DB_Modifier;
+		return MetaDefault.FindEntity(entity => filter==null || filter((DB_Modifiers) entity)) as DB_Modifiers;
 	}
-	public static List<DB_Modifier> FindEntities(Predicate<DB_Modifier> filter, List<DB_Modifier> result=null, Comparison<DB_Modifier> sort=null) => BGCodeGenUtils.FindEntities(MetaDefault, filter, result, sort);
-	public static void ForEachEntity(Action<DB_Modifier> action, Predicate<DB_Modifier> filter=null, Comparison<DB_Modifier> sort=null)
+	public static List<DB_Modifiers> FindEntities(Predicate<DB_Modifiers> filter, List<DB_Modifiers> result=null, Comparison<DB_Modifiers> sort=null) => BGCodeGenUtils.FindEntities(MetaDefault, filter, result, sort);
+	public static void ForEachEntity(Action<DB_Modifiers> action, Predicate<DB_Modifiers> filter=null, Comparison<DB_Modifiers> sort=null)
 	{
-		MetaDefault.ForEachEntity(entity => action((DB_Modifier) entity), filter == null ? null : (Predicate<BGEntity>) (entity => filter((DB_Modifier) entity)), sort==null?(Comparison<BGEntity>) null:(e1,e2) => sort((DB_Modifier)e1,(DB_Modifier)e2));
+		MetaDefault.ForEachEntity(entity => action((DB_Modifiers) entity), filter == null ? null : (Predicate<BGEntity>) (entity => filter((DB_Modifiers) entity)), sort==null?(Comparison<BGEntity>) null:(e1,e2) => sort((DB_Modifiers)e1,(DB_Modifiers)e2));
 	}
-	public static DB_Modifier GetEntity(BGId entityId) => (DB_Modifier) MetaDefault.GetEntity(entityId);
-	public static DB_Modifier GetEntity(int index) => (DB_Modifier) MetaDefault[index];
-	public static DB_Modifier GetEntity(string entityName) => (DB_Modifier) MetaDefault.GetEntity(entityName);
-	public static DB_Modifier NewEntity() => (DB_Modifier) MetaDefault.NewEntity();
-	public static DB_Modifier NewEntity(BGId entityId) => (DB_Modifier) MetaDefault.NewEntity(entityId);
-	public static DB_Modifier NewEntity(Action<DB_Modifier> callback)
+	public static DB_Modifiers GetEntity(BGId entityId) => (DB_Modifiers) MetaDefault.GetEntity(entityId);
+	public static DB_Modifiers GetEntity(int index) => (DB_Modifiers) MetaDefault[index];
+	public static DB_Modifiers GetEntity(string entityName) => (DB_Modifiers) MetaDefault.GetEntity(entityName);
+	public static DB_Modifiers NewEntity() => (DB_Modifiers) MetaDefault.NewEntity();
+	public static DB_Modifiers NewEntity(BGId entityId) => (DB_Modifiers) MetaDefault.NewEntity(entityId);
+	public static DB_Modifiers NewEntity(Action<DB_Modifiers> callback)
 	{
-		return (DB_Modifier) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_Modifier)entity)));
+		return (DB_Modifiers) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_Modifiers)entity)));
 	}
-	public static DB_Modifier NewEntity(DB_ConsumeItem owner) => (DB_Modifier) MetaDefault.NewEntity(owner);
-	public static DB_Modifier NewEntity(DB_ConsumeItem owner, BGId entityId) => (DB_Modifier) MetaDefault.NewEntity(owner, entityId);
-	public static DB_Modifier NewEntity(DB_ConsumeItem owner, Action<DB_Modifier> callback)
+	public static DB_Modifiers NewEntity(DB_ConsumeItem owner) => (DB_Modifiers) MetaDefault.NewEntity(owner);
+	public static DB_Modifiers NewEntity(DB_ConsumeItem owner, BGId entityId) => (DB_Modifiers) MetaDefault.NewEntity(owner, entityId);
+	public static DB_Modifiers NewEntity(DB_ConsumeItem owner, Action<DB_Modifiers> callback)
 	{
-		return (DB_Modifier) MetaDefault.NewEntity(owner, new BGMetaEntity.NewEntityContext(entity => callback((DB_Modifier)entity)));
+		return (DB_Modifiers) MetaDefault.NewEntity(owner, new BGMetaEntity.NewEntityContext(entity => callback((DB_Modifiers)entity)));
 	}
 }
 
@@ -402,6 +412,11 @@ public partial class DB_UpgradeItem : BGEntity
 		get => (ColorPallete.ItemQuality) _f_Quality[Index];
 		set => _f_Quality[Index] = value;
 	}
+	public System.String f_Description
+	{
+		get => _f_Description[Index];
+		set => _f_Description[Index] = value;
+	}
 	public Inventory.Model.UpgradeItemSO.UpgradeType f_UpgradeType
 	{
 		get => (Inventory.Model.UpgradeItemSO.UpgradeType) _f_UpgradeType[Index];
@@ -425,6 +440,8 @@ public partial class DB_UpgradeItem : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEnum _f_Type => _ufle12jhs77_f_Type ?? (_ufle12jhs77_f_Type = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEnum>(MetaDefault, new BGId(5401886081841782295UL, 3112386677097242791UL), () => _ufle12jhs77_f_Type = null));
 	private static BansheeGz.BGDatabase.BGFieldEnum _ufle12jhs77_f_Quality;
 	public static BansheeGz.BGDatabase.BGFieldEnum _f_Quality => _ufle12jhs77_f_Quality ?? (_ufle12jhs77_f_Quality = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEnum>(MetaDefault, new BGId(5591364292273270149UL, 8977164414117967509UL), () => _ufle12jhs77_f_Quality = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Description;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Description => _ufle12jhs77_f_Description ?? (_ufle12jhs77_f_Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4633443176165630650UL, 12710068585848118409UL), () => _ufle12jhs77_f_Description = null));
 	private static BansheeGz.BGDatabase.BGFieldEnum _ufle12jhs77_f_UpgradeType;
 	public static BansheeGz.BGDatabase.BGFieldEnum _f_UpgradeType => _ufle12jhs77_f_UpgradeType ?? (_ufle12jhs77_f_UpgradeType = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEnum>(MetaDefault, new BGId(5681881384962623929UL, 11484005625970283146UL), () => _ufle12jhs77_f_UpgradeType = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_UpgradeRate;
@@ -434,7 +451,7 @@ public partial class DB_UpgradeItem : BGEntity
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
-	private static readonly DB_Modifier.Factory _factory3_PFS = new DB_Modifier.Factory();
+	private static readonly DB_Modifiers.Factory _factory3_PFS = new DB_Modifiers.Factory();
 	private static readonly DB_UpgradeItem.Factory _factory4_PFS = new DB_UpgradeItem.Factory();
 	private static readonly DB_UParameters.Factory _factory5_PFS = new DB_UParameters.Factory();
 	private DB_UpgradeItem() : base(MetaDefault)
@@ -508,7 +525,7 @@ public partial class DB_UParameters : BGEntity
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
-	private static readonly DB_Modifier.Factory _factory3_PFS = new DB_Modifier.Factory();
+	private static readonly DB_Modifiers.Factory _factory3_PFS = new DB_Modifiers.Factory();
 	private static readonly DB_UpgradeItem.Factory _factory4_PFS = new DB_UpgradeItem.Factory();
 	private static readonly DB_UParameters.Factory _factory5_PFS = new DB_UParameters.Factory();
 	private DB_UParameters() : base(MetaDefault)

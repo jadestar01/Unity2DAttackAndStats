@@ -6,11 +6,10 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [field: SerializeField] public ItemSO InventoryItem { get; private set; }       //드랍된 아이템
+    [field: SerializeField] public ItemSO InventoryItem { get; set; }       //드랍된 아이템
     [field: SerializeField] public int Quantity { get; set; } = 1;                  //아이템의 개수
     [SerializeField] private AudioSource audioSource;                               //획득 소리
     [SerializeField] private float duration = 0.3f;                                 //획득 이벤트 시간
-
     private void Start()
     {
         //아이템 생성

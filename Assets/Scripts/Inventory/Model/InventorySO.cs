@@ -50,6 +50,7 @@ namespace Inventory.Model
 
         private int AddItemToFirstFreeSlot(ItemSO item, int quantity, List<ItemParameter> itemState = null, List<UpgradeResult> upgradeResults = null)
         {
+            //item.DefaultParametersList, itemState, item.DefaultUpgradeResults, upgradeResults »Æ¿Œ
             InventoryItem newItem = new InventoryItem
             {
                 item = item,

@@ -1,25 +1,21 @@
 using BansheeGz.BGDatabase;
-using ColorPallete;
 using Inventory.Model;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities.Editor;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using static BansheeGz.BGDatabase.BGJsonRepoModel;
-using static Inventory.Model.ItemSO;
 
 public class DBLoader : MonoBehaviour
 {
-    [ShowInInspector] Dictionary<int, EquippableItemSO> EquippableItemDB = new Dictionary<int, EquippableItemSO>();
-    [ShowInInspector] Dictionary<int, EdibleItemSO> EdibleItemDB = new Dictionary<int, EdibleItemSO>();
-    [ShowInInspector] Dictionary<int, UpgradeItemSO> UpgradeItemDB = new Dictionary<int, UpgradeItemSO>();
+    [ShowInInspector] public Dictionary<int, EquippableItemSO> EquipItemDB = new Dictionary<int, EquippableItemSO>();
+    [ShowInInspector] public Dictionary<int, EdibleItemSO> ConsumeItemDB = new Dictionary<int, EdibleItemSO>();
+    [ShowInInspector] public Dictionary<int, UpgradeItemSO> UpgradeItemDB = new Dictionary<int, UpgradeItemSO>();
     void Awake()
     {
         Init();
         EqiupItemParsing();
+        ConsumeItemParsing();
+        UpgradeItemParsing();
     }
 
     private void Init()
@@ -29,25 +25,11 @@ public class DBLoader : MonoBehaviour
         //수동으로 콘텐츠를 로드한다.
         BGRepo.SetDefaultRepoContent(databaseData);
         BGRepo.Load();
-        /*
-        //DB에 접근한 뒤 데이터를 불러와서 쓴다.
-        //Resource Loader와 동일하다.
-        BGMetaEntity table = BGRepo.I["EquipItem"];            //Table(Sheet) 선택
-        BGEntity entity = table.GetEntity(index);                   //행 가져오기
-        Debug.Log("ID : " + entity.Get<int>("ID") + ", Name : " + entity.Get<string>("Name"));
-        for (int i = 0; i < entity.Get<List<BGEntity>>("Parameters").Count; i++)
-        {
-            Debug.Log(entity.Get<List<BGEntity>>("Parameters")[i].Get<ScriptableObject>("Parameter"));
-            Debug.Log(entity.Get<List<BGEntity>>("Parameters")[i].Get<float>("Value"));
-        }
-        */
     }
 
     private void EqiupItemParsing()
     {
         Debug.Log("Start EquipItemParsing");
-
-        ItemType a = DB_EquipItem.GetEntity(0).f_Type;
 
         List<BGEntity> entities = BGRepo.I["EquipItem"].EntitiesToList();
         for (int i = 0; i < entities.Count; i++)
@@ -78,41 +60,83 @@ public class DBLoader : MonoBehaviour
                 MaxStackSize = 1,
                 actionSFX = null
             };
-            EquippableItemDB.Add(entities[i].Get<int>("ID"), item);
+            EquipItemDB.Add(entities[i].Get<int>("ID"), item);
         }
+    }
 
-        /*
-        foreach (BGEntity entity in entities)
+    private void ConsumeItemParsing()
+    {
+        Debug.Log("Start ConsumeItemParsing");
+
+        List<BGEntity> entities = BGRepo.I["ConsumeItem"].EntitiesToList();
+        for (int i = 0; i < entities.Count; i++)
         {
+            List<ModifierData> itemModifiers = new List<ModifierData>();
+            List<BGEntity> modifiers = entities[i].Get<List<BGEntity>>("Modifier");
+            for (int j = 0; j < modifiers.Count; j++)
+            {
+                ModifierData modifier = new ModifierData
+                {
+                    statModifier = (CharacterStatModifierSO)modifiers[j].Get<ScriptableObject>("Modifier"),
+                    value = modifiers[j].Get<float>("Value")
+                };
+                itemModifiers.Add(modifier);
+            }
 
+            EdibleItemSO item = new EdibleItemSO
+            {
+                ID = entities[i].Get<int>("ID"),
+                ItemImage = entities[i].Get<Sprite>("Image"),
+                Name = entities[i].Get<string>("Name"),
+                Type = DB_EquipItem.GetEntity(i).f_Type,
+                Quality = DB_EquipItem.GetEntity(i).f_Quality,
+                Description = entities[i].Get<string>("Description"),
+                DefaultParametersList = null,
+                modifierData = itemModifiers,
+                coolTime = entities[i].Get<float>("Cooltime"),
+                InStackable = true,
+                MaxStackSize = 30,
+                actionSFX = null
+            };
+            ConsumeItemDB.Add(entities[i].Get<int>("ID"), item);
+        }
+    }
+
+    private void UpgradeItemParsing()
+    {
+        Debug.Log("Start UpgradeItemParsing");
+
+        List<BGEntity> entities = BGRepo.I["UpgradeItem"].EntitiesToList();
+        for (int i = 0; i < entities.Count; i++)
+        {
             List<ItemParameter> itemParameters = new List<ItemParameter>();
-            List<BGEntity> parameters = entity.Get<List<BGEntity>>("Parameters");
-            foreach (BGEntity parameter in parameters)
+            List<BGEntity> parameters = entities[i].Get<List<BGEntity>>("UParameters");
+            for (int j = 0; j < parameters.Count; j++)
             {
                 ItemParameter itemParameter = new ItemParameter
                 {
-                    itemParameter = (ItemParameterSO)parameter.Get<ScriptableObject>("Parameter"),
-                    value = parameter.Get<float>("Value")
+                    itemParameter = (ItemParameterSO)parameters[j].Get<ScriptableObject>("Parameter"),
+                    value = parameters[j].Get<float>("Value")
                 };
                 itemParameters.Add(itemParameter);
             }
 
-            EquippableItemSO item = new EquippableItemSO {
-                ID = entity.Get<int>("ID"),
-                ItemImage = entity.Get<Sprite>("Image"),
-                Name = entity.Get<string>("Name"),
-                Type = entity.Get<ItemType> ("Type"),
-                Quality = entity.Get<ItemQuality>("Quality"),
-                Description = entity.Get<string>("Description"),
+            UpgradeItemSO item = new UpgradeItemSO
+            {
+                ID = entities[i].Get<int>("ID"),
+                ItemImage = entities[i].Get<Sprite>("Image"),
+                Name = entities[i].Get<string>("Name"),
+                Type = DB_UpgradeItem.GetEntity(i).f_Type,
+                Quality = DB_UpgradeItem.GetEntity(i).f_Quality,
+                Description = entities[i].Get<string>("Description"),
                 DefaultParametersList = itemParameters,
-                weapon = entity.Get<GameObject>("Weapon"),
-                InStackable = false,
-                MaxStackSize = 1,
-                actionSFX = null
+                InStackable = true,
+                MaxStackSize = 10,
+                actionSFX = null,
+                upgradeType = DB_UpgradeItem.GetEntity(i).f_UpgradeType,
+                upgradeRate = entities[i].Get<float>("UpgradeRate")
             };
-
-            EquippableItemDB.Add(entity.Get<int>("ID"), item);
+            UpgradeItemDB.Add(entities[i].Get<int>("ID"), item);
         }
-        */
     }
 }
