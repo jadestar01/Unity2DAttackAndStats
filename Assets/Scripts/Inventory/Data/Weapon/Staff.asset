@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Staff
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 0
+  ID: 3
   <MaxStackSize>k__BackingField: 1
   <Name>k__BackingField: "\uD478\uB978 \uB3CC \uC2A4\uD0DC\uD504"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: f8d679945b04a5841a86c4bca8a8d6f4, type: 3}
@@ -28,5 +29,7 @@ MonoBehaviour:
     value: 40
   - itemParameter: {fileID: 11400000, guid: e8a4df56c679c3d4abe48d2e69649021, type: 2}
     value: 3
+  <DefaultUpgradeResults>k__BackingField: 
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
   weapon: {fileID: 7033108517766533365, guid: e3a7402c84624e644873f512bf565b53, type: 3}
+  upgradeResults: 

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ColorPallete;
-using System.Runtime.InteropServices.WindowsRuntime;
 using static Inventory.Model.EquippableItemSO;
 
 namespace Inventory.Model
@@ -24,7 +23,7 @@ namespace Inventory.Model
         };
         //아이템 데이터 모델
         [field: SerializeField] public bool InStackable { get; set; }
-        public int ID => GetInstanceID();
+        public int ID;  //=> GetInstanceID()
         [field: SerializeField] public int MaxStackSize { get; set; } = 1;
         [field: SerializeField] public string Name { get; set; }
         [field: SerializeField] public Sprite ItemImage { get; set; }

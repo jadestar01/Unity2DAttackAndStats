@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec5faab3f6960194b9201fe769f128fd, type: 3}
-  m_Name: AAA
+  m_Name: MagicalCritRate
   m_EditorClassIdentifier: 
-  <ParameterName>k__BackingField: AA
-  <ParameterCode>k__BackingField: 100
+  <ParameterName>k__BackingField: MagicalCritRate
+  <ParameterCode>k__BackingField: 22

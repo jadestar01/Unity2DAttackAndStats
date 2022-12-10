@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Upgrade01
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 0
+  ID: 6
   <MaxStackSize>k__BackingField: 1
   <Name>k__BackingField: "\uC2AC\uB77C\uC784 \uD575"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 9784e0c9f2ece264085226f68fa647ab, type: 3}

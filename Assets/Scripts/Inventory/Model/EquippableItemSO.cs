@@ -17,7 +17,7 @@ namespace Inventory.Model
         };
         public string ActionName => "Equip";
 
-        [field: SerializeField] public AudioClip actionSFX { get; private set; }
+        [field: SerializeField] public AudioClip actionSFX { get; set; }
         [field: SerializeField] public GameObject weapon;
         public List<UpgradeResult> upgradeResults = new List<UpgradeResult>();
 
