@@ -215,9 +215,8 @@ MonoBehaviour:
   inventorySO: {fileID: 11400000, guid: 6491d47f2bbd16243a2474c63e414eae, type: 2}
   dropItem: {fileID: 9055480046878982010, guid: 66d528d7559caca4d85fcb8020b48506, type: 3}
   Player: {fileID: 225159042}
-  dataBase: 0
   code: 0
-  quantity: 0
+  quantity: 1
 --- !u!1 &50891399
 GameObject:
   m_ObjectHideFlags: 0

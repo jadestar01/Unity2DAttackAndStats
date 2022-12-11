@@ -58,6 +58,7 @@ public class DBLoader : MonoBehaviour
                 weapon = entities[i].Get<GameObject>("Weapon"),
                 InStackable = false,
                 MaxStackSize = 1,
+                DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>(),
                 actionSFX = null
             };
             EquipItemDB.Add(entities[i].Get<int>("ID"), item);
@@ -88,14 +89,15 @@ public class DBLoader : MonoBehaviour
                 ID = entities[i].Get<int>("ID"),
                 ItemImage = entities[i].Get<Sprite>("Image"),
                 Name = entities[i].Get<string>("Name"),
-                Type = DB_EquipItem.GetEntity(i).f_Type,
-                Quality = DB_EquipItem.GetEntity(i).f_Quality,
+                Type = DB_ConsumeItem.GetEntity(i).f_Type,
+                Quality = DB_ConsumeItem.GetEntity(i).f_Quality,
                 Description = entities[i].Get<string>("Description"),
-                DefaultParametersList = null,
+                DefaultParametersList = new List<ItemParameter>(),
                 modifierData = itemModifiers,
                 coolTime = entities[i].Get<float>("Cooltime"),
                 InStackable = true,
                 MaxStackSize = 30,
+                DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>(),
                 actionSFX = null
             };
             ConsumeItemDB.Add(entities[i].Get<int>("ID"), item);
@@ -133,6 +135,7 @@ public class DBLoader : MonoBehaviour
                 InStackable = true,
                 MaxStackSize = 10,
                 actionSFX = null,
+                DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>(),
                 upgradeType = DB_UpgradeItem.GetEntity(i).f_UpgradeType,
                 upgradeRate = entities[i].Get<float>("UpgradeRate")
             };

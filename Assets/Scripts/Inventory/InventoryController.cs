@@ -592,10 +592,6 @@ namespace Inventory
 
         public void Update()
         {
-            foreach (KeyValuePair<int, Cooltime> aa in cooltime)
-            {
-                Debug.Log(aa.Key + ", " + aa.Value.time);
-            }
             CooltimeIndicator();
             foreach (var item in inventoryData.GetCurrentInventoryState())
             {

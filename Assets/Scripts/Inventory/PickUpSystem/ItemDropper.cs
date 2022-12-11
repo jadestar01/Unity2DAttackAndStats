@@ -7,77 +7,59 @@ using static UnityEditor.Progress;
 
 public class ItemDropper : MonoBehaviour
 {
-    public enum DB
-    {
-        EquipItemDB,
-        ConsumeItemDB,
-        UpgradeItemDB
-    };
-
     [SerializeField] DBLoader dbLoader;
     [SerializeField] InventorySO inventorySO;
     [SerializeField] GameObject dropItem;
     [SerializeField] GameObject Player;
-    public DB dataBase;
     public int code;
     public int quantity = 1;
 
     [Button]
     void ItemDrop()
     {
-        if (dataBase == DB.EquipItemDB)
+        //droppedItem.GetComponent<Item>().InventoryItem = item;
+        if (dbLoader.EquipItemDB.ContainsKey(code))
         {
-            if (dbLoader.EquipItemDB[code] == null)
-                return;
+            GameObject droppedItem = Instantiate(dropItem, Player.transform.position, Quaternion.identity);
+            droppedItem.GetComponent<Item>().InventoryItem = dbLoader.EquipItemDB[code];
+            droppedItem.GetComponent<Item>().Quantity = quantity;
         }
-        else if (dataBase == DB.ConsumeItemDB)
+        else if (dbLoader.ConsumeItemDB.ContainsKey(code))
         {
-            if (dbLoader.ConsumeItemDB[code] == null)
-                return;
+            GameObject droppedItem = Instantiate(dropItem, Player.transform.position, Quaternion.identity);
+            droppedItem.GetComponent<Item>().InventoryItem = dbLoader.ConsumeItemDB[code];
+            droppedItem.GetComponent<Item>().Quantity = quantity;
         }
-        else if (dataBase == DB.ConsumeItemDB)
+        else if (dbLoader.UpgradeItemDB.ContainsKey(code))
         {
-            if (dbLoader.UpgradeItemDB[code] == null)
-                return;
+            GameObject droppedItem = Instantiate(dropItem, Player.transform.position, Quaternion.identity);
+            droppedItem.GetComponent<Item>().InventoryItem = dbLoader.UpgradeItemDB[code];
+            droppedItem.GetComponent<Item>().Quantity = quantity;
         }
-
-        GameObject droppedItem = Instantiate(dropItem, Player.transform.position, Quaternion.identity);
-        if (dataBase == DB.EquipItemDB)
+        else
         {
-             ItemSO item = dbLoader.EquipItemDB[code];
-             droppedItem.GetComponent<Item>().InventoryItem = item;
+            Debug.Log("Can not Drop Item! There is no item (Code:" + code + ")");
         }
-        else if (dataBase == DB.ConsumeItemDB)
-        {
-            ItemSO item = dbLoader.ConsumeItemDB[code];
-            droppedItem.GetComponent<Item>().InventoryItem = item;
-        }
-        else if (dataBase == DB.ConsumeItemDB)
-        {
-            ItemSO item = dbLoader.UpgradeItemDB[code];
-            droppedItem.GetComponent<Item>().InventoryItem = item;
-        }
-        droppedItem.GetComponent<Item>().Quantity = quantity;
     }
 
     [Button]
     void AddItem()
     {
-        ItemSO item;
-        if (dataBase == DB.EquipItemDB)
+        if (dbLoader.EquipItemDB.ContainsKey(code))
         {
-            item = dbLoader.EquipItemDB[code];
-            inventorySO.AddItem(item, quantity);
+            inventorySO.AddItem(dbLoader.EquipItemDB[code], quantity);
         }
-        else if (dataBase == DB.ConsumeItemDB)
+        else if (dbLoader.ConsumeItemDB.ContainsKey(code))
         {
-            item = dbLoader.ConsumeItemDB[code];
-            inventorySO.AddItem(item, quantity);
+            inventorySO.AddItem(dbLoader.ConsumeItemDB[code], quantity);
         }
-        else if (dataBase == DB.ConsumeItemDB)
+        else if (dbLoader.UpgradeItemDB.ContainsKey(code))
         {
-            item = dbLoader.UpgradeItemDB[code];
-            inventorySO.AddItem(item, quantity);
+            inventorySO.AddItem(dbLoader.UpgradeItemDB[code], quantity);
+        }
+        else
+        {
+            Debug.Log("Can not Add Item! There is no item (Code:" + code + ")");
         }
     }
 }
