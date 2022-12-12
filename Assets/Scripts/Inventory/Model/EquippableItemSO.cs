@@ -31,5 +31,32 @@ namespace Inventory.Model
             }
             return false;
         }
+
+        public EquippableItemSO DeepCopy()
+        {
+            EquippableItemSO item = new EquippableItemSO();
+            item.InStackable = InStackable;
+            item.MaxStackSize = MaxStackSize;
+            item.ItemImage = ItemImage;
+            item.ID = ID;
+            item.Name = Name;
+            item.Type = Type;
+            item.Quality = Quality;
+            item.Description = Description;
+            item.DefaultParametersList = new List<ItemParameter>();
+            for (int i = 0; i < DefaultParametersList.Count; i++)
+            {
+                item.DefaultParametersList.Add(DefaultParametersList[i]);
+            }
+            item.DefaultUpgradeResults = new List<UpgradeResult>();
+            for (int i = 0; i < DefaultUpgradeResults.Count; i++)
+            {
+                item.DefaultUpgradeResults.Add(DefaultUpgradeResults[i]);
+            }
+            item.actionSFX = actionSFX;
+            item.weapon = weapon;
+
+            return item;
+        }
     }
 }

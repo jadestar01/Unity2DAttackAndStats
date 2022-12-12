@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Inventory.Model.EquippableItemSO;
 
 namespace Inventory.Model
 {
@@ -24,6 +25,38 @@ namespace Inventory.Model
                 data.statModifier.AffectCharacter(character, data.value);
             }
             return true;
+        }
+
+        public EdibleItemSO DeepCopy()
+        {
+            EdibleItemSO item = new EdibleItemSO();
+            item.InStackable = InStackable;
+            item.MaxStackSize = MaxStackSize;
+            item.ItemImage = ItemImage;
+            item.ID = ID;
+            item.Name = Name;
+            item.Type = Type;
+            item.Quality = Quality;
+            item.Description = Description;
+            item.DefaultParametersList = new List<ItemParameter>();
+            for (int i = 0; i < DefaultParametersList.Count; i++)
+            {
+                item.DefaultParametersList.Add(DefaultParametersList[i]);
+            }
+            item.DefaultUpgradeResults = new List<UpgradeResult>();
+            for (int i = 0; i < DefaultUpgradeResults.Count; i++)
+            {
+                item.DefaultUpgradeResults.Add(DefaultUpgradeResults[i]);
+            }
+            item.actionSFX = actionSFX;
+            for (int i = 0; i < modifierData.Count; i++)
+            {
+                item.modifierData.Add(modifierData[i]);
+            }
+            item.coolTime = coolTime;
+            item.canUse = canUse;
+
+            return item;
         }
     }
 
