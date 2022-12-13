@@ -47,6 +47,14 @@ namespace Inventory.Model
         public ItemParameterSO itemParameter;
         public float value;
 
+        public ItemParameter SetParameterValue(float a)
+        {
+            return new ItemParameter
+            {
+                itemParameter = this.itemParameter,
+                value = a
+            };
+        }
 
         public ItemParameter AddParameterValue(float a)
         {
