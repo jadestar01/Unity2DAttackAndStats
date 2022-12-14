@@ -13,17 +13,23 @@ MonoBehaviour:
   m_Name: Potion
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 1
+  ID: 5123
   <MaxStackSize>k__BackingField: 20
   <Name>k__BackingField: "\uCCB4\uB825 \uD3EC\uC158"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 4ddc3d23a341f97439d7fe0c5757d6f3, type: 3}
   Type: 1
   Quality: 1
-  <Description>k__BackingField: "\uCCB4\uB825\uC744 10\uB9CC\uD07C \uD68C\uBCF5\uD569\uB2C8\uB2E4."
+  <Description>k__BackingField: "\uB9C8\uB098\uC640 \uAE30\uB825\uC744 10\uB9CC\uD07C
+    \uD68C\uBCF5\uD569\uB2C8\uB2E4."
   <DefaultParametersList>k__BackingField: []
   <DefaultUpgradeResults>k__BackingField: 
   coolTime: 5
   canUse: 1
   modifierData:
-  - statModifier: {fileID: 11400000, guid: 779e4211b6bede345a741a6f30ad0583, type: 2}
+  - statModifier: {fileID: 11400000, guid: 8bd2f69dd5a56654a9958b33dee8adc8, type: 2}
+    buff: {fileID: 0}
+    value: 10
+  - statModifier: {fileID: 11400000, guid: f8beacaa1dd114e49a78cd813e0d87ed, type: 2}
+    buff: {fileID: 0}
     value: 10
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}

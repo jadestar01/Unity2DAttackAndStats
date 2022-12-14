@@ -54,6 +54,7 @@ public class DBCustomManager : MonoBehaviour
     [FoldoutGroup("ConsumeItem")] public TMP_Dropdown C_itemQuality;
     [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemDescription;
     [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemCooltime;
+    [FoldoutGroup("ConsumeItem")] public GameObject C_itemModifierPannel;
 
     [FoldoutGroup("UpgradeItem")] public GameObject U;
     [FoldoutGroup("UpgradeItem")] public UnityEngine.UI.Image U_itemImage;
@@ -170,6 +171,7 @@ public class DBCustomManager : MonoBehaviour
             {
                 consumeItem = loader.ConsumeItemDB[Key].DeepCopy();
                 currentConsumeItem = loader.ConsumeItemDB[Key].DeepCopy();
+                ConsumeItemSetting();
             }
             else if (DB == 2)
             {
@@ -179,6 +181,7 @@ public class DBCustomManager : MonoBehaviour
             }
         }
     }
+
 
     public void AddItem()
     {
@@ -203,6 +206,23 @@ public class DBCustomManager : MonoBehaviour
         }
         else if (DB == 1)
         {
+            if (loader.ConsumeItemDB.Count == 0)
+                Key = 0;
+            else
+                Key = loader.ConsumeItemDB.Aggregate((x, y) => x.Key > y.Key ? x : y).Key + 1;
+            EdibleItemSO newItem = new EdibleItemSO
+            {
+                ItemImage = defaultSprite,
+                Type = ItemType.Potion,
+                Quality = ItemQuality.Normal,
+                DefaultParametersList = new List<ItemParameter>(),
+                DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>(),
+                modifierData = new List<ModifierData>()
+        };
+            loader.ConsumeItemDB.Add(Key, newItem);
+            consumeItem = loader.ConsumeItemDB[Key];
+            currentConsumeItem = loader.ConsumeItemDB[Key];
+            ItemListSetting();
         }
         else if (DB == 2)
         {
@@ -239,7 +259,11 @@ public class DBCustomManager : MonoBehaviour
         }
         else if (DB == 1)
         {
-
+            loader.ConsumeItemDB.Remove(Key);
+            if (loader.ConsumeItemDB.Count != 0)
+                Key = loader.ConsumeItemDB.Keys.Last();
+            else
+                Key = -1;
         }
         else if (DB == 2)
         {
@@ -264,6 +288,10 @@ public class DBCustomManager : MonoBehaviour
         }
         else if (DB == 1)
         {
+            loader.ConsumeItemDB.Remove(Key);
+            loader.ConsumeItemDB.Add(Key, currentConsumeItem);
+            ItemListSetting();
+            ItemSetting();
         }
         else if (DB == 2)
         {
@@ -296,6 +324,23 @@ public class DBCustomManager : MonoBehaviour
         }
         else if (DB == 1)
         {
+            consumeItem.ID = int.Parse(C_itemCode.text);
+            consumeItem.Name = C_itemName.text;
+            consumeItem.Description = C_itemDescription.text;
+            consumeItem.Type = (ItemType)(C_itemType.value);
+            consumeItem.Quality = (ItemQuality)(C_itemQuality.value + 1);
+            consumeItem.coolTime = float.Parse(C_itemCooltime.text);
+            for (int i = 0; i < consumeItem.modifierData.Count; i++)    //중앙값, Defalut Modifier로 변경
+            {
+                //consumeItem에 모디파이어 추가
+                //ConsumeItem.modifierData.Add(~~);
+            }
+
+            Key = consumeItem.ID;
+            loader.ConsumeItemDB.Remove(Key);
+            loader.ConsumeItemDB.Add(Key, consumeItem);
+            ItemListSetting();
+            ItemSetting();
         }
         else if (DB == 2)
         {
@@ -377,6 +422,62 @@ public class DBCustomManager : MonoBehaviour
             GameObject item = Instantiate(E_itemParameter);
             item.transform.SetParent(E_itemParameterPannel.transform);
             item.GetComponent<DefaultParameter>().SetParameter(equipItem.DefaultParametersList[i].itemParameter, equipItem.DefaultParametersList[i].value);
+        }
+        ItemListSetting();
+    }
+
+    private void ConsumeItemSetting()
+    {
+        for (int i = 0; i < C_itemModifierPannel.transform.childCount; i++)
+        {
+            Destroy(C_itemModifierPannel.transform.GetChild(C_itemModifierPannel.transform.childCount - 1 - i).gameObject);
+        }
+        C_itemImage.sprite = consumeItem.ItemImage;
+        C_itemCode.text = Key.ToString();
+        C_itemCode.placeholder.GetComponent<TMP_Text>().text = Key.ToString();
+
+        if (consumeItem.Name == null)
+        {
+            C_itemName.text = "새 아이템";
+            C_itemName.placeholder.GetComponent<TMP_Text>().text = "이름";
+        }
+        else
+        {
+            C_itemName.text = consumeItem.Name;
+            C_itemName.placeholder.GetComponent<TMP_Text>().text = consumeItem.Name;
+        }
+
+        C_itemType.value = (int)consumeItem.Type - 3;
+        C_itemQuality.value = (int)consumeItem.Quality - 1;
+
+        if (consumeItem.Description == null)
+        {
+            C_itemDescription.text = "";
+            C_itemDescription.placeholder.GetComponent<TMP_Text>().text = "아이템 설명";
+        }
+        else
+        {
+            C_itemDescription.text = consumeItem.Description;
+            C_itemDescription.placeholder.GetComponent<TMP_Text>().text = consumeItem.Description;
+        }
+
+        C_itemCooltime.text = consumeItem.coolTime.ToString();
+
+        for (int i = 0; i < consumeItem.modifierData.Count; i++)
+        {
+            /*
+            GameObject item = Instantiate(C_itemParameter);
+            item.transform.SetParent(C_itemParameterPannel.transform);
+            item.GetComponent<DefaultParameter>().SetParameter(consumeItem.DefaultParametersList[i].itemParameter, consumeItem.DefaultParametersList[i].value);
+            */
+            //DefaultModifier 사용해서 변경
+            /*
+            for (int i = 0; i < consumeItem.modifierData.Count; i++)
+            {
+                C_currentModifier.GetComponent<DefaultModifier>().modifierData = consumeItem.modifierData[i].Copy();
+                C_currentModifier.GetComponent<DefaultModifier>().SetDefaultModifier();
+            }
+            */
         }
         ItemListSetting();
     }
@@ -504,5 +605,16 @@ public class DBCustomManager : MonoBehaviour
         {
             upgradeItem = loader.UpgradeItemDB[Key];
         }
+    }
+
+    public void BuffAdd(BuffSO buff)
+    {
+        Debug.Log(buff);
+        consumeItem.modifierData.Add(new ModifierData
+        {
+            statModifier = new BuffModifier(),
+            buff = buff,
+            value = 0
+        });
     }
 }

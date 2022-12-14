@@ -79,5 +79,17 @@ namespace Inventory.Model
         public CharacterStatModifierSO statModifier;
         public BuffSO buff;
         public float value;
+
+        public ModifierData Copy()
+        {
+            ModifierData newItem = new ModifierData
+            {
+                statModifier = this.statModifier,
+                buff = this.buff,
+                value = this.value
+            };
+
+            return newItem;
+        }
     }
 }

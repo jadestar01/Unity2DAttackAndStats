@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Big Potion
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 1
+  ID: 41331
   <MaxStackSize>k__BackingField: 5
   <Name>k__BackingField: "\uB300\uD615 \uCCB4\uB825 \uD3EC\uC158"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 4ddc3d23a341f97439d7fe0c5757d6f3, type: 3}
@@ -24,6 +25,7 @@ MonoBehaviour:
   coolTime: 5
   canUse: 1
   modifierData:
-  - statModifier: {fileID: 11400000, guid: 779e4211b6bede345a741a6f30ad0583, type: 2}
+  - statModifier: {fileID: 11400000, guid: 5380879c1a828eb4e9e9fee88e32e971, type: 2}
+    buff: {fileID: 0}
     value: 40
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}

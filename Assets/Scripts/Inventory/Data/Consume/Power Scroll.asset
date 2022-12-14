@@ -13,12 +13,20 @@ MonoBehaviour:
   m_Name: Power Scroll
   m_EditorClassIdentifier: 
   <InStackable>k__BackingField: 1
+  ID: 12314
   <MaxStackSize>k__BackingField: 10
-  <Name>k__BackingField: "\uD798\uC758 \uC2A4\uD06C\uB864"
+  <Name>k__BackingField: "\uCCB4\uB825\uC758 \uC2A4\uD06C\uB864"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 83b662449dd49864c8ac4a87b1e533d8, type: 3}
   Type: 2
   Quality: 5
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "\uB2F9\uC2E0\uC758 \uBAB8\uC5D0 \uD65C\uAE30\uAC00
+    \uB290\uAEF4\uC9C0\uC2ED\uB2C8\uAE4C?"
   <DefaultParametersList>k__BackingField: []
-  modifierData: []
+  <DefaultUpgradeResults>k__BackingField: 
+  coolTime: 0
+  canUse: 1
+  modifierData:
+  - statModifier: {fileID: 11400000, guid: e1dc49d589d1921419cac4c05aac29e2, type: 2}
+    buff: {fileID: 11400000, guid: f1a93178ed3e55e468cc1d85088d249a, type: 2}
+    value: 0
   <actionSFX>k__BackingField: {fileID: 8300000, guid: 745d00cbf69b2f24aa5e728abcdd4295, type: 3}
