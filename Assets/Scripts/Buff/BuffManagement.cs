@@ -56,8 +56,9 @@ public class BuffManagement : MonoBehaviour
     }
 
 
-    void AddBuff(BuffSO buff, GameObject target)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
+    public void AddBuff(BuffSO buff, GameObject target)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
     {
+        Debug.Log("Buff add");
         if (buffList.ContainsKey(buff.BuffCode))
         {
             //Debug.Log(buff.Name + "은 중복되었습니다!");

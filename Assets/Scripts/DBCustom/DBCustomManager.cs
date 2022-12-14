@@ -53,7 +53,7 @@ public class DBCustomManager : MonoBehaviour
     [FoldoutGroup("ConsumeItem")] public TMP_Dropdown C_itemType;
     [FoldoutGroup("ConsumeItem")] public TMP_Dropdown C_itemQuality;
     [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemDescription;
-    [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemRate;
+    [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemCooltime;
 
     [FoldoutGroup("UpgradeItem")] public GameObject U;
     [FoldoutGroup("UpgradeItem")] public UnityEngine.UI.Image U_itemImage;
@@ -184,7 +184,10 @@ public class DBCustomManager : MonoBehaviour
     {
         if (DB == 0)
         {
-            Key = loader.EquipItemDB.Aggregate((x, y) => x.Key > y.Key ? x : y).Key + 1;
+            if (loader.EquipItemDB.Count == 0)
+                Key = 0;
+            else
+                Key = loader.EquipItemDB.Aggregate((x, y) => x.Key > y.Key ? x : y).Key + 1;
             EquippableItemSO newItem = new EquippableItemSO
             {
                 ItemImage = defaultSprite,
@@ -203,7 +206,10 @@ public class DBCustomManager : MonoBehaviour
         }
         else if (DB == 2)
         {
-            Key = loader.EquipItemDB.Aggregate((x, y) => x.Key > y.Key ? x : y).Key + 1;
+            if (loader.UpgradeItemDB.Count == 0)
+                Key = 0;
+            else
+                Key = loader.UpgradeItemDB.Aggregate((x, y) => x.Key > y.Key ? x : y).Key + 1;
             UpgradeItemSO newItem = new UpgradeItemSO
             {
                 ItemImage = defaultSprite,

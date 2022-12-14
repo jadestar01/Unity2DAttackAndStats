@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CharacterStatHealthModifierSO : CharacterStatModifierSO
 {
-    public override void AffectCharacter(GameObject character, float val)
+    public override void AffectCharacter(GameObject character, float val, BuffSO buff = null)
     {
         if (character.tag == "Player")
         {

@@ -22,7 +22,7 @@ namespace Inventory.Model
             foreach (ModifierData data in modifierData)
             {
                 //모디파이어 효과 적용
-                data.statModifier.AffectCharacter(character, data.value);
+                data.statModifier.AffectCharacter(character, data.value, data.buff);
             }
             return true;
         }
@@ -77,6 +77,7 @@ namespace Inventory.Model
     {
         //플레이어가 섭취함으로써 얻을 수 있는 효과
         public CharacterStatModifierSO statModifier;
+        public BuffSO buff;
         public float value;
     }
 }
