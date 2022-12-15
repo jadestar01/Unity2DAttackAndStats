@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -55,6 +56,8 @@ public class DBCustomManager : MonoBehaviour
     [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemDescription;
     [FoldoutGroup("ConsumeItem")] public TMP_InputField C_itemCooltime;
     [FoldoutGroup("ConsumeItem")] public GameObject C_itemModifierPannel;
+    [FoldoutGroup("ConsumeItem")] public GameObject buffSlot;
+    [FoldoutGroup("ConsumeItem")] public GameObject statSlot;
 
     [FoldoutGroup("UpgradeItem")] public GameObject U;
     [FoldoutGroup("UpgradeItem")] public UnityEngine.UI.Image U_itemImage;
@@ -327,13 +330,29 @@ public class DBCustomManager : MonoBehaviour
             consumeItem.ID = int.Parse(C_itemCode.text);
             consumeItem.Name = C_itemName.text;
             consumeItem.Description = C_itemDescription.text;
-            consumeItem.Type = (ItemType)(C_itemType.value);
+            consumeItem.Type = (ItemType)(C_itemType.value + 1);
             consumeItem.Quality = (ItemQuality)(C_itemQuality.value + 1);
             consumeItem.coolTime = float.Parse(C_itemCooltime.text);
             for (int i = 0; i < consumeItem.modifierData.Count; i++)    //중앙값, Defalut Modifier로 변경
             {
-                //consumeItem에 모디파이어 추가
-                //ConsumeItem.modifierData.Add(~~);
+                if (consumeItem.modifierData[i].buff != null)
+                {
+                    consumeItem.modifierData[i] = new ModifierData
+                    {
+                        statModifier = new BuffModifier(),
+                        buff = consumeItem.modifierData[i].buff,
+                        value = 0
+                    };
+                }
+                else
+                {
+                    consumeItem.modifierData[i] = new ModifierData
+                    {
+                        statModifier = consumeItem.modifierData[i].statModifier,
+                        buff = null,
+                        value = float.Parse(C_itemModifierPannel.transform.GetChild(i).GetComponent<Modifier>().value.text)
+                    };
+                }
             }
 
             Key = consumeItem.ID;
@@ -447,7 +466,7 @@ public class DBCustomManager : MonoBehaviour
             C_itemName.placeholder.GetComponent<TMP_Text>().text = consumeItem.Name;
         }
 
-        C_itemType.value = (int)consumeItem.Type - 3;
+        C_itemType.value = (int)consumeItem.Type - 1;
         C_itemQuality.value = (int)consumeItem.Quality - 1;
 
         if (consumeItem.Description == null)
@@ -465,19 +484,25 @@ public class DBCustomManager : MonoBehaviour
 
         for (int i = 0; i < consumeItem.modifierData.Count; i++)
         {
-            /*
-            GameObject item = Instantiate(C_itemParameter);
-            item.transform.SetParent(C_itemParameterPannel.transform);
-            item.GetComponent<DefaultParameter>().SetParameter(consumeItem.DefaultParametersList[i].itemParameter, consumeItem.DefaultParametersList[i].value);
-            */
-            //DefaultModifier 사용해서 변경
-            /*
-            for (int i = 0; i < consumeItem.modifierData.Count; i++)
+            if (consumeItem.modifierData[i].buff != null)
             {
-                C_currentModifier.GetComponent<DefaultModifier>().modifierData = consumeItem.modifierData[i].Copy();
-                C_currentModifier.GetComponent<DefaultModifier>().SetDefaultModifier();
+                GameObject item = Instantiate(buffSlot, Vector2.zero, Quaternion.identity);
+                item.transform.SetParent(C_itemModifierPannel.transform);
+                item.GetComponent<BuffSlot>().SetName(consumeItem.modifierData[i].buff.Name, consumeItem.modifierData[i].buff);
             }
-            */
+            else
+            {
+                GameObject item = Instantiate(statSlot, Vector2.zero, Quaternion.identity);
+                string Name = "";
+                if (consumeItem.modifierData[i].statModifier.GetType() == typeof(HealthModifier))
+                    Name = "체력 회복";
+                else if (consumeItem.modifierData[i].statModifier.GetType() == typeof(ManaModifier))
+                    Name = "마나 회복";
+                else if (consumeItem.modifierData[i].statModifier.GetType() == typeof(StaminaModifier))
+                    Name = "기력 회복";
+                item.transform.SetParent(C_itemModifierPannel.transform);
+                item.GetComponent<Modifier>().SetModifier(Name, consumeItem.modifierData[i].value);
+            }
         }
         ItemListSetting();
     }
@@ -609,12 +634,149 @@ public class DBCustomManager : MonoBehaviour
 
     public void BuffAdd(BuffSO buff)
     {
-        Debug.Log(buff);
-        consumeItem.modifierData.Add(new ModifierData
+        int isThereBuff = -1;
+
+        for (int i = 0; i < consumeItem.modifierData.Count; i++)
         {
-            statModifier = new BuffModifier(),
-            buff = buff,
-            value = 0
-        });
+            if (consumeItem.modifierData[i].buff != null)
+            {
+                if (consumeItem.modifierData[i].buff.BuffCode == buff.BuffCode)
+                    isThereBuff = i;
+            }
+        }
+
+        if (isThereBuff != -1)
+        {
+            consumeItem.modifierData.RemoveAt(isThereBuff);
+        }
+        else
+        {
+            consumeItem.modifierData.Add(new ModifierData
+            {
+                statModifier = new BuffModifier(),
+                buff = buff,
+                value = 0
+            });
+        }
+
+        ModifierLoad();
+    }
+
+    public void HealthAdd()
+    {
+        int index = -1;
+
+        for (int i = 0; i < consumeItem.modifierData.Count; i++)
+        {
+            if (consumeItem.modifierData[i].statModifier.GetType() == typeof(HealthModifier))
+            {
+                index = i;
+            }
+        }
+
+        if (index != -1)
+        {
+            consumeItem.modifierData.RemoveAt(index);
+        }
+        else
+        {
+            consumeItem.modifierData.Add(new ModifierData
+            {
+                statModifier = new HealthModifier(),
+                buff = null,
+                value = 0.0f
+            });
+        }
+
+        ModifierLoad();
+    }
+
+
+    public void ManaAdd()
+    {
+        int index = -1;
+
+        for (int i = 0; i < consumeItem.modifierData.Count; i++)
+        {
+            if (consumeItem.modifierData[i].statModifier.GetType() == typeof(ManaModifier))
+            {
+                index = i;
+            }
+        }
+
+        if (index != -1)
+        {
+            consumeItem.modifierData.RemoveAt(index);
+        }
+        else
+        {
+            consumeItem.modifierData.Add(new ModifierData
+            {
+                statModifier = new ManaModifier(),
+                buff = null,
+                value = 0.0f
+            });
+        }
+
+        ModifierLoad();
+    }
+
+    public void StaminaAdd()
+    {
+        int index = -1;
+
+        for (int i = 0; i < consumeItem.modifierData.Count; i++)
+        {
+            if (consumeItem.modifierData[i].statModifier.GetType() == typeof(StaminaModifier))
+            {
+                index = i;
+            }
+        }
+
+        if (index != -1)
+        {
+            consumeItem.modifierData.RemoveAt(index);
+        }
+        else
+        {
+            consumeItem.modifierData.Add(new ModifierData
+            {
+                statModifier = new StaminaModifier(),
+                buff = null,
+                value = 0.0f
+            });
+        }
+
+        ModifierLoad();
+    }
+
+    public void ModifierLoad()
+    {
+        for (int i = 0; i < C_itemModifierPannel.transform.childCount; i++)
+        {
+            Destroy(C_itemModifierPannel.transform.GetChild(C_itemModifierPannel.transform.childCount - 1 - i).gameObject);
+        }
+        for (int i = 0; i < consumeItem.modifierData.Count; i++)
+        {
+            if (consumeItem.modifierData[i].buff != null)
+            {
+                GameObject item = Instantiate(buffSlot, Vector2.zero, Quaternion.identity);
+                item.transform.SetParent(C_itemModifierPannel.transform);
+                item.GetComponent<BuffSlot>().SetName(consumeItem.modifierData[i].buff.Name, consumeItem.modifierData[i].buff);
+            }
+            else
+            {
+                GameObject item = Instantiate(statSlot, Vector2.zero, Quaternion.identity);
+                string Name = "";
+                if (consumeItem.modifierData[i].statModifier.GetType() == typeof(HealthModifier))
+                    Name = "체력 회복";
+                else if (consumeItem.modifierData[i].statModifier.GetType() == typeof(ManaModifier))
+                    Name = "마나 회복";
+                else if (consumeItem.modifierData[i].statModifier.GetType() == typeof(StaminaModifier))
+                    Name = "기력 회복";
+                item.transform.SetParent(C_itemModifierPannel.transform);
+                item.GetComponent<Modifier>().SetModifier(Name, consumeItem.modifierData[i].value);
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Inventory.Model.EquippableItemSO;
 
@@ -49,9 +50,15 @@ namespace Inventory.Model
                 item.DefaultUpgradeResults.Add(DefaultUpgradeResults[i]);
             }
             item.actionSFX = actionSFX;
+            item.modifierData = new List<ModifierData>();
             for (int i = 0; i < modifierData.Count; i++)
             {
-                item.modifierData.Add(modifierData[i]);
+                item.modifierData.Add(new ModifierData
+                {
+                    statModifier = modifierData[i].statModifier,
+                    buff = modifierData[i].buff,
+                    value = modifierData[i].value
+                });
             }
             item.coolTime = coolTime;
             item.canUse = canUse;

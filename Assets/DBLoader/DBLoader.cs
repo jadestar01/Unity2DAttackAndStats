@@ -79,7 +79,19 @@ public class DBLoader : MonoBehaviour
                 ModifierData modifier = new ModifierData
                 {
                     statModifier = (CharacterStatModifierSO)modifiers[j].Get<ScriptableObject>("Modifier"),
+                    buff = null,
                     value = modifiers[j].Get<float>("Value")
+                };
+                itemModifiers.Add(modifier);
+            }
+            List<BGEntity> buffs = entities[i].Get<List<BGEntity>>("BuffModifier");
+            for (int k = 0; k < buffs.Count; k++)
+            {
+                ModifierData modifier = new ModifierData
+                {
+                    statModifier = new BuffModifier(),
+                    buff = (BuffSO)buffs[k].Get<ScriptableObject>("Buff"),
+                    value = 0
                 };
                 itemModifiers.Add(modifier);
             }

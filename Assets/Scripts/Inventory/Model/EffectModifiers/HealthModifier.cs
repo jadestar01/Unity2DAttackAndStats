@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HealthModifier", menuName = "Modifiers/Health", order = 0)]
 public class HealthModifier : CharacterStatModifierSO
 {
+    public int ID = 0;
     public override void AffectCharacter(GameObject character, float val, BuffSO buff = null)
     {
         if (character.tag == "Player")
