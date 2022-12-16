@@ -4,15 +4,5 @@ using UnityEngine;
 
 public class SaveDB : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //Dictionary를 뜯어서 Save하는 기능
 }

@@ -41,6 +41,8 @@ public class DBCustomManager : MonoBehaviour
     [FoldoutGroup("EquipItem")] public UnityEngine.UI.Image E_itemImage;
     [FoldoutGroup("EquipItem")] public TMP_InputField E_itemCode;
     [FoldoutGroup("EquipItem")] public TMP_InputField E_itemName;
+    [FoldoutGroup("EquipItem")] public TMP_Text E_itemWeapon;
+    [FoldoutGroup("EquipItem")] public GameObject E_weapon;
     [FoldoutGroup("EquipItem")] public TMP_Dropdown E_itemType;
     [FoldoutGroup("EquipItem")] public TMP_Dropdown E_itemQuality;
     [FoldoutGroup("EquipItem")] public TMP_InputField E_itemDescription;
@@ -70,9 +72,21 @@ public class DBCustomManager : MonoBehaviour
     [FoldoutGroup("UpgradeItem")] public GameObject U_itemParameterPannel;
     [FoldoutGroup("UpgradeItem")] public GameObject U_itemParameter;
 
+    [FoldoutGroup("SpriteAdder")] public GameObject spriteList;
+    [FoldoutGroup("SpriteAdder")] public GameObject spriteButton;
+    [FoldoutGroup("SpriteAdder")] public Sprite[] sprites;
+
+    [FoldoutGroup("WeaponAdder")] public GameObject weaponList;
+    [FoldoutGroup("WeaponAdder")] public GameObject weaponButton;
+    [FoldoutGroup("WeaponAdder")] public GameObject[] weapons;
+
     private void Start()
     {
         loader = gameObject.GetComponent<DBLoader>();
+        sprites = Resources.LoadAll<Sprite>("Sprite");
+        weapons = Resources.LoadAll<GameObject>("Weapon");
+        SpriteLoad();
+        WeaponLoad();
         ItemListSetting();
     }
 
@@ -185,7 +199,6 @@ public class DBCustomManager : MonoBehaviour
         }
     }
 
-
     public void AddItem()
     {
         if (DB == 0)
@@ -200,7 +213,8 @@ public class DBCustomManager : MonoBehaviour
                 Type = ItemType.Melee,
                 Quality = ItemQuality.Normal,
                 DefaultParametersList = new List<ItemParameter>(),
-                DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>()
+                DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>(),
+                weapon = null
             };
             loader.EquipItemDB.Add(Key, newItem);
             equipItem = loader.EquipItemDB[Key];
@@ -312,6 +326,7 @@ public class DBCustomManager : MonoBehaviour
             equipItem.ID = int.Parse(E_itemCode.text);
             equipItem.Name = E_itemName.text;
             equipItem.Description = E_itemDescription.text;
+            //equipItem.weapon = E_weapon;
             equipItem.Type = (ItemType)(E_itemType.value + 3);
             equipItem.Quality = (ItemQuality)(E_itemQuality.value + 1);
             for (int i = 0; i < equipItem.DefaultParametersList.Count; i++)
@@ -421,6 +436,17 @@ public class DBCustomManager : MonoBehaviour
         {
             E_itemName.text = equipItem.Name;
             E_itemName.placeholder.GetComponent<TMP_Text>().text = equipItem.Name;
+        }
+
+        if (equipItem.weapon == null)
+        {
+            E_weapon = equipItem.weapon;
+            E_itemWeapon.text = "null";
+        }
+        else
+        {
+            E_weapon = equipItem.weapon;
+            E_itemWeapon.text = equipItem.weapon.name.ToString();
         }
 
         E_itemType.value = (int)equipItem.Type - 3;
@@ -777,6 +803,29 @@ public class DBCustomManager : MonoBehaviour
                 item.transform.SetParent(C_itemModifierPannel.transform);
                 item.GetComponent<Modifier>().SetModifier(Name, consumeItem.modifierData[i].value);
             }
+        }
+    }
+
+    public void SpriteLoad()
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            GameObject sprite = Instantiate(spriteButton);
+            sprite.transform.SetParent(spriteList.transform);
+            sprite.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = sprites[i];
+            sprite.transform.GetChild(0).GetComponent<SpriteAdder>().sprite = sprites[i];
+        }
+    }
+
+    public void WeaponLoad()
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            GameObject weapon = Instantiate(weaponButton);
+            weapon.transform.SetParent(weaponList.transform);
+            weapon.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = weapons[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+            weapon.transform.GetChild(0).GetComponent<WeaponAdder>().weapon = weapons[i];
+            weapon.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = weapons[i].name;
         }
     }
 }
