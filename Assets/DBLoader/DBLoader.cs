@@ -40,7 +40,7 @@ public class DBLoader : MonoBehaviour
             {
                 ItemParameter itemParameter = new ItemParameter
                 {
-                    itemParameter = (ItemParameterSO)parameters[j].Get<ScriptableObject>("Parameter"),
+                    itemParameter = Resources.Load<ItemParameterSO>("Parameters/" + parameters[j].Get<string>("Parameter")),
                     value = parameters[j].Get<float>("Value")
                 };
                 itemParameters.Add(itemParameter);
@@ -49,13 +49,13 @@ public class DBLoader : MonoBehaviour
             EquippableItemSO item = new EquippableItemSO
             {
                 ID = entities[i].Get<int>("ID"),
-                ItemImage = entities[i].Get<Sprite>("Image"),
+                ItemImage = Resources.Load<Sprite>("Sprite/" + entities[i].Get<string>("Image")),
                 Name = entities[i].Get<string>("Name"),
                 Type = DB_EquipItem.GetEntity(i).f_Type,
                 Quality = DB_EquipItem.GetEntity(i).f_Quality,
                 Description = entities[i].Get<string>("Description"),
                 DefaultParametersList = itemParameters,
-                weapon = entities[i].Get<GameObject>("Weapon"),
+                weapon = Resources.Load<GameObject>("Weapon/" + entities[i].Get<string>("Weapon")),
                 InStackable = false,
                 MaxStackSize = 1,
                 DefaultUpgradeResults = new List<EquippableItemSO.UpgradeResult>(),
@@ -78,7 +78,7 @@ public class DBLoader : MonoBehaviour
             {
                 ModifierData modifier = new ModifierData
                 {
-                    statModifier = (CharacterStatModifierSO)modifiers[j].Get<ScriptableObject>("Modifier"),
+                    statModifier = Resources.Load<CharacterStatModifierSO>("Modifiers/" + modifiers[j].Get<string>("Modifier")),
                     buff = null,
                     value = modifiers[j].Get<float>("Value")
                 };
@@ -90,7 +90,7 @@ public class DBLoader : MonoBehaviour
                 ModifierData modifier = new ModifierData
                 {
                     statModifier = new BuffModifier(),
-                    buff = (BuffSO)buffs[k].Get<ScriptableObject>("Buff"),
+                    buff = Resources.Load<BuffSO>("Buffs/" + buffs[k].Get<string>("Buff")),
                     value = 0
                 };
                 itemModifiers.Add(modifier);
@@ -99,7 +99,7 @@ public class DBLoader : MonoBehaviour
             EdibleItemSO item = new EdibleItemSO
             {
                 ID = entities[i].Get<int>("ID"),
-                ItemImage = entities[i].Get<Sprite>("Image"),
+                ItemImage = Resources.Load<Sprite>("Sprite/" + entities[i].Get<string>("Image")),
                 Name = entities[i].Get<string>("Name"),
                 Type = DB_ConsumeItem.GetEntity(i).f_Type,
                 Quality = DB_ConsumeItem.GetEntity(i).f_Quality,
@@ -129,7 +129,7 @@ public class DBLoader : MonoBehaviour
             {
                 ItemParameter itemParameter = new ItemParameter
                 {
-                    itemParameter = (ItemParameterSO)parameters[j].Get<ScriptableObject>("Parameter"),
+                    itemParameter = Resources.Load<ItemParameterSO>("Parameters/" + parameters[j].Get<string>("Parameter")),
                     value = parameters[j].Get<float>("Value")
                 };
                 itemParameters.Add(itemParameter);
@@ -138,7 +138,7 @@ public class DBLoader : MonoBehaviour
             UpgradeItemSO item = new UpgradeItemSO
             {
                 ID = entities[i].Get<int>("ID"),
-                ItemImage = entities[i].Get<Sprite>("Image"),
+                ItemImage = Resources.Load<Sprite>("Sprite/" + entities[i].Get<string>("Image")),
                 Name = entities[i].Get<string>("Name"),
                 Type = DB_UpgradeItem.GetEntity(i).f_Type,
                 Quality = DB_UpgradeItem.GetEntity(i).f_Quality,

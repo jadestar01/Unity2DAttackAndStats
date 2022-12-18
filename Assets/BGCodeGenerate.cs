@@ -30,7 +30,11 @@ public partial class DB_EquipItem : BGEntity
 		get => _f_ID[Index];
 		set => _f_ID[Index] = value;
 	}
-	public UnityEngine.Sprite f_Image => _f_Image[Index];
+	public System.String f_Image
+	{
+		get => _f_Image[Index];
+		set => _f_Image[Index] = value;
+	}
 	public System.String f_Name
 	{
 		get => _f_Name[Index];
@@ -51,14 +55,18 @@ public partial class DB_EquipItem : BGEntity
 		get => _f_Description[Index];
 		set => _f_Description[Index] = value;
 	}
-	public UnityEngine.GameObject f_Weapon => _f_Weapon[Index];
+	public System.String f_Weapon
+	{
+		get => _f_Weapon[Index];
+		set => _f_Weapon[Index] = value;
+	}
 	public List<DB_Parameters> f_Parameters => BGCodeGenUtils.GetNested<DB_Parameters>(_f_Parameters, Index);
 	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_f_name;
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5731409113056981974UL, 3443103030951795646UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_f_ID;
 	public static BansheeGz.BGDatabase.BGFieldInt _f_ID => _ufle12jhs77_f_ID ?? (_ufle12jhs77_f_ID = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5001392202063041672UL, 17344440309849545368UL), () => _ufle12jhs77_f_ID = null));
-	private static BansheeGz.BGDatabase.BGFieldUnitySprite _ufle12jhs77_f_Image;
-	public static BansheeGz.BGDatabase.BGFieldUnitySprite _f_Image => _ufle12jhs77_f_Image ?? (_ufle12jhs77_f_Image = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnitySprite>(MetaDefault, new BGId(5574281017795830705UL, 3767862667206356878UL), () => _ufle12jhs77_f_Image = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Image;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Image => _ufle12jhs77_f_Image ?? (_ufle12jhs77_f_Image = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5574281017795830705UL, 3767862667206356878UL), () => _ufle12jhs77_f_Image = null));
 	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Name;
 	public static BansheeGz.BGDatabase.BGFieldString _f_Name => _ufle12jhs77_f_Name ?? (_ufle12jhs77_f_Name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5073918912524671525UL, 10529315167146948794UL), () => _ufle12jhs77_f_Name = null));
 	private static BansheeGz.BGDatabase.BGFieldEnum _ufle12jhs77_f_Type;
@@ -67,8 +75,8 @@ public partial class DB_EquipItem : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEnum _f_Quality => _ufle12jhs77_f_Quality ?? (_ufle12jhs77_f_Quality = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEnum>(MetaDefault, new BGId(5490739581985317334UL, 13480717401404523156UL), () => _ufle12jhs77_f_Quality = null));
 	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Description;
 	public static BansheeGz.BGDatabase.BGFieldString _f_Description => _ufle12jhs77_f_Description ?? (_ufle12jhs77_f_Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4847610943813721877UL, 15326442594951189891UL), () => _ufle12jhs77_f_Description = null));
-	private static BansheeGz.BGDatabase.BGFieldUnityPrefab _ufle12jhs77_f_Weapon;
-	public static BansheeGz.BGDatabase.BGFieldUnityPrefab _f_Weapon => _ufle12jhs77_f_Weapon ?? (_ufle12jhs77_f_Weapon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnityPrefab>(MetaDefault, new BGId(5613036474891219760UL, 12897445845885008513UL), () => _ufle12jhs77_f_Weapon = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Weapon;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Weapon => _ufle12jhs77_f_Weapon ?? (_ufle12jhs77_f_Weapon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5613036474891219760UL, 12897445845885008513UL), () => _ufle12jhs77_f_Weapon = null));
 	private static BansheeGz.BGDatabase.BGFieldNested _ufle12jhs77_f_Parameters;
 	public static BansheeGz.BGDatabase.BGFieldNested _f_Parameters => _ufle12jhs77_f_Parameters ?? (_ufle12jhs77_f_Parameters = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldNested>(MetaDefault, new BGId(4941600396802500167UL, 7633736066423875755UL), () => _ufle12jhs77_f_Parameters = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
@@ -132,7 +140,11 @@ public partial class DB_Parameters : BGEntity
 		get => (DB_EquipItem) _f_EquipItem[Index];
 		set => _f_EquipItem[Index] = value;
 	}
-	public UnityEngine.ScriptableObject f_Parameter => _f_Parameter[Index];
+	public System.String f_Parameter
+	{
+		get => _f_Parameter[Index];
+		set => _f_Parameter[Index] = value;
+	}
 	public System.Single f_Value
 	{
 		get => _f_Value[Index];
@@ -142,8 +154,8 @@ public partial class DB_Parameters : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4722463213798532221UL, 4285348532595993268UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldRelationSingle _ufle12jhs77_f_EquipItem;
 	public static BansheeGz.BGDatabase.BGFieldRelationSingle _f_EquipItem => _ufle12jhs77_f_EquipItem ?? (_ufle12jhs77_f_EquipItem = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationSingle>(MetaDefault, new BGId(4804280707245585370UL, 13129731919561917107UL), () => _ufle12jhs77_f_EquipItem = null));
-	private static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _ufle12jhs77_f_Parameter;
-	public static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _f_Parameter => _ufle12jhs77_f_Parameter ?? (_ufle12jhs77_f_Parameter = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnityScriptableObject>(MetaDefault, new BGId(5113264856237063357UL, 12378592823516549307UL), () => _ufle12jhs77_f_Parameter = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Parameter;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Parameter => _ufle12jhs77_f_Parameter ?? (_ufle12jhs77_f_Parameter = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5113264856237063357UL, 12378592823516549307UL), () => _ufle12jhs77_f_Parameter = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_Value;
 	public static BansheeGz.BGDatabase.BGFieldFloat _f_Value => _ufle12jhs77_f_Value ?? (_ufle12jhs77_f_Value = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(4905587419478848161UL, 4383493197777814717UL), () => _ufle12jhs77_f_Value = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
@@ -213,7 +225,11 @@ public partial class DB_ConsumeItem : BGEntity
 		get => _f_ID[Index];
 		set => _f_ID[Index] = value;
 	}
-	public UnityEngine.Sprite f_Image => _f_Image[Index];
+	public System.String f_Image
+	{
+		get => _f_Image[Index];
+		set => _f_Image[Index] = value;
+	}
 	public System.String f_Name
 	{
 		get => _f_Name[Index];
@@ -245,8 +261,8 @@ public partial class DB_ConsumeItem : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4849060535327810088UL, 14969811644969943175UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_f_ID;
 	public static BansheeGz.BGDatabase.BGFieldInt _f_ID => _ufle12jhs77_f_ID ?? (_ufle12jhs77_f_ID = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5616331167748681906UL, 369093687429684881UL), () => _ufle12jhs77_f_ID = null));
-	private static BansheeGz.BGDatabase.BGFieldUnitySprite _ufle12jhs77_f_Image;
-	public static BansheeGz.BGDatabase.BGFieldUnitySprite _f_Image => _ufle12jhs77_f_Image ?? (_ufle12jhs77_f_Image = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnitySprite>(MetaDefault, new BGId(5351426992568603324UL, 17501226595307626138UL), () => _ufle12jhs77_f_Image = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Image;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Image => _ufle12jhs77_f_Image ?? (_ufle12jhs77_f_Image = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5351426992568603324UL, 17501226595307626138UL), () => _ufle12jhs77_f_Image = null));
 	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Name;
 	public static BansheeGz.BGDatabase.BGFieldString _f_Name => _ufle12jhs77_f_Name ?? (_ufle12jhs77_f_Name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4821593479639386622UL, 17064202619032265378UL), () => _ufle12jhs77_f_Name = null));
 	private static BansheeGz.BGDatabase.BGFieldEnum _ufle12jhs77_f_Type;
@@ -322,7 +338,11 @@ public partial class DB_Modifiers : BGEntity
 		get => (DB_ConsumeItem) _f_ConsumeItem[Index];
 		set => _f_ConsumeItem[Index] = value;
 	}
-	public UnityEngine.ScriptableObject f_Modifier => _f_Modifier[Index];
+	public System.String f_Modifier
+	{
+		get => _f_Modifier[Index];
+		set => _f_Modifier[Index] = value;
+	}
 	public System.Single f_Value
 	{
 		get => _f_Value[Index];
@@ -332,8 +352,8 @@ public partial class DB_Modifiers : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4791326883080331285UL, 16020650987563054220UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldRelationSingle _ufle12jhs77_f_ConsumeItem;
 	public static BansheeGz.BGDatabase.BGFieldRelationSingle _f_ConsumeItem => _ufle12jhs77_f_ConsumeItem ?? (_ufle12jhs77_f_ConsumeItem = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationSingle>(MetaDefault, new BGId(4934624028187648800UL, 12510694118486198671UL), () => _ufle12jhs77_f_ConsumeItem = null));
-	private static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _ufle12jhs77_f_Modifier;
-	public static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _f_Modifier => _ufle12jhs77_f_Modifier ?? (_ufle12jhs77_f_Modifier = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnityScriptableObject>(MetaDefault, new BGId(4981987529764665337UL, 3383002801284849593UL), () => _ufle12jhs77_f_Modifier = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Modifier;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Modifier => _ufle12jhs77_f_Modifier ?? (_ufle12jhs77_f_Modifier = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4981987529764665337UL, 3383002801284849593UL), () => _ufle12jhs77_f_Modifier = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_Value;
 	public static BansheeGz.BGDatabase.BGFieldFloat _f_Value => _ufle12jhs77_f_Value ?? (_ufle12jhs77_f_Value = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5258966284076580453UL, 9197017191369534592UL), () => _ufle12jhs77_f_Value = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
@@ -403,7 +423,11 @@ public partial class DB_UpgradeItem : BGEntity
 		get => _f_ID[Index];
 		set => _f_ID[Index] = value;
 	}
-	public UnityEngine.Sprite f_Image => _f_Image[Index];
+	public System.String f_Image
+	{
+		get => _f_Image[Index];
+		set => _f_Image[Index] = value;
+	}
 	public System.String f_Name
 	{
 		get => _f_Name[Index];
@@ -439,8 +463,8 @@ public partial class DB_UpgradeItem : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4848408440282556130UL, 5549940752299082161UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_f_ID;
 	public static BansheeGz.BGDatabase.BGFieldInt _f_ID => _ufle12jhs77_f_ID ?? (_ufle12jhs77_f_ID = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5364706932641519508UL, 13772344173885427872UL), () => _ufle12jhs77_f_ID = null));
-	private static BansheeGz.BGDatabase.BGFieldUnitySprite _ufle12jhs77_f_Image;
-	public static BansheeGz.BGDatabase.BGFieldUnitySprite _f_Image => _ufle12jhs77_f_Image ?? (_ufle12jhs77_f_Image = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnitySprite>(MetaDefault, new BGId(4694849433240233187UL, 11825514164417081525UL), () => _ufle12jhs77_f_Image = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Image;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Image => _ufle12jhs77_f_Image ?? (_ufle12jhs77_f_Image = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4694849433240233187UL, 11825514164417081525UL), () => _ufle12jhs77_f_Image = null));
 	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Name;
 	public static BansheeGz.BGDatabase.BGFieldString _f_Name => _ufle12jhs77_f_Name ?? (_ufle12jhs77_f_Name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5381919640074103447UL, 1945428715472776376UL), () => _ufle12jhs77_f_Name = null));
 	private static BansheeGz.BGDatabase.BGFieldEnum _ufle12jhs77_f_Type;
@@ -516,7 +540,11 @@ public partial class DB_UParameters : BGEntity
 		get => (DB_UpgradeItem) _f_UpgradeItem[Index];
 		set => _f_UpgradeItem[Index] = value;
 	}
-	public UnityEngine.ScriptableObject f_Parameter => _f_Parameter[Index];
+	public System.String f_Parameter
+	{
+		get => _f_Parameter[Index];
+		set => _f_Parameter[Index] = value;
+	}
 	public System.Single f_Value
 	{
 		get => _f_Value[Index];
@@ -526,8 +554,8 @@ public partial class DB_UParameters : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4827178329018747716UL, 14243508112558122902UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldRelationSingle _ufle12jhs77_f_UpgradeItem;
 	public static BansheeGz.BGDatabase.BGFieldRelationSingle _f_UpgradeItem => _ufle12jhs77_f_UpgradeItem ?? (_ufle12jhs77_f_UpgradeItem = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationSingle>(MetaDefault, new BGId(5250727020267893100UL, 17476265273858450107UL), () => _ufle12jhs77_f_UpgradeItem = null));
-	private static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _ufle12jhs77_f_Parameter;
-	public static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _f_Parameter => _ufle12jhs77_f_Parameter ?? (_ufle12jhs77_f_Parameter = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnityScriptableObject>(MetaDefault, new BGId(5757939179479539111UL, 7666649010094685370UL), () => _ufle12jhs77_f_Parameter = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Parameter;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Parameter => _ufle12jhs77_f_Parameter ?? (_ufle12jhs77_f_Parameter = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5757939179479539111UL, 7666649010094685370UL), () => _ufle12jhs77_f_Parameter = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_Value;
 	public static BansheeGz.BGDatabase.BGFieldFloat _f_Value => _ufle12jhs77_f_Value ?? (_ufle12jhs77_f_Value = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5134689326897069357UL, 6453831049745661320UL), () => _ufle12jhs77_f_Value = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
@@ -597,13 +625,17 @@ public partial class DB_BuffModifier : BGEntity
 		get => (DB_ConsumeItem) _f_ConsumeItem[Index];
 		set => _f_ConsumeItem[Index] = value;
 	}
-	public UnityEngine.ScriptableObject f_Buff => _f_Buff[Index];
+	public System.String f_Buff
+	{
+		get => _f_Buff[Index];
+		set => _f_Buff[Index] = value;
+	}
 	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_f_name;
 	public static BansheeGz.BGDatabase.BGFieldEntityName _f_name => _ufle12jhs77_f_name ?? (_ufle12jhs77_f_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5244398096802308222UL, 5861094624069694365UL), () => _ufle12jhs77_f_name = null));
 	private static BansheeGz.BGDatabase.BGFieldRelationSingle _ufle12jhs77_f_ConsumeItem;
 	public static BansheeGz.BGDatabase.BGFieldRelationSingle _f_ConsumeItem => _ufle12jhs77_f_ConsumeItem ?? (_ufle12jhs77_f_ConsumeItem = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationSingle>(MetaDefault, new BGId(5581909377540128126UL, 1327729893800708745UL), () => _ufle12jhs77_f_ConsumeItem = null));
-	private static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _ufle12jhs77_f_Buff;
-	public static BansheeGz.BGDatabase.BGFieldUnityScriptableObject _f_Buff => _ufle12jhs77_f_Buff ?? (_ufle12jhs77_f_Buff = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldUnityScriptableObject>(MetaDefault, new BGId(5152382962319305051UL, 12730476627654030505UL), () => _ufle12jhs77_f_Buff = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Buff;
+	public static BansheeGz.BGDatabase.BGFieldString _f_Buff => _ufle12jhs77_f_Buff ?? (_ufle12jhs77_f_Buff = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5152382962319305051UL, 12730476627654030505UL), () => _ufle12jhs77_f_Buff = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();
