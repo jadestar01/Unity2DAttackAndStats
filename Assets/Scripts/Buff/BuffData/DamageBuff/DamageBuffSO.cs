@@ -14,5 +14,9 @@ public class DamageBuffSO : BuffSO
         {
             Target.GetComponent<Stats>().curHealth -= Damage;
         }
+        else
+        {
+            Target.GetComponent<MobController>().curHealth -= Damage;
+        }
     }
 }

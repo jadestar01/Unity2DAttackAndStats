@@ -15,11 +15,6 @@ public class BuffManagement : MonoBehaviour
     public RectTransform Buff;
     public RectTransform Debuff;
     public Dictionary<int, BuffData> buffList;
-    public BuffSO buff1;
-    public BuffSO buff2;
-    public BuffSO buff3;
-    public BuffSO buff4;
-    public BuffSO buff5;
     public GameObject buffTooltip;
 
     private void Start()
@@ -31,34 +26,9 @@ public class BuffManagement : MonoBehaviour
     {
         EndSearcher();
     }
-
-    public void Pain()
-    {
-        AddBuff(buff1, gameObject);
-    }
-    public void Poison()
-    {
-        AddBuff(buff2, gameObject);
-    }
-
-    public void HPup()
-    {
-        AddBuff(buff3, gameObject);
-    }
-    public void DMGup()
-    {
-        AddBuff(buff4, gameObject);
-    }
-
-    public void HPRegen()
-    {
-        AddBuff(buff5, gameObject);
-    }
-
-
     public void AddBuff(BuffSO buff, GameObject target)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
     {
-        Debug.Log("Buff add");
+        //Debug.Log("Buff add");
         if (buffList.ContainsKey(buff.BuffCode))
         {
             //Debug.Log(buff.Name + "은 중복되었습니다!");

@@ -10,9 +10,13 @@ using static BuffManagement;
 
 public class Stats : MonoBehaviour
 {
+    [Header("Init Stats")]
     public float initHealth;
     public float initMana;
     public float initStamina;
+    public float initPhysicalCritDmg;
+    public float initMagicalCritDmg;
+    [Space]
     public float curHealth;
     public float curMana;
     public float curStamina;
@@ -65,6 +69,7 @@ public class Stats : MonoBehaviour
     [SerializeField] public List<RectTransform> HPbarArr = new List<RectTransform>();
     [SerializeField] public List<RectTransform> MPbarArr = new List<RectTransform>();
     [SerializeField] public List<RectTransform> SPbarArr = new List<RectTransform>();
+    [SerializeField] public StatUI statUI;
 
     private void Start()
     {
@@ -74,6 +79,8 @@ public class Stats : MonoBehaviour
 
     private void Update()
     {
+        StatUIActive();
+
         UpdateTemporary();
         ListCompare();
         ListCopy();
@@ -281,13 +288,13 @@ public class Stats : MonoBehaviour
         physicalMinDmg = playerStat[10] + buffStat[10];
         physicalMaxDmg = playerStat[11] + buffStat[11];
         physicalCritRate = playerStat[12] + buffStat[12];
-        physicalCritDmg = playerStat[13] + buffStat[13];
+        physicalCritDmg = playerStat[13] + buffStat[13] + initPhysicalCritDmg;
         physicalAttackSpeed = playerStat[14] + buffStat[14];
         physicalPenetration = playerStat[15] + buffStat[15];
         magicalMinDmg = playerStat[20] + buffStat[20];
         magicalMaxDmg = playerStat[21] + buffStat[21];
         magicalCritRate = playerStat[22] + buffStat[22];
-        magicalCritDmg = playerStat[23] + buffStat[23];
+        magicalCritDmg = playerStat[23] + buffStat[23] + initPhysicalCritDmg;
         magicalAttackSpeed = playerStat[24] + buffStat[24];
         magicalPenetration = playerStat[25] + buffStat[25];
         armor = playerStat[30] + buffStat[30];
@@ -295,6 +302,9 @@ public class Stats : MonoBehaviour
         dodge = playerStat[32] + buffStat[32];
         grit = playerStat[33] + buffStat[33];
         diminution = playerStat[34] + buffStat[34];
+
+        if(statUI.gameObject.activeSelf == true)
+            statUI.SetStatUI();
     }
 
     void BuffDataReader()
@@ -329,6 +339,22 @@ public class Stats : MonoBehaviour
                     //Debug.Log(stat.itemParameter.ParameterCode + "¿¡ " + stat.value + "Ãß°¡");
                     buffStat[stat.itemParameter.ParameterCode] += stat.value;
                 }
+            }
+        }
+    }
+
+    void StatUIActive()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (statUI.gameObject.activeSelf == true)
+            {
+                statUI.gameObject.SetActive(false);
+            }
+            else
+            {
+                statUI.gameObject.SetActive(true);
+                statUI.SetStatUI();
             }
         }
     }
