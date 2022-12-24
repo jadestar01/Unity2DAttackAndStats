@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class MobController : MonoBehaviour
     public float curHealth = 100;           //현재체력
     public float speed = 5;                 //속도
     public float strike = 0;                //충격
+    public float vampirism = 0;             //흡혈
     public float physicalMinDmg = 0;        //최소 물리피해
     public float physicalMaxDmg = 0;        //최대 물리피해
     public float physicalCritRate = 0;      //치명타확률
@@ -29,7 +31,12 @@ public class MobController : MonoBehaviour
     public float dodge = 0;                 //회피율
     public float grit = 0;                  //근성
 
-    public Dictionary<int, BuffData> buffList = new Dictionary<int, BuffData>();
+    public Dictionary<int, BuffData> buffList;
+
+    private void Start()
+    {
+        buffList = new Dictionary<int, BuffData>();
+    }
 
     private void Update()
     {
@@ -37,17 +44,17 @@ public class MobController : MonoBehaviour
         EndSearcher();
     }
 
-    public void AddBuff(BuffSO buff, GameObject target)
+    [Button]
+    public void AddBuff(BuffSO buff)
     {
         if (buffList.ContainsKey(buff.BuffCode))
         {
             //Debug.Log(buff.Name + "은 중복되었습니다!");
-            Destroy(buffList[buff.BuffCode].buffSlot);
             StopCoroutine(buffList[buff.BuffCode].buff.Cor);
             buffList.Remove(buff.BuffCode);
         }
 
-        BuffData buffData = new BuffData(buff, target, null);
+        BuffData buffData = new BuffData(buff, gameObject);
 
         buffList.Add(buff.BuffCode, buffData);
         buffList[buff.BuffCode].buff.Cor = StartCoroutine(buffList[buff.BuffCode].BuffActive());

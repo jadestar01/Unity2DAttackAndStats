@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 29854869}
   - component: {fileID: 29854870}
   m_Layer: 0
-  m_Name: DataBase
+  m_Name: DB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -673,7 +673,7 @@ MonoBehaviour:
   magicalCritDmg: 80
   magicalAttackSpeed: 0
   magicalPenetration: 5
-  armor: 0
+  armor: 50
   registance: 0
   dodge: 0
   grit: 0
@@ -1006,11 +1006,6 @@ MonoBehaviour:
   buffSlotPrefab: {fileID: 8089012771957815904, guid: f41695f092e58ae4f80a5042507cb9b6, type: 3}
   Buff: {fileID: 1878850655}
   Debuff: {fileID: 385238278}
-  buff1: {fileID: 11400000, guid: 7efedb8f88b39bf4e828b3f94b45b37b, type: 2}
-  buff2: {fileID: 11400000, guid: 1e7dd80896e0d6e41985c1d6b97b6f7d, type: 2}
-  buff3: {fileID: 11400000, guid: f1a93178ed3e55e468cc1d85088d249a, type: 2}
-  buff4: {fileID: 11400000, guid: 1f10bc516919c8f42942bd930862bf6f, type: 2}
-  buff5: {fileID: 11400000, guid: 8300d0ebde1dfcd4ab4c5e5a61ab7ca1, type: 2}
   buffTooltip: {fileID: 944361380}
 --- !u!1 &229150880
 GameObject:
@@ -1596,8 +1591,8 @@ RectTransform:
   m_Father: {fileID: 944361381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10, y: 0}
   m_SizeDelta: {x: 280, y: 0}
   m_Pivot: {x: 0, y: 1}
@@ -1749,7 +1744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 200, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &385238279
@@ -1972,8 +1967,8 @@ MonoBehaviour:
   magicalCritDmg: 0
   magicalPenetration: 0
   magicalAttackSpeed: 0
-  armor: 0
-  registance: 0
+  armor: 20
+  registance: 30
   dodge: 0
   grit: 10
 --- !u!224 &406010934 stripped
@@ -3929,7 +3924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a425970f02650564eb060f5f079ffd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 393819859}
+  player: {fileID: 0}
   target: {fileID: 225159042}
 --- !u!4 &930264670
 Transform:
@@ -7408,7 +7403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 10, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 280, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1857605510
@@ -7596,7 +7591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 200, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1878850656

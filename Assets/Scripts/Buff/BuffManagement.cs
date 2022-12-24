@@ -28,7 +28,6 @@ public class BuffManagement : MonoBehaviour
     }
     public void AddBuff(BuffSO buff, GameObject target)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
     {
-        //Debug.Log("Buff add");
         if (buffList.ContainsKey(buff.BuffCode))
         {
             //Debug.Log(buff.Name + "은 중복되었습니다!");
@@ -80,19 +79,15 @@ public class BuffManagement : MonoBehaviour
         public float ticker;
         public bool isEnd;
 
-        public BuffData(BuffSO buff, GameObject target, GameObject buffSlot)
+        public BuffData(BuffSO buff, GameObject target)
         {
             isEnd = false;
             this.buff = buff;
             this.target = target;
-            this.buffSlot = buffSlot;
-            buffUI = buffSlot.GetComponent<BuffUI>();
             ticker = 0;
-
-            buffUI.SetBuff(buff.Image, buff.Name, buff.Description, buff.Duration);
         }
 
-        public void Setter(BuffSO buff, GameObject target, GameObject buffSlot)
+        public BuffData(BuffSO buff, GameObject target, GameObject buffSlot)
         {
             isEnd = false;
             this.buff = buff;

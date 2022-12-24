@@ -21,4 +21,6 @@ MonoBehaviour:
     \uD750\uB985\uB2C8\uB2E4! \uC73C\uC545!"
   <Duration>k__BackingField: 10
   <Tick>k__BackingField: 0.5
-  Damage: 1
+  damageCalculator: {fileID: 0}
+  physicalDmg: 0
+  magicalDmg: 5
