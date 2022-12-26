@@ -7,7 +7,7 @@ using UnityEngine;
 public class StatBuffSO : BuffSO
 {
     [field: SerializeField] public ItemParameter[] stat;
-    public override void AffectTarget(GameObject Target)
+    public override void AffectTarget(GameObject Main, GameObject Target)
     {
     }
 }

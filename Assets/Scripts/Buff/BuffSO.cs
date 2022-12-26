@@ -15,5 +15,5 @@ public abstract class BuffSO : ScriptableObject
     [field: SerializeField] public float Duration { get; set; }                         //버프 시간 -1이면 해제 전 까지 무한히 지속
     [field: SerializeField] public float Tick { get; set; }                             //버프 틱
     public Coroutine Cor;
-    public abstract void AffectTarget(GameObject Target);                               //효과 오버라이드
+    public abstract void AffectTarget(GameObject Main, GameObject Target);                               //효과 오버라이드
 }

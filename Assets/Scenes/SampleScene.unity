@@ -663,17 +663,17 @@ MonoBehaviour:
   vampirism: 0
   physicalMinDmg: 100
   physicalMaxDmg: 100
-  physicalCritRate: 50
+  physicalCritRate: 0
   physicalCritDmg: 100
   physicalAttackSpeed: 0
   physicalPenetration: 0
   magicalMinDmg: 100
   magicalMaxDmg: 100
-  magicalCritRate: 50
-  magicalCritDmg: 80
+  magicalCritRate: 0
+  magicalCritDmg: 100
   magicalAttackSpeed: 0
-  magicalPenetration: 5
-  armor: 50
+  magicalPenetration: 0
+  armor: 0
   registance: 0
   dodge: 0
   grit: 0
@@ -1003,6 +1003,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf3e8d665fd37d468591f6ca28ba674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dummy: {fileID: 393819859}
+  buff: {fileID: 11400000, guid: 81ad32273f9fcd9428d0a91a82378044, type: 2}
   buffSlotPrefab: {fileID: 8089012771957815904, guid: f41695f092e58ae4f80a5042507cb9b6, type: 3}
   Buff: {fileID: 1878850655}
   Debuff: {fileID: 385238278}
@@ -1591,8 +1593,8 @@ RectTransform:
   m_Father: {fileID: 944361381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 10, y: 0}
   m_SizeDelta: {x: 280, y: 0}
   m_Pivot: {x: 0, y: 1}
@@ -1744,7 +1746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &385238279
@@ -1954,11 +1956,12 @@ MonoBehaviour:
   maxHealth: 100
   curHealth: 100
   speed: 5
-  strike: 20
-  physicalMinDmg: 20
-  physicalMaxDmg: 20
-  physicalCritRate: 100
-  physicalCritDmg: 20
+  strike: 0
+  vampirism: 0
+  physicalMinDmg: 5
+  physicalMaxDmg: 5
+  physicalCritRate: 0
+  physicalCritDmg: 0
   physicalPenetration: 0
   physicalAttackSpeed: 0
   magicalMinDmg: 0
@@ -1967,10 +1970,10 @@ MonoBehaviour:
   magicalCritDmg: 0
   magicalPenetration: 0
   magicalAttackSpeed: 0
-  armor: 20
-  registance: 30
-  dodge: 0
-  grit: 10
+  armor: 0
+  registance: 0
+  dodge: 100
+  grit: 0
 --- !u!224 &406010934 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8688022105544648137, guid: b0e609e8739aec64d8f924a33044c28a, type: 3}
@@ -3906,7 +3909,7 @@ GameObject:
   - component: {fileID: 930264670}
   - component: {fileID: 930264669}
   m_Layer: 0
-  m_Name: DamageManager
+  m_Name: DM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3924,8 +3927,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a425970f02650564eb060f5f079ffd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  target: {fileID: 225159042}
 --- !u!4 &930264670
 Transform:
   m_ObjectHideFlags: 0
@@ -7403,7 +7404,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 10, y: 0}
   m_SizeDelta: {x: 280, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1857605510
@@ -7591,7 +7592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1878850656

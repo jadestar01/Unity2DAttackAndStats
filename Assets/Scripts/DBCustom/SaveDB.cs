@@ -75,7 +75,10 @@ public class SaveDB : MonoBehaviour
             newParameter.f_Parameter = item.DefaultParametersList[i].itemParameter.name;
             newParameter.f_Value = item.DefaultParametersList[i].value;
         }
-        newItem.f_Weapon = item.weapon.name;
+        if (newItem.f_Type == ItemSO.ItemType.Trinket)
+            newItem.f_Weapon = null;
+        else
+            newItem.f_Weapon = item.weapon.name;
     }
 
     public void ConsumeItemParsing(EdibleItemSO item)

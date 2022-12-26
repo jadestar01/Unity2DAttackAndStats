@@ -10,7 +10,7 @@ public class BuffModifier : CharacterStatModifierSO
     {
         if (character.tag == "Player" && buff != null)
         {
-            character.GetComponent<BuffManagement>().AddBuff(buff, character);
+            character.GetComponent<BuffManagement>().AddBuff(buff);
         }
     }
 }

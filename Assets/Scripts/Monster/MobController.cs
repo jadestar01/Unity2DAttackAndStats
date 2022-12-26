@@ -45,7 +45,7 @@ public class MobController : MonoBehaviour
     }
 
     [Button]
-    public void AddBuff(BuffSO buff)
+    public void AddBuff(BuffSO buff, GameObject main)
     {
         if (buffList.ContainsKey(buff.BuffCode))
         {
@@ -54,7 +54,7 @@ public class MobController : MonoBehaviour
             buffList.Remove(buff.BuffCode);
         }
 
-        BuffData buffData = new BuffData(buff, gameObject);
+        BuffData buffData = new BuffData(buff, main, gameObject);
 
         buffList.Add(buff.BuffCode, buffData);
         buffList[buff.BuffCode].buff.Cor = StartCoroutine(buffList[buff.BuffCode].BuffActive());

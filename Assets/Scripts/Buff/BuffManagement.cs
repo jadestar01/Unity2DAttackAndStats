@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,12 +12,19 @@ using UnityEngine.UI;
 public class BuffManagement : MonoBehaviour
 {
     //buff에서 함수(시간/틱)을 받아와서 코루틴을 등록해서 작동시킨다.
+    public GameObject dummy;
+    public BuffSO buff;
     public GameObject buffSlotPrefab;
     public RectTransform Buff;
     public RectTransform Debuff;
     public Dictionary<int, BuffData> buffList;
     public GameObject buffTooltip;
 
+    [Button]
+    void buffff()
+    {
+        AddBuff(buff, dummy);
+    }
     private void Start()
     {
         buffList = new Dictionary<int, BuffData>();
@@ -26,7 +34,7 @@ public class BuffManagement : MonoBehaviour
     {
         EndSearcher();
     }
-    public void AddBuff(BuffSO buff, GameObject target)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
+    public void AddBuff(BuffSO buff, GameObject main = null)    //중복을 검사하여, 버프를 리스트에 추가하고, 작동시킨다.
     {
         if (buffList.ContainsKey(buff.BuffCode))
         {
@@ -36,7 +44,7 @@ public class BuffManagement : MonoBehaviour
             buffList.Remove(buff.BuffCode);
         }
         GameObject buffSlot = Instantiate(buffSlotPrefab, Vector2.zero, Quaternion.identity);
-        BuffData buffData = new BuffData(buff, target, buffSlot);
+        BuffData buffData = new BuffData(buff, main, gameObject, buffSlot);
 
         if (buff.Type == BuffSO.BuffType.Buff)
             buffSlot.transform.SetParent(Buff);
@@ -68,29 +76,30 @@ public class BuffManagement : MonoBehaviour
 
     public void TooltipInactive(){ buffTooltip.SetActive(false); }
 
-    //struct : 구조체 (변수 뭉탱이)             -> 값만 전달
-    //class : 구조체 상위호환 (변수 뭉탱이)      -> 존재 자체를 전달
     public class BuffData
     {
         public BuffSO buff;
         public BuffUI buffUI;
         public GameObject buffSlot;
+        public GameObject main;
         public GameObject target;
         public float ticker;
         public bool isEnd;
 
-        public BuffData(BuffSO buff, GameObject target)
+        public BuffData(BuffSO buff, GameObject main, GameObject target)
         {
             isEnd = false;
             this.buff = buff;
+            this.main = main;
             this.target = target;
             ticker = 0;
         }
 
-        public BuffData(BuffSO buff, GameObject target, GameObject buffSlot)
+        public BuffData(BuffSO buff, GameObject main, GameObject target, GameObject buffSlot)
         {
             isEnd = false;
             this.buff = buff;
+            this.main = main;
             this.target = target;
             this.buffSlot = buffSlot;
             buffUI = buffSlot.GetComponent<BuffUI>();
@@ -106,13 +115,13 @@ public class BuffManagement : MonoBehaviour
                 while (buff.Duration > ticker)
                 {
                     yield return new WaitForSeconds(buff.Tick);
-                    buff.AffectTarget(target);
+                    buff.AffectTarget(main, target);
                     ticker += buff.Tick;
                 }
             }
             else
             {
-                buff.AffectTarget(target);
+                buff.AffectTarget(main, target);
                 while (buff.Duration > ticker)
                 {
                     yield return new WaitForSeconds(0.1f);

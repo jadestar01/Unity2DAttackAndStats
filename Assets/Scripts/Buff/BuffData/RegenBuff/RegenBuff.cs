@@ -9,7 +9,7 @@ public class RegenBuff : BuffSO
     [field: SerializeField] public float MPRegenValue = 0.0f;
     [field: SerializeField] public float SPRegenValue = 0.0f;
 
-    public override void AffectTarget(GameObject Target)
+    public override void AffectTarget(GameObject Main, GameObject Target)
     {
         if (Target.tag == "Player")
         {

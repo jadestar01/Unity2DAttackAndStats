@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da4bd34e66194374f9e986274bb706b6, type: 3}
   m_Name: Poison
@@ -21,6 +21,45 @@ MonoBehaviour:
     \uD750\uB985\uB2C8\uB2E4! \uC73C\uC545!"
   <Duration>k__BackingField: 10
   <Tick>k__BackingField: 0.5
-  damageCalculator: {fileID: 0}
-  physicalDmg: 0
-  magicalDmg: 5
+  skillDamage:
+    canDodge: 0
+    physicalDmg: 0
+    magicalDmg: 5
+    extraPhysicalDmg: 0
+    extraMagicalDmg: 0
+    extraVampirism: 0
+    extraStrike: 0
+    extraPhysicalCritRate: 0
+    extraPhysicalCritDmg: 0
+    extraPhysicalPenetration: 0
+    extraMagicalCritRate: 0
+    extraMagicalCritDmg: 0
+    extraMagicalPenetration: 0
+    physical:
+      health: 0
+      mana: 0
+      stamina: 0
+      strike: 0
+      physicalDmg: 0
+      physicalAttackSpeed: 0
+      physicalPenetration: 0
+      magicalDmg: 0
+      magicalAttackSpeed: 0
+      magicalPenetration: 0
+      armor: 0
+      registance: 0
+      grit: 0
+    magical:
+      health: 0
+      mana: 0
+      stamina: 0
+      strike: 0
+      physicalDmg: 0
+      physicalAttackSpeed: 0
+      physicalPenetration: 0
+      magicalDmg: 0
+      magicalAttackSpeed: 0
+      magicalPenetration: 0
+      armor: 0
+      registance: 0
+      grit: 0
