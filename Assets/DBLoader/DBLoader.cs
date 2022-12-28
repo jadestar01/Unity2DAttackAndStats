@@ -80,7 +80,7 @@ public class DBLoader : MonoBehaviour
                 {
                     statModifier = Resources.Load<CharacterStatModifierSO>("Modifiers/" + modifiers[j].Get<string>("Modifier")),
                     buff = null,
-                    value = modifiers[j].Get<float>("Value")
+                    value = modifiers[j].Get<int>("Value")
                 };
                 itemModifiers.Add(modifier);
             }

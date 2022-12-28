@@ -8,11 +8,36 @@ using UnityEngine.UI;
 
 public class MessageManager : MonoBehaviour
 {
+    private static MessageManager instance;
+    public static MessageManager Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public GameObject messageBox;
     public GameObject messagePanel;
     //만약 메세지리스트가 꽉찼는데도, 메세지가 들어온다면, 0번 메세지를 빠르게 지운다.
     List<GameObject> messageList = new List<GameObject>();
-
 
     public void Message(string message)
     {

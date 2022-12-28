@@ -10224,13 +10224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237c4712e9019354caf1c6a45022e5fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffList:
-  - {fileID: 11400000, guid: f1a93178ed3e55e468cc1d85088d249a, type: 2}
-  - {fileID: 11400000, guid: 8300d0ebde1dfcd4ab4c5e5a61ab7ca1, type: 2}
-  - {fileID: 11400000, guid: 1f10bc516919c8f42942bd930862bf6f, type: 2}
-  - {fileID: 11400000, guid: 7efedb8f88b39bf4e828b3f94b45b37b, type: 2}
-  - {fileID: 11400000, guid: 0d27aa09fe6eca64183b4bf4a24e5a07, type: 2}
-  - {fileID: 11400000, guid: 1e7dd80896e0d6e41985c1d6b97b6f7d, type: 2}
+  buffs: []
   buffPanel: {fileID: 1249480773}
   buffSlot: {fileID: 1023746782735783393, guid: 20238654ab491f74ca83cdecf512207b, type: 3}
 --- !u!114 &566455476

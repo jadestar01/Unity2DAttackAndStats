@@ -30,6 +30,7 @@ public class MobController : MonoBehaviour
     public float registance = 0;            //저항력
     public float dodge = 0;                 //회피율
     public float grit = 0;                  //근성
+    public bool isDead = false;
 
     public Dictionary<int, BuffData> buffList;
 
@@ -78,6 +79,7 @@ public class MobController : MonoBehaviour
         if (curHealth <= 0)
         {
             Debug.Log(monsterName + "죽음");
+            isDead = true;
             Destroy(gameObject);
             return true;
         }

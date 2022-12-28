@@ -49,6 +49,8 @@ public class Stats : MonoBehaviour
     public bool isReadyToUpgrade;
     int size = 8;
 
+    public bool isDead = false;
+
     [SerializeField] private InventorySO inventoryData;
 
     [SerializeField] private BuffManagement buffManagement;
@@ -115,7 +117,10 @@ public class Stats : MonoBehaviour
             curStamina = stamina;
 
         if (curHealth <= 0)
+        {
+            isDead = true;
             Debug.Log("당신은 죽었습니다!");
+        }
     }
 
     void Init()

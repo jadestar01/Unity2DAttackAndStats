@@ -12,19 +12,12 @@ using UnityEngine.UI;
 public class BuffManagement : MonoBehaviour
 {
     //buff에서 함수(시간/틱)을 받아와서 코루틴을 등록해서 작동시킨다.
-    public GameObject dummy;
-    public BuffSO buff;
     public GameObject buffSlotPrefab;
     public RectTransform Buff;
     public RectTransform Debuff;
     public Dictionary<int, BuffData> buffList;
     public GameObject buffTooltip;
 
-    [Button]
-    void buffff()
-    {
-        AddBuff(buff, dummy);
-    }
     private void Start()
     {
         buffList = new Dictionary<int, BuffData>();

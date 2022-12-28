@@ -85,7 +85,7 @@ namespace Inventory.Model
         //플레이어가 섭취함으로써 얻을 수 있는 효과
         public CharacterStatModifierSO statModifier;
         public BuffSO buff;
-        public float value;
+        public int value;
 
         public ModifierData Copy()
         {

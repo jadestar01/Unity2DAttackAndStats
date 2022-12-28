@@ -34,7 +34,6 @@ namespace Inventory
         public int upgradeMaterialIndex;
         public Dictionary<int, bool> consumeCooltime = new Dictionary<int, bool>();
         public Dictionary<int, Cooltime> cooltime = new Dictionary<int, Cooltime>();
-        public MessageManager messageManager;
         public AgentWeapon agentWeapon;
 
         private void Awake()
@@ -228,7 +227,7 @@ namespace Inventory
                         else
                         {
                             //cooltime이 false라면,
-                            messageManager.Message("아직 사용할 수 없습니다.");
+                            MessageManager.Instance.Message("아직 사용할 수 없습니다.");
                         }
                     }
                     else

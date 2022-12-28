@@ -6,31 +6,220 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using TMPro;
 using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class DamageCalculator : MonoBehaviour
 {
-    private static DamageCalculator dmgCalculator;
-
     public void CauseDamage(GameObject attacker, GameObject defender, SkillDamage skillProfile)
     {
         if (defender.tag == "Player")
         {
-            Debug.Log("attacker" + attacker);
-            Debug.Log("defender" + defender);
-            Debug.Log("skillProfile" + skillProfile);
-            defender.GetComponent<Stats>().curHealth -= DmgCal(attacker, defender, skillProfile).totalDamage;
-            //대미지 출력 to defender
+            if (defender.GetComponent<Stats>().isDead == false)
+            {
+                Damage damage = DmgCal(attacker, defender, skillProfile);
+                defender.GetComponent<Stats>().curHealth -= damage.totalDamage;
+                if (damage.PhysicalDmg > 0)
+                    DamageMessageManager.Instance.SetMessage(damage.PhysicalDmg, defender.transform.position, "-", "physical");
+                if (damage.MagicalDmg > 0)
+                    DamageMessageManager.Instance.SetMessage(damage.MagicalDmg, defender.transform.position, "-", "magical");
+                if (damage.recovery > 0 && attacker != null)
+                    CauseHPup(attacker, damage.recovery);
+            }
         }
         else
         {
-            defender.GetComponent<MobController>().curHealth -= DmgCal(attacker, defender, skillProfile).totalDamage;
+            if (defender.GetComponent<MobController>().isDead == false)
+            {
+                Damage damage = DmgCal(attacker, defender, skillProfile);
+                defender.GetComponent<MobController>().curHealth -= damage.totalDamage;
+                if (damage.PhysicalDmg > 0)
+                    DamageMessageManager.Instance.SetMessage(damage.PhysicalDmg, defender.transform.position, "-", "physical");
+                if (damage.MagicalDmg > 0)
+                    DamageMessageManager.Instance.SetMessage(damage.MagicalDmg, defender.transform.position, "-", "magical");
+                if (damage.recovery > 0 && attacker != null)
+                    CauseHPup(attacker, damage.recovery);
+            }
         }
     }
 
+    public void CauseHPup(GameObject target, int value)
+    {
+        if (target.tag == "Player")
+        {
+            if (value != 0)
+            {
+                float curHealth = target.GetComponent<Stats>().curHealth;
+                float maxHealth = target.GetComponent<Stats>().health;
+                if (value > 0)                               //+재생일 경우
+                {
+                    if (curHealth + value <= maxHealth)      //만약 초과재생이 아니라면
+                    {
+                        DamageMessageManager.Instance.SetMessage(value, target.transform.position, "+", "health");
+                        target.GetComponent<Stats>().curHealth += value;                  //재생량만큼 재생한다.
+                    }
+                    else                                            //초과재생이라면,
+                    {
+                        if (maxHealth - curHealth > 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(maxHealth - curHealth), target.transform.position, "+", "health");
+                            target.GetComponent<Stats>().curHealth += maxHealth - curHealth;         //그 격차량 만큼만 재생한다.   
+                        }
+                    }
+                }
+                if (value < 0)
+                {
+                    if (curHealth + value >= 0)         //체력 감소가 되도, -가 아니라면, 
+                    {
+                        DamageMessageManager.Instance.SetMessage((int)(value), target.transform.position, "-", "health");
+                        target.GetComponent<Stats>().curHealth += value;
+                    }
+                    else                                //체력 감소가 되면, -가 된다면, curHealth만큼 제거 
+                    {
+                        if (curHealth != 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(curHealth), target.transform.position, "-", "health");
+                            target.GetComponent<Stats>().curHealth -= curHealth;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (value != 0)
+            {
+                float curHealth = target.GetComponent<MobController>().curHealth;
+                float maxHealth = target.GetComponent<MobController>().maxHealth;
+                if (value > 0)                               //+재생일 경우
+                {
+                    if (curHealth + value <= maxHealth)      //만약 초과재생이 아니라면
+                    {
+                        DamageMessageManager.Instance.SetMessage(value, target.transform.position, "+", "health");
+                        target.GetComponent<MobController>().curHealth += value;                  //재생량만큼 재생한다.
+                    }
+                    else                                            //초과재생이라면,
+                    {
+                        if (maxHealth - curHealth > 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(maxHealth - curHealth), target.transform.position, "+", "health");
+                            target.GetComponent<MobController>().curHealth += maxHealth - curHealth;         //그 격차량 만큼만 재생한다.   
+                        }
+                    }
+                }
+                if (value < 0)
+                {
+                    if (curHealth + value >= 0)         //체력 감소가 되도, -가 아니라면, 
+                    {
+                        DamageMessageManager.Instance.SetMessage((int)(value), target.transform.position, "-", "health");
+                        target.GetComponent<MobController>().curHealth += value;
+                    }
+                    else                                //체력 감소가 되면, -가 된다면, curHealth만큼 제거 
+                    {
+                        if (curHealth != 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(curHealth), target.transform.position, "-", "health");
+                            target.GetComponent<MobController>().curHealth -= curHealth;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void CauseMPup(GameObject target, int value)
+    {
+        if (target.tag == "Player")
+        {
+            if (value != 0)
+            {
+                float curMana = target.GetComponent<Stats>().curMana;
+                float maxMana = target.GetComponent<Stats>().mana;
+                if (value > 0)                               //+재생일 경우
+                {
+                    if (curMana + value <= maxMana)      //만약 초과재생이 아니라면
+                    {
+                        DamageMessageManager.Instance.SetMessage(value, target.transform.position, "+", "mana");
+                        target.GetComponent<Stats>().curMana += value;                  //재생량만큼 재생한다.
+                    }
+                    else                                            //초과재생이라면,
+                    {
+                        if (maxMana - curMana > 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(maxMana - curMana), target.transform.position, "+", "mana");
+                            target.GetComponent<Stats>().curMana += maxMana - curMana;         //그 격차량 만큼만 재생한다.   
+                        }
+                    }
+                }
+                if (value < 0)
+                {
+                    if (curMana + value >= 0)         //체력 감소가 되도, -가 아니라면, 
+                    {
+                        DamageMessageManager.Instance.SetMessage((int)(value), target.transform.position, "-", "mana");
+                        target.GetComponent<Stats>().curMana += value;
+                    }
+                    else                                //체력 감소가 되면, -가 된다면, curMana만큼 제거 
+                    {
+                        if (curMana != 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(curMana), target.transform.position, "-", "mana");
+                            target.GetComponent<Stats>().curMana -= curMana;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void CauseSPup(GameObject target, int value)
+    {
+        if (target.tag == "Player")
+        {
+            if (value != 0)
+            {
+                float curStamina = target.GetComponent<Stats>().curStamina;
+                float maxStamina = target.GetComponent<Stats>().stamina;
+                if (value > 0)                               //+재생일 경우
+                {
+                    if (curStamina + value <= maxStamina)      //만약 초과재생이 아니라면
+                    {
+                        DamageMessageManager.Instance.SetMessage(value, target.transform.position, "+", "stamina");
+                        target.GetComponent<Stats>().curStamina += value;                  //재생량만큼 재생한다.
+                    }
+                    else                                            //초과재생이라면,
+                    {
+                        if (maxStamina - curStamina > 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(maxStamina - curStamina), target.transform.position, "+", "stamina");
+                            target.GetComponent<Stats>().curStamina += maxStamina - curStamina;         //그 격차량 만큼만 재생한다.   
+                        }
+                    }
+                }
+                if (value < 0)
+                {
+                    if (curStamina + value >= 0)         //체력 감소가 되도, -가 아니라면, 
+                    {
+                        DamageMessageManager.Instance.SetMessage((int)(value), target.transform.position, "-", "stamina");
+                        target.GetComponent<Stats>().curStamina += value;
+                    }
+                    else                                //체력 감소가 되면, -가 된다면, curStamina만큼 제거 
+                    {
+                        if (curStamina != 0)
+                        {
+                            DamageMessageManager.Instance.SetMessage((int)(curStamina), target.transform.position, "-", "stamina");
+                            target.GetComponent<Stats>().curStamina -= curStamina;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static DamageCalculator dmgCalculator;
     public static DamageCalculator DmgCalculator
     {
         get
@@ -427,7 +616,7 @@ public class DamageApplication
 
 public struct Damage
 {
-    public float totalDamage;               //defender가 입는 최종 대미지
+    public int totalDamage;               //defender가 입는 최종 대미지
     public bool isDodge;                    //회피
     public int PhysicalDmg;                 //물리피해
     public bool isPhysicalCrit;             //치명타 여부

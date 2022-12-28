@@ -365,7 +365,7 @@ public class DBCustomManager : MonoBehaviour
                     {
                         statModifier = consumeItem.modifierData[i].statModifier,
                         buff = null,
-                        value = float.Parse(C_itemModifierPannel.transform.GetChild(i).GetComponent<Modifier>().value.text)
+                        value = int.Parse(C_itemModifierPannel.transform.GetChild(i).GetComponent<Modifier>().value.text)
                     };
                 }
             }
@@ -710,7 +710,7 @@ public class DBCustomManager : MonoBehaviour
             {
                 statModifier = new HealthModifier(),
                 buff = null,
-                value = 0.0f
+                value = 0
             });
         }
 
@@ -740,7 +740,7 @@ public class DBCustomManager : MonoBehaviour
             {
                 statModifier = new ManaModifier(),
                 buff = null,
-                value = 0.0f
+                value = 0
             });
         }
 
@@ -769,7 +769,7 @@ public class DBCustomManager : MonoBehaviour
             {
                 statModifier = new StaminaModifier(),
                 buff = null,
-                value = 0.0f
+                value = 0
             });
         }
 

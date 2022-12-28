@@ -24,7 +24,7 @@ MonoBehaviour:
     canDodge: 0
     physicalDmg: 5
     magicalDmg: 0
-    extraPhysicalDmg: 2
+    extraPhysicalDmg: 12
     extraMagicalDmg: 0
     extraVampirism: 0
     extraStrike: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
       mana: 0
       stamina: 0
       strike: 0
-      physicalDmg: 0
+      physicalDmg: 0.5
       physicalAttackSpeed: 0
       physicalPenetration: 0
       magicalDmg: 0
