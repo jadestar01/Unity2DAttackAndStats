@@ -100,7 +100,12 @@ public class SaveDB : MonoBehaviour
             else
             {
                 DB_Modifiers newModifier = DB_Modifiers.NewEntity(newItem);
-                newModifier.f_Modifier = item.modifierData[i].statModifier.name;
+                if (item.modifierData[i].statModifier.GetType() == typeof(HealthModifier))
+                    newModifier.f_Modifier = "HealthModifier";
+                else if(item.modifierData[i].statModifier.GetType() == typeof(ManaModifier))
+                    newModifier.f_Modifier = "ManaModifier";
+                else if (item.modifierData[i].statModifier.GetType() == typeof(StaminaModifier))
+                    newModifier.f_Modifier = "StaminaModifier";
                 newModifier.f_Value = item.modifierData[i].value;
             }
         }

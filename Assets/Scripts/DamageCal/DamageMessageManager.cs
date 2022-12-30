@@ -37,9 +37,8 @@ public class DamageMessageManager : MonoBehaviour
     [Button]
     public void SetMessage(int damage, Vector2 position, string adder, string type)
     {
-        position = Camera.main.WorldToScreenPoint(position);
         GameObject message = Instantiate(Text, position, Quaternion.identity);
-        message.transform.SetParent(gameObject.transform);
+        //message.transform.SetParent(gameObject.transform);
         if(type == "physical")
             message.GetComponent<DamageMessage>().SetMessage(damage, new Color(223 / 255f, 113 / 255f, 38 / 255f, 255 / 255f), adder);
         else if (type == "magical")

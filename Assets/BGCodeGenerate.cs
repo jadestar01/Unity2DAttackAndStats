@@ -250,7 +250,7 @@ public partial class DB_ConsumeItem : BGEntity
 		get => _f_Description[Index];
 		set => _f_Description[Index] = value;
 	}
-	public List<DB_Modifiers> f_Modifier => BGCodeGenUtils.GetNested<DB_Modifiers>(_f_Modifier, Index);
+	public List<DB_Modifiers> f_Modifiers => BGCodeGenUtils.GetNested<DB_Modifiers>(_f_Modifiers, Index);
 	public List<DB_BuffModifier> f_BuffModifier => BGCodeGenUtils.GetNested<DB_BuffModifier>(_f_BuffModifier, Index);
 	public System.Single f_Cooltime
 	{
@@ -271,8 +271,8 @@ public partial class DB_ConsumeItem : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldEnum _f_Quality => _ufle12jhs77_f_Quality ?? (_ufle12jhs77_f_Quality = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEnum>(MetaDefault, new BGId(5020317818545479926UL, 15493650164768662156UL), () => _ufle12jhs77_f_Quality = null));
 	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Description;
 	public static BansheeGz.BGDatabase.BGFieldString _f_Description => _ufle12jhs77_f_Description ?? (_ufle12jhs77_f_Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4742042642059504716UL, 18443537573339164066UL), () => _ufle12jhs77_f_Description = null));
-	private static BansheeGz.BGDatabase.BGFieldNested _ufle12jhs77_f_Modifier;
-	public static BansheeGz.BGDatabase.BGFieldNested _f_Modifier => _ufle12jhs77_f_Modifier ?? (_ufle12jhs77_f_Modifier = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldNested>(MetaDefault, new BGId(5125662717780029914UL, 14572246675050974607UL), () => _ufle12jhs77_f_Modifier = null));
+	private static BansheeGz.BGDatabase.BGFieldNested _ufle12jhs77_f_Modifiers;
+	public static BansheeGz.BGDatabase.BGFieldNested _f_Modifiers => _ufle12jhs77_f_Modifiers ?? (_ufle12jhs77_f_Modifiers = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldNested>(MetaDefault, new BGId(5125662717780029914UL, 14572246675050974607UL), () => _ufle12jhs77_f_Modifiers = null));
 	private static BansheeGz.BGDatabase.BGFieldNested _ufle12jhs77_f_BuffModifier;
 	public static BansheeGz.BGDatabase.BGFieldNested _f_BuffModifier => _ufle12jhs77_f_BuffModifier ?? (_ufle12jhs77_f_BuffModifier = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldNested>(MetaDefault, new BGId(4696687125843396272UL, 14995522585592437913UL), () => _ufle12jhs77_f_BuffModifier = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_Cooltime;
@@ -343,7 +343,7 @@ public partial class DB_Modifiers : BGEntity
 		get => _f_Modifier[Index];
 		set => _f_Modifier[Index] = value;
 	}
-	public System.Single f_Value
+	public System.Int32 f_Value
 	{
 		get => _f_Value[Index];
 		set => _f_Value[Index] = value;
@@ -354,8 +354,8 @@ public partial class DB_Modifiers : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldRelationSingle _f_ConsumeItem => _ufle12jhs77_f_ConsumeItem ?? (_ufle12jhs77_f_ConsumeItem = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationSingle>(MetaDefault, new BGId(4934624028187648800UL, 12510694118486198671UL), () => _ufle12jhs77_f_ConsumeItem = null));
 	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_f_Modifier;
 	public static BansheeGz.BGDatabase.BGFieldString _f_Modifier => _ufle12jhs77_f_Modifier ?? (_ufle12jhs77_f_Modifier = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4981987529764665337UL, 3383002801284849593UL), () => _ufle12jhs77_f_Modifier = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_f_Value;
-	public static BansheeGz.BGDatabase.BGFieldFloat _f_Value => _ufle12jhs77_f_Value ?? (_ufle12jhs77_f_Value = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5258966284076580453UL, 9197017191369534592UL), () => _ufle12jhs77_f_Value = null));
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_f_Value;
+	public static BansheeGz.BGDatabase.BGFieldInt _f_Value => _ufle12jhs77_f_Value ?? (_ufle12jhs77_f_Value = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5258966284076580453UL, 9197017191369534592UL), () => _ufle12jhs77_f_Value = null));
 	private static readonly DB_EquipItem.Factory _factory0_PFS = new DB_EquipItem.Factory();
 	private static readonly DB_Parameters.Factory _factory1_PFS = new DB_Parameters.Factory();
 	private static readonly DB_ConsumeItem.Factory _factory2_PFS = new DB_ConsumeItem.Factory();

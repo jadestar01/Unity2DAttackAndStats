@@ -73,7 +73,7 @@ public class DBLoader : MonoBehaviour
         for (int i = 0; i < entities.Count; i++)
         {
             List<ModifierData> itemModifiers = new List<ModifierData>();
-            List<BGEntity> modifiers = entities[i].Get<List<BGEntity>>("Modifier");
+            List<BGEntity> modifiers = entities[i].Get<List<BGEntity>>("Modifiers");
             for (int j = 0; j < modifiers.Count; j++)
             {
                 ModifierData modifier = new ModifierData
