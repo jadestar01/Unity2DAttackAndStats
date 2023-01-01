@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MapData_",menuName = "Map/MapData")]
+[CreateAssetMenu(fileName = "MapGenerateData_",menuName = "Map/MapGenerateData")]
 public class SimpleRandomWalkSO : ScriptableObject
 {
     //SimpleRandomWalk를 반복할 횟수, 즉 줄의 개수이다.

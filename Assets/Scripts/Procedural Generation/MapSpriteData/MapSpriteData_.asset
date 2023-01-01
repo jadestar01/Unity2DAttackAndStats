@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98e76dfba6038b44aa000a6afe6373b, type: 3}
+  m_Name: MapSpriteData_
+  m_EditorClassIdentifier: 
+  floor:
+  - rate: 10
+    tile: {fileID: 11400000, guid: 8ca28c2b49b316146a662b64fd2ab57f, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: a928b9d925c06bf4cb28e61ad085d555, type: 2}
+  wallTop:
+  - rate: 10
+    tile: {fileID: 11400000, guid: c2d65fc955b837041af6e665d1fcfe96, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 77804f8ff03a4034496d5fe03d3a02fc, type: 2}
+  wallSideRight:
+  - rate: 10
+    tile: {fileID: 11400000, guid: e937aa1baa5a818429b5c627822d4781, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 6afe7afeba15ad5448bc885738059528, type: 2}
+  wallSideLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 90b301f46527e014a84ad18c46fac226, type: 2}
+  wallBottom:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 8bb07bdbf0d4bd8408fa6de74cc26ad6, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 7f08d67cb2a1a174897566f7a8a178ed, type: 2}
+  wallFull:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 6ad41cf55b640014bb538cc069b22d17, type: 2}
+  wallInnerCornerDownLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 4589754cab931964a8dc7c3c4804c64a, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 5378bf3b73b476946af4d35941fd8f6b, type: 2}
+  wallInnerCornerDownRight:
+  - rate: 1
+    tile: {fileID: 11400000, guid: bba48d2d1633b434d8358b1288b1a54b, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 3dc97aa56ab0bc148948b7ba4a536a4a, type: 2}
+  wallDiagonalCornerDownRight:
+  - rate: 1
+    tile: {fileID: 11400000, guid: b10704e76228e114e9fc8689d6a28259, type: 2}
+  wallDiagonalCornerDownLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 24f4ee37727896e4ea1ff10dcde19494, type: 2}
+  wallDiagonalCornerUpRight:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 6afe7afeba15ad5448bc885738059528, type: 2}
+  wallDiagonalCornerUpLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 72c42a5a9479ce64ba64d9162124ea28, type: 2}
