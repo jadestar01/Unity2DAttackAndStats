@@ -92,7 +92,7 @@ public class TilemapVisualizer : MonoBehaviour
         }
         else if (WallTypesHelper.wallBottomEightDirections.Contains(typeAsInt))
         {
-            tile = GetRandomTile(mapData.wallDiagonalCornerUpLeft);
+            tile = GetRandomTile(mapData.wallBottom);
         }
         if (tile != null)
             PaintSingleTile(wallTilemap, tile, position);
@@ -126,7 +126,6 @@ public class TilemapVisualizer : MonoBehaviour
                 tiles.Add(tileList[i].tile);
             }
         }
-        Debug.Log(tiles.Count);
         tile = tiles[Random.Range(0, tiles.Count)];
         return tile;
     }

@@ -74,7 +74,6 @@ public class WallTypesHelper : MonoBehaviour
         0b10000110,
         0b11000100,
         0b01000010
-
     };
 
     public static HashSet<int> wallDiagonalCornerDownLeft = new HashSet<int>

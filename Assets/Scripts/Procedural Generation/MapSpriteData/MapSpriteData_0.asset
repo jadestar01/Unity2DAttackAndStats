@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98e76dfba6038b44aa000a6afe6373b, type: 3}
+  m_Name: MapSpriteData_0
+  m_EditorClassIdentifier: 
+  floor:
+  - rate: 5
+    tile: {fileID: 11400000, guid: 8ea93bc557e637247a2152a9acc80a73, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: 2fbae63ff3f11104cb138fba425e8bef, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: 46f3068e1ca3cd24090c40b3f5aa80d7, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: c0feaeed5b8eb4b4799477938ed463a9, type: 2}
+  wallTop:
+  - rate: 5
+    tile: {fileID: 11400000, guid: 619046b95ef23db4aa3155d7a6c31835, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: d5c4f9354d1c5df49b6c600d7c145854, type: 2}
+  - rate: 2
+    tile: {fileID: 11400000, guid: 4a8c6bfe705d27542b2289f86f199ad8, type: 2}
+  wallSideRight:
+  - rate: 10
+    tile: {fileID: 11400000, guid: e3612e9ef037eeb43a734800b9bdc866, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: 1874344a074e1774baf8f6fc277c19b2, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: 1cd525ef1c9fde940a07a3ce8c9a1729, type: 2}
+  - rate: 2
+    tile: {fileID: 11400000, guid: e3135895fc36acc4682954a4703a9482, type: 2}
+  wallSideLeft:
+  - rate: 10
+    tile: {fileID: 11400000, guid: 02ee556611e997c44abf0efee05a890a, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: 9c0e1316ce2eb0647905f15c269685b6, type: 2}
+  - rate: 5
+    tile: {fileID: 11400000, guid: 79015472f6e75624999628a9d666021f, type: 2}
+  - rate: 2
+    tile: {fileID: 11400000, guid: 9e41484bd36eaec4f8f927123c684fbb, type: 2}
+  wallBottom:
+  - rate: 1
+    tile: {fileID: 11400000, guid: b7cf54a7ceb9d2e469c4dc2914d88580, type: 2}
+  wallFull:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 8e2aca45db9136648a9f85d15a1e8f44, type: 2}
+  wallInnerCornerDownLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 5c02912271a350745b34f2cb842400d6, type: 2}
+  wallInnerCornerDownRight:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 3a29a9e7f32027e479a12d32c7838f7b, type: 2}
+  wallDiagonalCornerDownRight:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 289c0eb05fef7ac4dae2df7f6c7fb71b, type: 2}
+  wallDiagonalCornerDownLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: a6985cc554ad04d4db071d26c3e88ec1, type: 2}
+  wallDiagonalCornerUpRight:
+  - rate: 1
+    tile: {fileID: 11400000, guid: e3612e9ef037eeb43a734800b9bdc866, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 1874344a074e1774baf8f6fc277c19b2, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 1cd525ef1c9fde940a07a3ce8c9a1729, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: e3135895fc36acc4682954a4703a9482, type: 2}
+  wallDiagonalCornerUpLeft:
+  - rate: 1
+    tile: {fileID: 11400000, guid: 02ee556611e997c44abf0efee05a890a, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 9c0e1316ce2eb0647905f15c269685b6, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 9e41484bd36eaec4f8f927123c684fbb, type: 2}
+  - rate: 1
+    tile: {fileID: 11400000, guid: 79015472f6e75624999628a9d666021f, type: 2}
