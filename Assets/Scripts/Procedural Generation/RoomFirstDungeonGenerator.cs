@@ -1,7 +1,9 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using TMPro;
 using Unity.VisualScripting;
@@ -20,9 +22,15 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     = new Dictionary<Vector2Int, HashSet<Vector2Int>>();                        //방의 데이터    Center, 방의 타일
     private HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();     //바닥의 데이터
     private HashSet<Vector2Int> corridorPositions = new HashSet<Vector2Int>();  //복도의 데이터
+
+    private Dictionary<Vector2Int, int> roomNumber = new Dictionary<Vector2Int, int>();     //방의 넘버 
     [SerializeField] GameObject textPanel;
     [SerializeField] GameObject text;
     [SerializeField] private GameObject panel;
+
+    Vector2Int startRoom = new Vector2Int();
+    Vector2Int lastRoom = new Vector2Int();
+    Vector2Int bossRoom = new Vector2Int();
 
     protected override void RunProceduralGeneration()
     {
@@ -41,7 +49,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             else
                 roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
         }
-        NumberToCenter(roomsList);
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
         /*
         if (randomWalkRooms)
@@ -53,7 +60,10 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             floor = CreateSimpleRooms(roomsList);
         }
         */
+        //방을 생성한다.
         floor = CreateSimpleRooms(roomsList);
+        //방에 번호를 매긴다.
+        NumberToCenter(roomsList);
 
         //방의 중앙을 찾아내서, 방을 연결시키고, floor에 해당 내용(복도)을 넣는다.
         List<Vector2Int> roomCenters = new List<Vector2Int>();
@@ -61,8 +71,17 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         {
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
+
+        //roomCenters를 복제한다.
+        List<Vector2Int> roomCenterList = new List<Vector2Int>();
+        roomCenterList = roomCenters.ToList();
+        
+        //방을 연결하고, 복도를 만든다.
         HashSet<Vector2Int> corriors = ConnectRooms(roomCenters);
         floor.UnionWith(corriors);
+
+        //방의 특성을 분석하여 보스방, 탈출방, 시작방을 정한다.
+        RoomSelector(roomCenterList);
 
         //칠하고, 벽을 세운다.
         tilemapVisualizer.PaintFloorTiles(floor);
@@ -71,20 +90,17 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     public void NumberToCenter(List<BoundsInt> roomsList)
     {
-        Debug.Log(roomsList.Count);
         if(panel != null)
             DestroyImmediate(panel);
         panel = Instantiate(textPanel);
         for (int i = 0; i < roomsList.Count; i++)
         {
-            Debug.Log(i + " : " + roomsList[i].center);
+            roomNumber.Add((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center), i);
             GameObject item = Instantiate(text, roomsList[i].center, Quaternion.identity);
             item.name = i.ToString();
             item.transform.SetParent(panel.transform);
-            text.GetComponent<TMP_Text>().text = item.name;
+            item.GetComponent<RoomText>().SetRoomNumber(i);
         }
-        for(int i = 0; i < roomsList.Count; i++)
-            Debug.Log(i + " : " + roomsList[i].center);
     }
 
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
@@ -112,6 +128,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     private void ClearRoomData()
     {
         roomsDictionary.Clear();
+        roomNumber.Clear();
     }
 
     private void SaveRoomData(Vector2Int roomCenter, HashSet<Vector2Int> roomBound)
@@ -132,6 +149,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             HashSet<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
             currentRoomCenter = closest;
             corridors.UnionWith(newCorridor);
+            lastRoom = closest;
         }
         return corridors;
     }
@@ -211,5 +229,41 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         //floorPositions에 해당 floor를 집어넣는다.
         floorPositions.AddRange(floor);
         return floor;
+    }
+
+    private void RoomSelector(List<Vector2Int> roomCenters)
+    {
+        Vector2Int farthest = Vector2Int.zero;
+        float distance = 0;
+        //Start방
+        foreach (var position in roomCenters)
+        {
+            float currentDistance = Vector2.Distance(position, lastRoom);
+            if (currentDistance > distance)
+            {
+                distance = currentDistance;
+                farthest = position;
+            }
+        }
+        startRoom = farthest;
+        roomCenters.Remove(startRoom);
+
+        //Boss방
+        farthest = Vector2Int.zero;
+        distance = 0;
+        foreach (var position in roomCenters)
+        {
+            float currentDistance = Vector2.Distance(position, lastRoom) + Vector2.Distance(position, startRoom);
+            if (currentDistance > distance)
+            {
+                distance = currentDistance;
+                farthest = position;
+            }
+        }
+        bossRoom = farthest;
+
+        Debug.Log("탈출방 : " + roomNumber[lastRoom]);
+        Debug.Log("시작방 : " + roomNumber[startRoom]);
+        Debug.Log("보스방 : " + roomNumber[bossRoom]);
     }
 }
