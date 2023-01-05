@@ -28,9 +28,10 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField] GameObject text;
     [SerializeField] private GameObject panel;
 
-    Vector2Int startRoom = new Vector2Int();
-    Vector2Int lastRoom = new Vector2Int();
-    Vector2Int bossRoom = new Vector2Int();
+
+    [Header("Green")] public Vector2Int startRoom = new Vector2Int();
+    [Header("Blue")] public Vector2Int lastRoom = new Vector2Int();
+    [Header("Red")] public Vector2Int bossRoom = new Vector2Int();
 
     protected override void RunProceduralGeneration()
     {
@@ -62,8 +63,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         */
         //방을 생성한다.
         floor = CreateSimpleRooms(roomsList);
-        //방에 번호를 매긴다.
-        NumberToCenter(roomsList);
 
         //방의 중앙을 찾아내서, 방을 연결시키고, floor에 해당 내용(복도)을 넣는다.
         List<Vector2Int> roomCenters = new List<Vector2Int>();
@@ -83,6 +82,9 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         //방의 특성을 분석하여 보스방, 탈출방, 시작방을 정한다.
         RoomSelector(roomCenterList);
 
+        //방에 번호를 매긴다.
+        NumberToCenter(roomsList);
+
         //칠하고, 벽을 세운다.
         tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tilemapVisualizer);
@@ -100,6 +102,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             item.name = i.ToString();
             item.transform.SetParent(panel.transform);
             item.GetComponent<RoomText>().SetRoomNumber(i);
+            if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == lastRoom)
+                item.GetComponent<TMP_Text>().color = Color.blue;
+            else if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == bossRoom)
+                item.GetComponent<TMP_Text>().color = Color.red;
+            else if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == startRoom)
+                item.GetComponent<TMP_Text>().color = Color.green;
         }
     }
 
@@ -261,9 +269,5 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             }
         }
         bossRoom = farthest;
-
-        Debug.Log("탈출방 : " + roomNumber[lastRoom]);
-        Debug.Log("시작방 : " + roomNumber[startRoom]);
-        Debug.Log("보스방 : " + roomNumber[bossRoom]);
     }
 }
