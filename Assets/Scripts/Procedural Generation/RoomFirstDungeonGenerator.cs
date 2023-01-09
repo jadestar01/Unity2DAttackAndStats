@@ -1,4 +1,6 @@
+using BansheeGz.BGDatabase;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Modules.UnityMathematics.Editor;
 using Sirenix.Serialization;
 using System;
 using System.Collections;
@@ -7,6 +9,9 @@ using System.Linq;
 using System.Net.Http.Headers;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Build.Pipeline;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -17,29 +22,48 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField] private int minRoomWidth = 4, minRoomHeight = 4;           //방의 최소 사이즈
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;         //던전의 총 크기
     [SerializeField] [Range(0, 10)] private int offset = 1;                     //방 사이의 거리  0이라면, 방끼리 붙게 된다.
+    [SerializeField] private bool seeNumber = false;
+    [SerializeField] private MapObjectDataSO objectData;
     //[SerializeField] private bool randomWalkRooms = false;
-    private Dictionary<Vector2Int, HashSet<Vector2Int>> roomsDictionary
-    = new Dictionary<Vector2Int, HashSet<Vector2Int>>();                        //방의 데이터    Center, 방의 타일
+    private Dictionary<Vector2Int, List<Vector2Int>> roomsDictionary
+    = new Dictionary<Vector2Int, List<Vector2Int>>();                        //방의 데이터    Center, 방의 타일
     private HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();     //바닥의 데이터
     private HashSet<Vector2Int> corridorPositions = new HashSet<Vector2Int>();  //복도의 데이터
 
     private Dictionary<Vector2Int, int> roomNumber = new Dictionary<Vector2Int, int>();     //방의 넘버 
     [SerializeField] GameObject textPanel;
     [SerializeField] GameObject text;
+    [SerializeField] GameObject axisText;
     [SerializeField] private GameObject panel;
 
-
     [Header("Green")] public Vector2Int startRoom = new Vector2Int();
-    [Header("Blue")] public Vector2Int lastRoom = new Vector2Int();
+    [Header("Blue")] public Vector2Int exitRoom = new Vector2Int();
     [Header("Red")] public Vector2Int bossRoom = new Vector2Int();
+
+    private List<GameObject> objectList = new List<GameObject>();
 
     protected override void RunProceduralGeneration()
     {
+        ObjectReset();
         CreateRooms();
+    }
+
+    private void ObjectReset()
+    {
+        int count = objectList.Count;
+        for (int i = 0; i < count; i++)
+        {
+            Destroy(objectList[count - 1 - i]);
+        }
     }
 
     private void CreateRooms()
     {
+        if (panel != null)
+            DestroyImmediate(panel);
+        if(seeNumber)
+            panel = Instantiate(textPanel);
+
         //이진 공간 분할법으로 공간을 만들고, floor에 해당 내용을 넣는다.
         bool RoomSizeDetecter = false;
         var roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
@@ -83,18 +107,17 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         RoomSelector(roomCenterList);
 
         //방에 번호를 매긴다.
-        NumberToCenter(roomsList);
+        if (seeNumber)
+            NumberToCenter(roomsList);
 
         //칠하고, 벽을 세운다.
         tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tilemapVisualizer);
+        CreateObject();
     }
 
     public void NumberToCenter(List<BoundsInt> roomsList)
     {
-        if(panel != null)
-            DestroyImmediate(panel);
-        panel = Instantiate(textPanel);
         for (int i = 0; i < roomsList.Count; i++)
         {
             roomNumber.Add((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center), i);
@@ -102,12 +125,21 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             item.name = i.ToString();
             item.transform.SetParent(panel.transform);
             item.GetComponent<RoomText>().SetRoomNumber(i);
-            if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == lastRoom)
+            if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == exitRoom)
                 item.GetComponent<TMP_Text>().color = Color.blue;
             else if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == bossRoom)
                 item.GetComponent<TMP_Text>().color = Color.red;
             else if ((Vector2Int)Vector3Int.RoundToInt(roomsList[i].center) == startRoom)
                 item.GetComponent<TMP_Text>().color = Color.green;
+        }
+    }
+    public void AxisNumToPosition(HashSet<Vector2Int> room)
+    {
+        foreach (Vector2Int roomdata in room)
+        {
+            GameObject item = Instantiate(axisText, new Vector2(roomdata.x + 0.5f, roomdata.y + 0.5f), Quaternion.identity);
+            item.GetComponent<TMP_Text>().text = roomdata.ToString();
+            item.transform.SetParent(panel.transform);
         }
     }
 
@@ -141,7 +173,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     private void SaveRoomData(Vector2Int roomCenter, HashSet<Vector2Int> roomBound)
     {
-        roomsDictionary[roomCenter] = roomBound;
+        List<Vector2Int> room = new List<Vector2Int>();
+        foreach (var item in roomBound)
+        {
+            room.Add(item);
+        }
+        roomsDictionary.Add(roomCenter, room.ToList());
     }
 
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
@@ -157,7 +194,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             HashSet<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
             currentRoomCenter = closest;
             corridors.UnionWith(newCorridor);
-            lastRoom = closest;
+            exitRoom = closest;
         }
         return corridors;
     }
@@ -223,9 +260,9 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         foreach (var room in roomList)
         {
             eachRoom.Clear();
-            for (int col = offset;  col < room.size.x - offset;  col++)
+            for (int row = offset;  row < room.size.y - offset;  row++)
             {
-                for (int row = offset; row < room.size.y - offset; row++)
+                for (int col = offset; col < room.size.x - offset; col++)
                 {
                     Vector2Int position = (Vector2Int)room.min + new Vector2Int(col, row);
                     floor.Add(position);
@@ -233,6 +270,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 }
             }
             SaveRoomData((Vector2Int)Vector3Int.RoundToInt(room.center), eachRoom);
+            if (seeNumber)
+                AxisNumToPosition(eachRoom);
         }
         //floorPositions에 해당 floor를 집어넣는다.
         floorPositions.AddRange(floor);
@@ -246,7 +285,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         //Start방
         foreach (var position in roomCenters)
         {
-            float currentDistance = Vector2.Distance(position, lastRoom);
+            float currentDistance = Vector2.Distance(position, exitRoom);
             if (currentDistance > distance)
             {
                 distance = currentDistance;
@@ -261,7 +300,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         distance = 0;
         foreach (var position in roomCenters)
         {
-            float currentDistance = Vector2.Distance(position, lastRoom) + Vector2.Distance(position, startRoom);
+            float currentDistance = Vector2.Distance(position, exitRoom) + Vector2.Distance(position, startRoom);
             if (currentDistance > distance)
             {
                 distance = currentDistance;
@@ -269,5 +308,96 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             }
         }
         bossRoom = farthest;
+    }
+
+    private void CreateObject()
+    {
+        foreach (var room in roomsDictionary)
+        {
+            if (room.Key == startRoom) ObjectSetter(room.Value, objectData.start);
+            else if (room.Key == bossRoom) ObjectSetter(room.Value, objectData.boss);
+            else if (room.Key == exitRoom) ObjectSetter(room.Value, objectData.exit);
+            else ObjectSetter(room.Value, objectData.normal);
+        }
+    }
+
+    private void ObjectSetter(List<Vector2Int> Room, List<ObjectData> Objects)
+    {
+        List<Vector2Int> room = new List<Vector2Int>(); room = Room.ToList();
+        List<ObjectData> objects = new List<ObjectData>(); objects = Objects.ToList();
+
+        //놓을 수 있는가 파악하기, 놓고 룸 제거하기, 
+
+        //Corner Object 두기
+
+        //Center Object 두기
+
+        //Wall Object 두기
+
+        //Normal Object 두기
+        for (int i = 0; i < objects.Count; i++)     //Normal 오브젝트에 접근
+        {
+            int quantity = Random.Range(objects[i].minQuantity, objects[i].maxQuantity + 1);
+
+            for (int j = 0; j < quantity; j++)
+            {
+                List<Vector2Int> canPlacePosition = new List<Vector2Int>();
+                canPlacePosition = CanPlaceList(room, objects[i]);      //설치할 수 있는 위치를 추적한다!
+
+                //설치 할 수 있다면, 설치하고 위치를 삭제한다.
+                if (canPlacePosition.Count > 0)
+                {
+                    Vector2Int position = canPlacePosition[Random.Range(0, canPlacePosition.Count)];
+                    Debug.Log(position);
+                    GameObject entity = 
+                    Instantiate(objects[i].mapObject,
+                                new Vector2(position.x + 0.5f * objects[i].size.x,
+                                            position.y + 0.5f * objects[i].size.y),
+                                Quaternion.identity);
+                    objectList.Add(entity);
+                    RemovePosition(room, position, objects[i]);
+                }
+            }
+        }
+    }
+
+    //오브젝트를 둘 수 있는 위치 파악
+    private List<Vector2Int> CanPlaceList(List<Vector2Int> room, ObjectData objectData)
+    {
+        List<Vector2Int> canPlacePosition = new List<Vector2Int>();
+
+        for (int i = 0; i < room.Count; i++)
+        {
+            bool canPlace = true;
+            //x값 확인
+            for (int j = 0; j < objectData.size.x; j++)
+            {
+                //y값 확인
+                for (int k = 0; k < objectData.size.y; k++)
+                {
+                    Vector2Int position = new Vector2Int(room[i].x + j, room[i].y + k);
+                    if (!room.Contains(position))
+                        canPlace = false;
+                }
+            }
+
+            if (canPlace)
+                canPlacePosition.Add(room[i]);
+        }
+
+        return canPlacePosition;
+    }
+
+    private void RemovePosition(List<Vector2Int> room, Vector2Int position, ObjectData objectData)
+    {
+        for (int i = 0; i < objectData.size.x; i++)
+        {
+            for (int j = 0; j < objectData.size.y; j++)
+            {
+                Vector2Int removePosition = new Vector2Int(position.x + i, position.y + j);
+                Debug.Log(removePosition);
+                room.Remove(removePosition);
+            }
+        }
     }
 }
