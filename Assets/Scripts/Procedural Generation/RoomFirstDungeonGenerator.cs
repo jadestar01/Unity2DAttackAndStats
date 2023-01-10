@@ -1,4 +1,5 @@
 using BansheeGz.BGDatabase;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Modules.UnityMathematics.Editor;
 using Sirenix.Serialization;
@@ -7,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Build.Pipeline;
@@ -14,6 +17,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
@@ -25,6 +29,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField] private bool seeNumber = false;
     [SerializeField] private MapObjectDataSO objectData;
     //[SerializeField] private bool randomWalkRooms = false;
+
+    private List<BoundsInt> roomsList = new List<BoundsInt>();
     private Dictionary<Vector2Int, List<Vector2Int>> roomsDictionary
     = new Dictionary<Vector2Int, List<Vector2Int>>();                        //방의 데이터    Center, 방의 타일
     private HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();     //바닥의 데이터
@@ -44,6 +50,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     protected override void RunProceduralGeneration()
     {
+        roomsList = new();
         ObjectReset();
         CreateRooms();
     }
@@ -66,7 +73,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
         //이진 공간 분할법으로 공간을 만들고, floor에 해당 내용을 넣는다.
         bool RoomSizeDetecter = false;
-        var roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
+        roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
         while (!RoomSizeDetecter)
         {
             if (roomsList.Count >= minRoomCount && roomsList.Count <= maxRoomCount)
@@ -324,80 +331,253 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     private void ObjectSetter(List<Vector2Int> Room, List<ObjectData> Objects)
     {
         List<Vector2Int> room = new List<Vector2Int>(); room = Room.ToList();
-        List<ObjectData> objects = new List<ObjectData>(); objects = Objects.ToList();
+        List<ObjectData> obj = new List<ObjectData>(); obj = Objects.ToList();
+        List<ObjectData> objects = new List<ObjectData>();
 
-        //놓을 수 있는가 파악하기, 놓고 룸 제거하기, 
-
-        //Corner Object 두기
-
-        //Center Object 두기
-
-        //Wall Object 두기
-
-        //Normal Object 두기
-        for (int i = 0; i < objects.Count; i++)     //Normal 오브젝트에 접근
+        //corner wall center normal 순 정렬
+        objects = ObjectListSorting(obj);
+        
+        //type별로 포지션 구하고, 둘 수 있나 확인 후, 두었다면 자리 리셋
+        for (int i = 0; i < objects.Count; i++)
         {
             int quantity = Random.Range(objects[i].minQuantity, objects[i].maxQuantity + 1);
 
             for (int j = 0; j < quantity; j++)
             {
                 List<Vector2Int> canPlacePosition = new List<Vector2Int>();
-                canPlacePosition = CanPlaceList(room, objects[i]);      //설치할 수 있는 위치를 추적한다!
+                Vector2Int size = Vector2Int.zero;
+                Vector2 centerConsiderPosition = Vector2.zero;
+
+                if (objects[i].objectType == ObjectType.Corner)
+                {
+                    canPlacePosition = CanPlaceList(room, CornerFinder(room, objects[i]), objects[i].size);
+                    size = objects[i].size;
+                }
+                else if (objects[i].objectType == ObjectType.Center)
+                {
+                    centerConsiderPosition = CenterPivotFinder(CenterFinder(room), objects[i]);
+                    size = CenterConsiderSize(room, CenterFinder(room), objects[i]);
+                    canPlacePosition = CanPlaceList(room, CenterPositionList(room, new Vector2Int((int)centerConsiderPosition.x, (int)centerConsiderPosition.y), size), size);
+                }
+                else if (objects[i].objectType == ObjectType.Wall)
+                {
+                    canPlacePosition = CanPlaceList(room, WallFinder(room, objects[i]), objects[i].size);
+                    size = objects[i].size;
+                }
+                else if (objects[i].objectType == ObjectType.Normal)
+                {
+                    canPlacePosition = CanPlaceList(room, room, objects[i].size);
+                    size = objects[i].size;
+                }
 
                 //설치 할 수 있다면, 설치하고 위치를 삭제한다.
                 if (canPlacePosition.Count > 0)
                 {
-                    Vector2Int position = canPlacePosition[Random.Range(0, canPlacePosition.Count)];
-                    Debug.Log(position);
+                    Vector2 position;
+                    if (objects[i].objectType == ObjectType.Center)
+                        position = centerConsiderPosition;
+                    else
+                        position = canPlacePosition[Random.Range(0, canPlacePosition.Count)];
+
                     GameObject entity = 
                     Instantiate(objects[i].mapObject,
                                 new Vector2(position.x + 0.5f * objects[i].size.x,
                                             position.y + 0.5f * objects[i].size.y),
                                 Quaternion.identity);
                     objectList.Add(entity);
-                    RemovePosition(room, position, objects[i]);
+
+                    RemovePosition(room, new Vector2Int((int)position.x, (int)position.y), size);
                 }
             }
         }
     }
 
+    private List<ObjectData> ObjectListSorting(List<ObjectData> obj)
+    {
+        List<ObjectData> objectData = new List<ObjectData>();
+        
+        for (int i = 0; i < obj.Count; i++)
+        {
+            if (obj[i].objectType == ObjectType.Corner)
+                objectData.Add(obj[i]);
+        }
+        for (int i = 0; i < obj.Count; i++)
+        {
+            if (obj[i].objectType == ObjectType.Center)
+                objectData.Add(obj[i]);
+        }
+        for (int i = 0; i < obj.Count; i++)
+        {
+            if (obj[i].objectType == ObjectType.Wall)
+                objectData.Add(obj[i]);
+        }
+        for (int i = 0; i < obj.Count; i++)
+        {
+            if (obj[i].objectType == ObjectType.Normal)
+                objectData.Add(obj[i]);
+        }
+
+        return objectData;
+    }
+
     //오브젝트를 둘 수 있는 위치 파악
-    private List<Vector2Int> CanPlaceList(List<Vector2Int> room, ObjectData objectData)
+    private List<Vector2Int> CanPlaceList(List<Vector2Int> room, List<Vector2Int> positionList, Vector2Int size)
     {
         List<Vector2Int> canPlacePosition = new List<Vector2Int>();
 
-        for (int i = 0; i < room.Count; i++)
+        for (int i = 0; i < positionList.Count; i++)
         {
             bool canPlace = true;
             //x값 확인
-            for (int j = 0; j < objectData.size.x; j++)
+            for (int j = 0; j < size.x; j++)
             {
                 //y값 확인
-                for (int k = 0; k < objectData.size.y; k++)
+                for (int k = 0; k < size.y; k++)
                 {
-                    Vector2Int position = new Vector2Int(room[i].x + j, room[i].y + k);
+                    Vector2Int position = new Vector2Int(positionList[i].x + j, positionList[i].y + k);
                     if (!room.Contains(position))
                         canPlace = false;
                 }
             }
 
             if (canPlace)
-                canPlacePosition.Add(room[i]);
+                canPlacePosition.Add(positionList[i]);
         }
 
         return canPlacePosition;
     }
 
-    private void RemovePosition(List<Vector2Int> room, Vector2Int position, ObjectData objectData)
+    //오브젝트의 크기만큼 방에서 지운다.
+    private void RemovePosition(List<Vector2Int> room, Vector2Int position, Vector2Int size)
     {
-        for (int i = 0; i < objectData.size.x; i++)
+        for (int i = 0; i < size.x; i++)
         {
-            for (int j = 0; j < objectData.size.y; j++)
+            for (int j = 0; j < size.y; j++)
             {
                 Vector2Int removePosition = new Vector2Int(position.x + i, position.y + j);
-                Debug.Log(removePosition);
                 room.Remove(removePosition);
+                Debug.Log(removePosition);
             }
         }
+    }
+
+    //오브젝트의 크기를 고려한 방의 코너 값을 찾아 반환한다.
+    private List<Vector2Int> CornerFinder(List<Vector2Int> room, ObjectData objectData)
+    {
+        List<Vector2Int> corner = new List<Vector2Int>();
+        Vector2Int min = MinPositionFinder(room);
+        Vector2Int max = MaxPositionFinder(room);
+
+        corner.Add(min);
+        corner.Add(new Vector2Int(min.x, max.y + 1 - objectData.size.y));
+        corner.Add(new Vector2Int(max.x + 1 - objectData.size.x, min.y));
+        corner.Add(new Vector2Int(max.x + 1 - objectData.size.x, max.y + 1 - objectData.size.y));
+
+        return corner;
+    }
+
+    //버그인진 모르겠지만, 만약 설치되어 있는 공간이 있다면, 무시하고 민/맥을 갱신하네, 나쁘진 않은듯.
+    private List<Vector2Int> WallFinder(List<Vector2Int> room, ObjectData objectData)
+    {
+        List<Vector2Int> wall = new List<Vector2Int>();
+        Vector2Int min = MinPositionFinder(room);
+        Vector2Int max = MaxPositionFinder(room);
+        Vector2Int offsetMax = new Vector2Int(max.x + 1 - objectData.size.x, max.y + 1 - objectData.size.y);
+
+        for (int i = 0; i < room.Count; i++)
+        {
+            if ((room[i].x == min.x || room[i].x == offsetMax.x) && room[i].y <= offsetMax.y)
+                wall.Add(room[i]);
+            else if (room[i].x <= offsetMax.x && (room[i].y == min.y || room[i].y == offsetMax.y))
+                wall.Add(room[i]);
+        }
+
+        return wall;
+    }
+
+    private Vector2 CenterFinder(List<Vector2Int> room)
+    {
+        Vector2Int min = MinPositionFinder(room);
+        Vector2Int max = MaxPositionFinder(room);
+        Vector2 center = new Vector2(((float)(min.x + max.x) / 2 + 0.5f), ((float)(min.y + max.y) / 2 + 0.5f));
+
+        return center;
+    }
+
+    private Vector2 CenterPivotFinder(Vector2 center, ObjectData objectData)
+    {
+        Vector2 pivot = new Vector2(
+            (center.x - ((float)(objectData.size.x)/2)),
+            (center.y - ((float)(objectData.size.y)/2))
+            );
+
+        return pivot;
+    }
+
+
+    private Vector2Int CenterConsiderSize(List<Vector2Int> room, Vector2 center, ObjectData objectData)
+    {
+        Vector2 pivot = CenterPivotFinder(center, objectData);
+
+        int intX = (int)pivot.x;
+        int intY = (int)pivot.y;
+
+        int iteratorX = objectData.size.x;
+        int iteratorY = objectData.size.y;
+
+        if (!Mathf.Approximately(intX, pivot.x))
+            iteratorX++;
+        if (!Mathf.Approximately(intY, pivot.y))
+            iteratorY++;
+
+        return new Vector2Int(iteratorX, iteratorY);
+    }
+
+    private List<Vector2Int> CenterPositionList(List<Vector2Int> room, Vector2Int centerPivot, Vector2Int size)
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+
+        for (int i = 0; i < size.x; i++)
+        {
+            for (int j = 0; j < size.y; j++)
+            {
+                positions.Add(new Vector2Int(centerPivot.x + i, centerPivot.y + j));
+            }
+        }
+
+        return positions;
+    }
+
+    private Vector2Int MinPositionFinder(List<Vector2Int> room)
+    {
+        int minX = 9999999;
+        int minY = 9999999;
+
+        for (int i = 0; i < room.Count; i++)
+        {
+            if (room[i].x < minX)
+                minX = room[i].x;
+            if (room[i].y < minY)
+                minY = room[i].y;
+        }
+
+        return new Vector2Int(minX, minY);
+    }
+
+    private Vector2Int MaxPositionFinder(List<Vector2Int> room)
+    {
+        int maxX = -999999;
+        int maxY = -999999;
+
+
+        for (int i = 0; i < room.Count; i++)
+        {
+            if (room[i].x > maxX)
+                maxX = room[i].x;
+            if (room[i].y > maxY)
+                maxY = room[i].y;
+        }
+
+        return new Vector2Int(maxX, maxY);
     }
 }
