@@ -65,6 +65,7 @@ namespace Inventory.Model
                 if (inventoryItems[i].IsEmpty)
                 {
                     inventoryItems[i] = newItem;
+                    MessageManager.Instance.ItemMessage(item, quantity);
                     return quantity;
                 }
             }
@@ -96,19 +97,22 @@ namespace Inventory.Model
                 {
                     int amountPossibleToTake = inventoryItems[i].item.MaxStackSize - inventoryItems[i].quantity;
 
-                    if (quantity > amountPossibleToTake)
+                    if (quantity > amountPossibleToTake)        //초과로 들어왔을 때, quatity를 깍는다. 20, 10+10
                     {
+                        MessageManager.Instance.ItemMessage(item, amountPossibleToTake);
                         inventoryItems[i] = inventoryItems[i].ChangeQuantity(inventoryItems[i].item.MaxStackSize);
                         quantity -= amountPossibleToTake;
                     }
-                    else
+                    else                                        //초과가 아니라면, 그냥 표기한다.
                     {
+                        MessageManager.Instance.ItemMessage(item, quantity);
                         inventoryItems[i] = inventoryItems[i].ChangeQuantity(inventoryItems[i].quantity + quantity);
                         InformAboutChange();
                         return 0;
                     }
                 }
             }
+            //그럼에도 남은 게 있다면, 
             while (quantity > 0 && IsInventoryFull() == false)
             {
                 int newQuantity = Mathf.Clamp(quantity, 0, item.MaxStackSize);

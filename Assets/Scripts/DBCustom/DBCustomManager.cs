@@ -823,7 +823,7 @@ public class DBCustomManager : MonoBehaviour
         {
             GameObject weapon = Instantiate(weaponButton);
             weapon.transform.SetParent(weaponList.transform);
-            weapon.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = weapons[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+            weapon.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = weapons[i].transform.GetComponent<SpriteRenderer>().sprite;
             weapon.transform.GetChild(0).GetComponent<WeaponAdder>().weapon = weapons[i];
             weapon.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = weapons[i].name;
         }

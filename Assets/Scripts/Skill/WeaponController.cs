@@ -8,9 +8,34 @@ using UnityEngine.UIElements;
 
 public class WeaponController : MonoBehaviour
 {
+    private static WeaponController instance;
+    public static WeaponController Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     [HideInInspector] public float distance = 0.8f;
-    public bool isAttack;
-    [HideInInspector] public List<GameObject> anchor;
+    public List<GameObject> anchor = new List<GameObject>();
     [HideInInspector] public GameObject[] weapon = new GameObject[3];
     [SerializeField] private GameObject player;
     [SerializeField] private InventoryController inventoryController;
@@ -26,6 +51,8 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public int weaponActive = 0;
     [HideInInspector] public float angle;
     [HideInInspector] public Vector2 mouse, position;
+
+    public bool isAttack;
 
     void Start()
     {
@@ -85,8 +112,15 @@ public class WeaponController : MonoBehaviour
             //무기 이동
             weapon[weaponActive].transform.position = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * distance + (Vector2)transform.position;
 
-            if (mouse.x >= player.transform.position.x) weapon[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
-            else if (mouse.x < player.transform.position.x) weapon[weaponActive].transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
+            //앵커 조정
+            for (int i = 0; i < anchor.Count; i++)
+            {
+                anchor[i].transform.localEulerAngles = Vector3.zero;
+                anchor[i].transform.localPosition = Vector3.zero;
+            }
+
+            if (mouse.x >= player.transform.position.x) weapon[weaponActive].transform.GetComponent<SpriteRenderer>().flipX = false;
+            else if (mouse.x < player.transform.position.x) weapon[weaponActive].transform.GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 

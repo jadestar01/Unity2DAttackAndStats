@@ -5,6 +5,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Inventory.Model;
 
 public class MessageManager : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class MessageManager : MonoBehaviour
 
     public GameObject messageBox;
     public GameObject messagePanel;
+
+    public GameObject itemMessage;
+    public GameObject itemMessagePanel;
     //만약 메세지리스트가 꽉찼는데도, 메세지가 들어온다면, 0번 메세지를 빠르게 지운다.
     List<GameObject> messageList = new List<GameObject>();
 
@@ -49,6 +53,16 @@ public class MessageManager : MonoBehaviour
         {
             Destroy(messageList[0].gameObject);
             messageList.RemoveAt(0);
+        }
+    }
+
+    public void ItemMessage(ItemSO item, int quantity)
+    {
+        if (quantity > 0)
+        {
+            GameObject message = Instantiate(itemMessage, Vector2.zero, Quaternion.identity);
+            message.transform.SetParent(itemMessagePanel.transform);
+            message.GetComponent<ItemMessage>().AddItemMessage(item, quantity);
         }
     }
 }

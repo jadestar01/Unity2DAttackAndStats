@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652fd189a0a143541a07dbae6ba3f736, type: 3}
+  m_Name: Slash
+  m_EditorClassIdentifier: 
+  skillCode: 0
+  skillKey: 0
+  skillName: Slash
+  skillDescription: Slash Swiftness
+  skillCurLv: 1
+  skillMaxLv: 5
+  skillCooltime: 0
+  coolDown: 0
+  ReadyTime: 0
+  attackTime: 0
+  moveCoeffiecinet: 0
+  skillBuffs:
+  - buff: {fileID: 0}
+    rate: 0
+  skillType: 0
+  skillDamage:
+    canDodge: 1
+    physicalDmg: 0
+    magicalDmg: 0
+    extraPhysicalDmg: 0
+    extraMagicalDmg: 0
+    extraVampirism: 0
+    extraStrike: 0
+    extraPhysicalCritRate: 0
+    extraPhysicalCritDmg: 0
+    extraPhysicalPenetration: 0
+    extraMagicalCritRate: 0
+    extraMagicalCritDmg: 0
+    extraMagicalPenetration: 0
+    physical:
+      health: 0
+      mana: 0
+      stamina: 0
+      strike: 0
+      physicalDmg: 0
+      physicalAttackSpeed: 0
+      physicalPenetration: 0
+      magicalDmg: 0
+      magicalAttackSpeed: 0
+      magicalPenetration: 0
+      armor: 0
+      registance: 0
+      grit: 0
+    magical:
+      health: 0
+      mana: 0
+      stamina: 0
+      strike: 0
+      physicalDmg: 0
+      physicalAttackSpeed: 0
+      physicalPenetration: 0
+      magicalDmg: 0
+      magicalAttackSpeed: 0
+      magicalPenetration: 0
+      armor: 0
+      registance: 0
+      grit: 0
+  skillObject: {fileID: 0}
+  skillParticle: {fileID: 0}
+  slashSound: {fileID: 0}
+  range: 0

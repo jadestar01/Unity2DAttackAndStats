@@ -20,17 +20,17 @@ MonoBehaviour:
     maxQuantity: 4
   - mapObject: {fileID: 15489653163456521, guid: 21ab7b81bf769eb47b88501e0db2fe94, type: 3}
     size: {x: 2, y: 2}
-    objectType: 0
+    objectType: 1
     minQuantity: 2
     maxQuantity: 4
   - mapObject: {fileID: 4056871446629547464, guid: 35bd453576703004c9e761039930f626, type: 3}
     size: {x: 1, y: 1}
-    objectType: 0
+    objectType: 3
     minQuantity: 2
     maxQuantity: 4
   - mapObject: {fileID: 1219637841167438867, guid: 4082b885387aae047a798e3325b4d632, type: 3}
     size: {x: 2, y: 3}
-    objectType: 0
+    objectType: 2
     minQuantity: 2
     maxQuantity: 4
   - mapObject: {fileID: 7663179862719936429, guid: 45291fa442b4f2444813e27319471cd9, type: 3}

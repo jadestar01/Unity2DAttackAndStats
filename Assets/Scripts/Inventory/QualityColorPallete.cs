@@ -16,80 +16,96 @@ namespace ColorPallete
     };
 }
 
-namespace Inventory.UI
+public class QualityColorPallete : MonoBehaviour
 {
-    public class QualityColorPallete : MonoBehaviour
+
+    private static QualityColorPallete instance;
+    public static QualityColorPallete Instance
     {
-        [SerializeField] public Color None;
-        [SerializeField] public Color Normal;
-        [SerializeField] public Color Rare;
-        [SerializeField] public Color Epic;
-        [SerializeField] public Color Unique;
-        [SerializeField] public Color Legendary;
-        public Color ColorPallete(ItemQuality quality)
+        get
         {
-            switch (quality)
+            if (null == instance)
             {
-                case ItemQuality.None:
-                    {
-                        return None;
-                    }
-                case ItemQuality.Normal:
-                    {
-                        return Normal;
-                    }
-                case ItemQuality.Rare:
-                    {
-                        return Rare;
-                    }
-                case ItemQuality.Epic:
-                    {
-                        return Epic;
-                    }
-                case ItemQuality.Unique:
-                    {
-                        return Unique;
-                    }
-                case ItemQuality.Legendary:
-                    {
-                        return Legendary;
-                    }
+                return null;
             }
-            return Color.white;
+            return instance;
         }
+    }
 
-        public string QualityString(ItemQuality quality)
+    private void Awake()
+    {
+        if (instance == null)
         {
-            switch (quality)
-            {
-                case ItemQuality.None:
-                    {
-                        return " ";
-                    }
-                case ItemQuality.Normal:
-                    {
-                        return "ÀÏ¹Ý";
-                    }
-                case ItemQuality.Rare:
-                    {
-                        return "Èñ±Í";
-                    }
-                case ItemQuality.Epic:
-                    {
-                        return "¼­»ç";
-                    }
-                case ItemQuality.Unique:
-                    {
-                        return "Æ¯º°";
-                    }
-                case ItemQuality.Legendary:
-                    {
-                        return "Àü¼³";
-                    }
-            }
-            return "";
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
+    public Color ColorPallete(ItemQuality quality)
+    {
+        switch (quality)
+        {
+            case ItemQuality.None:
+                {
+                    return new Color(147f / 255f, 147f / 255f, 147f / 255f);
+                }
+            case ItemQuality.Normal:
+                {
+                    return new Color(93f / 255f, 255f / 255f, 0f);
+                }
+            case ItemQuality.Rare:
+                {
+                    return new Color(0f, 165f / 255f, 255f / 255f);
+                }
+            case ItemQuality.Epic:
+                {
+                    return new Color(209f / 255f, 93f / 255f, 255f / 255f);
+                }
+            case ItemQuality.Unique:
+                {
+                    return new Color(255f / 255f, 252f / 255f, 0f);
+                }
+            case ItemQuality.Legendary:
+                {
+                    return new Color(255f / 255f, 142f / 255f, 0f);
+                }
+        }
+        return Color.white;
+    }
 
+    public string QualityString(ItemQuality quality)
+    {
+        switch (quality)
+        {
+            case ItemQuality.None:
+                {
+                    return " ";
+                }
+            case ItemQuality.Normal:
+                {
+                    return "ÀÏ¹Ý";
+                }
+            case ItemQuality.Rare:
+                {
+                    return "Èñ±Í";
+                }
+            case ItemQuality.Epic:
+                {
+                    return "¼­»ç";
+                }
+            case ItemQuality.Unique:
+                {
+                    return "Æ¯º°";
+                }
+            case ItemQuality.Legendary:
+                {
+                    return "Àü¼³";
+                }
+        }
+        return "";
     }
 }
